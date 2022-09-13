@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Creating ADTTE</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Creating ADTTE</h1>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This article describes creating an <code>ADTTE</code> (time-to-event) ADaM with common oncology endpoint parameters.</p>
+<p>The main part in programming a time-to-event dataset is the definition of the events and censoring times. <code>{admiral}</code>/<code>{admiralonco}</code> supports single events like death (Overall Survival) or composite events like disease progression or death (Progression Free Survival). More than one source dataset can be used for the definition of the event and censoring times.</p>
+<p>The majority of the functions used here exist from <code>{admiral}</code>, except for the <code>tte_sources</code> helper object, provided as an example from <code>{admiralonco}</code>. In practice, each company would create their own version of this, as likely the exact specifications such as filtering condition or description metadata will vary.</p>
+<p><strong>Note</strong>: <em>All examples assume CDISC SDTM and/or ADaM format as input unless otherwise specified.</em></p>
+<div id="required-packages" class="section level2">
+<h2>Required Packages</h2>
+<p>The examples of this vignette require the following packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral.test)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
+</div>
+</div>
+<div id="programming-workflow" class="section level1">
+<h1>Programming Workflow</h1>
+<ul>
+<li><a href="#readdata">Read in Data</a></li>
+<li><a href="#parameters">Derive Parameters (<code>CNSR</code>, <code>ADT</code>, <code>STARTDT</code>)</a></li>
+<li><a href="#aval">Derive Analysis Value (<code>AVAL</code>)</a></li>
+<li><a href="#aseq">Derive Analysis Sequence Number (<code>ASEQ</code>)</a></li>
+<li><a href="#adslvars">Add ADSL Variables</a></li>
+</ul>
+<div id="readdata" class="section level2">
+<h2>Read in Data</h2>
+<p>To start, all datasets needed for the creation of the time-to-event dataset should be read into the environment. This will be a company specific process.</p>
+<p>For example purpose, the ADaM datasets—which are included in <code>{admiral}</code> and <code>{admiralonco}</code>—are used. An alternative might be to use <code>ADEVENT</code> as input.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adsl&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adrs&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> admiral_adsl</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> admiral_adrs</span></code></pre></div>
+</div>
+<div id="parameters" class="section level2">
+<h2>Derive Parameters (<code>CNSR</code>, <code>ADT</code>, <code>STARTDT</code>)</h2>
+<p>To derive the parameter dependent variables like <code>CNSR</code>, <code>ADT</code>, <code>STARTDT</code>, <code>EVNTDESC</code>, <code>SRCDOM</code>, <code>PARAMCD</code>, … the <code>admiral::derive_param_tte()</code> function can be used. It adds one parameter to the input dataset with one observation per subject. Usually it is called several times.</p>
+<p>For each subject it is determined if an event occurred. In the affirmative the analysis date <code>ADT</code> is set to the earliest event date. If no event occurred, the analysis date is set to the latest censoring date.</p>
+<p>The events and censorings are defined by the <code>admiral::event_source()</code> and the <code>admiral::censor_source()</code> class respectively. It defines</p>
+<ul>
+<li>which observations (<code>filter</code> parameter) of a source dataset (<code>dataset_name</code> parameter) are potential events or censorings,</li>
+<li>the value of the <code>CNSR</code> variable (<code>censor</code> parameter), and</li>
+<li>which variable provides the date (<code>date</code> parameter).</li>
+</ul>
+<p>The date can be provided as date (<code>--DT</code> variable), datetime (<code>--DTM</code> variable), or character ISO-8601 date (<code>--DTC</code> variable).</p>
+<p>CDISC strongly recommends <code>CNSR = 0</code> for events and positive integers for censorings. <code>{admiral}</code>/<code>{admiralonco}</code> enforce this recommendation. Therefore the <code>censor</code> parameter is available for <code>admiral::censor_source()</code> only. It is defaulted to <code>1</code>.</p>
+<p>The <code>dataset_name</code> parameter expects a character value which is used as an identifier. The actual data which is used for the derivation of the parameter is provided via the <code>source_datasets</code> parameter of <code>admiral::derive_param_tte()</code>. It expects a named list of datasets. The names correspond to the identifiers specified for the <code>dataset_name</code> parameter. This allows to define events and censoring independent of the data.</p>
+<div id="pre-defined-time-to-event-source-objects" class="section level3">
+<h3>Pre-Defined Time-to-Event Source Objects</h3>
+<p>The table below shows all pre-defined <code>tte_source</code> objects which should cover the most common oncology use cases.</p>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="5%" />
+<col width="23%" />
+<col width="4%" />
+<col width="3%" />
+<col width="55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">object</th>
+<th align="left">dataset_name</th>
+<th align="left">filter</th>
+<th align="left">date</th>
+<th align="right">censor</th>
+<th align="left">set_values_to</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">lasta_censor</td>
+<td align="left">adrs</td>
+<td align="left">PARAMCD == “LSTA” &amp; ANL01FL == “Y”</td>
+<td align="left">ADT</td>
+<td align="right">1</td>
+<td align="left">EVNTDESC: “Last Tumor Assessment”<br>CNSDTDSC: “Last Tumor Assessment”<br>SRCDOM: “ADRS”<br>SRCVAR: “ADT”<br>SRCSEQ: ASEQ</td>
+</tr>
+<tr class="even">
+<td align="left">trts_censor</td>
+<td align="left">adsl</td>
+<td align="left">NULL</td>
+<td align="left">TRTSDT</td>
+<td align="right">1</td>
+<td align="left">EVNTDESC: “Treatment Start”<br>CNSDTDSC: “Treatment Start”<br>SRCDOM: “ADSL”<br>SRCVAR: “TRTSDT”</td>
+</tr>
+<tr class="odd">
+<td align="left">rand_censor</td>
+<td align="left">adsl</td>
+<td align="left">NULL</td>
+<td align="left">RANDDT</td>
+<td align="right">1</td>
+<td align="left">EVNTDESC: “Randomization”<br>CNSDTDSC: “Randomization”<br>SRCDOM: “ADSL”<br>SRCVAR: “RANDDT”</td>
+</tr>
+<tr class="even">
+<td align="left">lastalive_censor</td>
+<td align="left">adsl</td>
+<td align="left">NULL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">1</td>
+<td align="left">EVNTDESC: “Alive”<br>CNSDTDSC: “Alive During Study”<br>SRCDOM: “ADSL”<br>SRCVAR: “LSTALVDT”</td>
+</tr>
+<tr class="odd">
+<td align="left">death_event</td>
+<td align="left">adrs</td>
+<td align="left">PARAMCD == “DEATH” &amp; AVALC == “Y” &amp; ANL01FL == “Y”</td>
+<td align="left">ADT</td>
+<td align="right">0</td>
+<td align="left">EVNTDESC: “Death”<br>SRCDOM: “ADRS”<br>SRCVAR: “ADT”<br>SRCSEQ: ASEQ</td>
+</tr>
+<tr class="even">
+<td align="left">pd_event</td>
+<td align="left">adrs</td>
+<td align="left">PARAMCD == “PD” &amp; AVALC == “Y” &amp; ANL01FL == “Y”</td>
+<td align="left">ADT</td>
+<td align="right">0</td>
+<td align="left">EVNTDESC: “Disease Progression”<br>SRCDOM: “ADRS”<br>SRCVAR: “ADT”<br>SRCSEQ: ASEQ</td>
+</tr>
+</tbody>
+</table>
+<p>As mentioned in the introduction, each company would create their own version of this with the required filtering conditions and metadata as per your company approach. An example of a possible different approach could be as follows, where death is sourced from <code>ADSL</code>, instead of <code>ADRS</code>, and the given <code>EVNTDESC</code> is different.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adsl_death_event <span class="ot">&lt;-</span> <span class="fu">event_source</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> DTHDT,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">EVNTDESC =</span> <span class="st">&quot;STUDY DEATH&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCDOM =</span> <span class="st">&quot;ADSL&quot;</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCVAR =</span> <span class="st">&quot;DTHDT&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>An optional step at this stage would be required to enable derivation of duration of response: If using <code>ADRS</code> / <code>ADEVENT</code> parameters as input for any response dates (instead of a variable in <code>ADSL</code>) then you would need to use <code>admiral::derive_vars_merged()</code> to add the response date as a temporary variable (e.g. <code>TEMP_RESPDT</code>) to be able to feed into <code>admiral::derive_param_tte()</code> as the start date. You would also need to use this to filter the input datasets so as to only derive the records for responders. This could also be repeated as needed for IRF and confirmed responses.</p>
+<p>Here is an example of the code needed.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;RSP&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">vars</span>(<span class="at">TEMP_RESPDT =</span> ADT)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adsl,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">vars</span>(TEMP_RESPDT)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>The pre-defined objects can be passed directly to <code>admiral::derive_param_tte()</code> to create a new time-to-event parameter. Below shows example calls for Overall Survival (OS), Progression Free Survival (PFS), and duration of response (as above, this is only derived for responder patients so we have to filter source datasets). Note that the reason for including a randomization date censor is to catch those patients that never have a tumor assessment.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adtte <span class="ot">&lt;-</span> <span class="fu">derive_param_tte</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> RANDDT,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">event_conditions =</span> <span class="fu">list</span>(death_event),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">censor_conditions =</span> <span class="fu">list</span>(lastalive_censor, rand_censor),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> adsl, <span class="at">adrs =</span> adrs),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;OS&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Overall Survival&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_tte</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">start_date =</span> RANDDT,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_conditions =</span> <span class="fu">list</span>(pd_event, death_event),</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">censor_conditions =</span> <span class="fu">list</span>(lasta_censor, rand_censor),</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> adsl, <span class="at">adrs =</span> adrs),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;PFS&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Progression Free Survival&quot;</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_tte</span>(</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">start_date =</span> TEMP_RESPDT,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_conditions =</span> <span class="fu">list</span>(pd_event, death_event),</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">censor_conditions =</span> <span class="fu">list</span>(lasta_censor),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> <span class="fu">filter</span>(adsl, <span class="sc">!</span><span class="fu">is.na</span>(TEMP_RESPDT)), <span class="at">adrs =</span> <span class="fu">filter</span>(adrs, <span class="sc">!</span><span class="fu">is.na</span>(TEMP_RESPDT))),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;RSD&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Duration of Response&quot;</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">STARTDT</th>
+<th align="left">ADT</th>
+<th align="right">CNSR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2012-08-05</td>
+<td align="left">2012-09-02</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2013-07-19</td>
+<td align="left">2014-01-14</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1033</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2014-03-18</td>
+<td align="left">2014-04-14</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2014-07-01</td>
+<td align="left">2014-12-30</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1047</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2013-02-12</td>
+<td align="left">2013-04-07</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2014-01-01</td>
+<td align="left">2014-07-09</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1111</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2012-09-07</td>
+<td align="left">2012-09-17</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2012-11-30</td>
+<td align="left">2013-01-23</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="left">2014-03-12</td>
+<td align="left">2014-09-09</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="creating-your-own-time-to-event-source-objects" class="section level3">
+<h3>Creating Your Own Time-to-Event Source Objects</h3>
+<p>We advise you consult the <code>{admiral}</code> <a href="https://pharmaverse.github.io/admiral/articles/bds_tte.html">“Creating a BDS Time-to-Event ADaM” vignette</a> for further guidance on the different options available and more examples.</p>
+<p>One extra common oncology case we include here is around PFS when censoring at new anti-cancer therapy. This could either be controlled using <code>ANLzzFL</code> as explained in the ADRS vignette, so that records after new anti-cancer therapy never contribute to the PD and DEATH parameters. Or alternatively you can control this on the ADTTE side by filtering which records are used in <code>admiral::event_source()</code> and <code>admiral::censor_source()</code>, e.g. for PD or death event date we can use <code>filter</code> argument to exclude events occurring after new anti-cancer therapy.</p>
+<p>The censor could be set as whichever date your analysis requires, e.g. date of last tumor assessment prior to new anti-cancer therapy or last radiological assessment. If you pass multiple censor dates then remember the function will choose the latest occurring of these, so be cautious here if feeding in say one censor date for last assessment prior to new anti-cancer therapy and one for last assessment - as the function would choose the maximum of these which in this case would be incorrect. The easiest solution here would be to pass in one censor date as the date of last assessment prior to new anti-cancer therapy or date of last assessment <strong>if no new anti-cancer therapy</strong>. If you wanted to use different censor dates which could have different <code>CNSDTDSC</code> values, then you’d need to ensure only one is set per patient.</p>
+<p>This case is demonstrated in the below example (where <code>NACTDT</code> would be pre-derived as first date of new anti-cancer therapy, and <code>LASTANDT</code> as the single tumor assessment censor date as described above).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd_nact_event <span class="ot">&lt;-</span> <span class="fu">event_source</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> PDDT <span class="sc">&lt;</span> NACTDT <span class="sc">|</span> <span class="fu">is.na</span>(NACTDT),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> PDDT,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">EVNTDESC =</span> <span class="st">&quot;Disease Progression prior to NACT&quot;</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCDOM =</span> <span class="st">&quot;ADSL&quot;</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCVAR =</span> <span class="st">&quot;PDDT&quot;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>death_nact_event <span class="ot">&lt;-</span> <span class="fu">event_source</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> DTHDT <span class="sc">&lt;</span> NACTDT <span class="sc">|</span> <span class="fu">is.na</span>(NACTDT),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> DTHDT,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">EVNTDESC =</span> <span class="st">&quot;Death prior to NACT&quot;</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCDOM =</span> <span class="st">&quot;ADSL&quot;</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCVAR =</span> <span class="st">&quot;DTHDT&quot;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>lasta_nact_censor <span class="ot">&lt;-</span> <span class="fu">censor_source</span>(</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> LASTANDT,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">EVNTDESC =</span> <span class="st">&quot;Last Tumor Assessment prior to NACT&quot;</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">CNSDTDSC =</span> <span class="st">&quot;Last Tumor Assessment prior to NACT&quot;</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCDOM =</span> <span class="st">&quot;ADSL&quot;</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCVAR =</span> <span class="st">&quot;LASTANDT&quot;</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>adtte <span class="ot">&lt;-</span> <span class="fu">derive_param_tte</span>(</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> RANDDT,</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">event_conditions =</span> <span class="fu">list</span>(pd_nact_event, death_nact_event),</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">censor_conditions =</span> <span class="fu">list</span>(lasta_nact_censor, rand_censor),</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> adsl),</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;PFSNACT&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Progression Free Survival prior to NACT&quot;</span>)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+<div id="aval" class="section level2">
+<h2>Derive Analysis Value (<code>AVAL</code>)</h2>
+<p>The analysis value (<code>AVAL</code>) can be derived by calling <code>admiral::derive_vars_duration()</code>.</p>
+<p>This example derives the time to event in days.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>adtte <span class="ot">&lt;-</span> adtte <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_duration</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> AVAL,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">start_date =</span> STARTDT,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">end_date =</span> ADT</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="9%" />
+<col width="6%" />
+<col width="5%" />
+<col width="6%" />
+<col width="5%" />
+<col width="3%" />
+<col width="8%" />
+<col width="14%" />
+<col width="8%" />
+<col width="6%" />
+<col width="12%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">STUDYID</th>
+<th align="left">USUBJID</th>
+<th align="left">EVNTDESC</th>
+<th align="left">SRCDOM</th>
+<th align="left">SRCVAR</th>
+<th align="right">SRCSEQ</th>
+<th align="right">CNSR</th>
+<th align="left">ADT</th>
+<th align="left">CNSDTDSC</th>
+<th align="left">STARTDT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="right">AVAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1015</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-07-02</td>
+<td align="left">Alive During Study</td>
+<td align="left">2014-01-02</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">182</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1023</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2012-09-02</td>
+<td align="left">Alive During Study</td>
+<td align="left">2012-08-05</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">29</td>
+</tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1028</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-01-14</td>
+<td align="left">Alive During Study</td>
+<td align="left">2013-07-19</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">180</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1033</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-04-14</td>
+<td align="left">Alive During Study</td>
+<td align="left">2014-03-18</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">28</td>
+</tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1034</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-12-30</td>
+<td align="left">Alive During Study</td>
+<td align="left">2014-07-01</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">183</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1047</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2013-04-07</td>
+<td align="left">Alive During Study</td>
+<td align="left">2013-02-12</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">55</td>
+</tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1097</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-07-09</td>
+<td align="left">Alive During Study</td>
+<td align="left">2014-01-01</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">190</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1111</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2012-09-17</td>
+<td align="left">Alive During Study</td>
+<td align="left">2012-09-07</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1115</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2013-01-23</td>
+<td align="left">Alive During Study</td>
+<td align="left">2012-11-30</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">55</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1118</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-09-09</td>
+<td align="left">Alive During Study</td>
+<td align="left">2014-03-12</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">182</td>
+</tr>
+</tbody>
+</table>
+<p>Other time units, such as months that we commonly see in oncology analyses, can be requested by specifying the <code>out_unit</code> parameter. See the example below. Note that because of the underlying <code>lubridate::time_length()</code> function that is used here this may perform slightly differently to your expectations, e.g. both <code>time_length(ymd(&quot;2021-01-01&quot;) %--% ymd(&quot;2021-02-01&quot;), &quot;month&quot;)</code> and <code>time_length(ymd(&quot;2021-02-01&quot;) %--% ymd(&quot;2021-03-01&quot;), &quot;month&quot;)</code> results in exactly 1 month, which is a logical approach but it gives a different result to the convention of assuming every month has exactly equal days and just using <code>/30.4375</code> here or some other such convention. The difference would only be noticed for small durations, but if the user prefers an alternative approach they could calculate in the default days and then add extra processing to convert to months with their company-specific convention.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>adtte_months <span class="ot">&lt;-</span> adtte <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_duration</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> AVAL,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">start_date =</span> STARTDT,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">end_date =</span> ADT,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">out_unit =</span> <span class="st">&quot;months&quot;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="aseq" class="section level2">
+<h2>Derive Analysis Sequence Number (<code>ASEQ</code>)</h2>
+<p>The <code>{admiral}</code> function <code>admiral::derive_var_obs_number()</code> can be used to derive <code>ASEQ</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adtte <span class="ot">&lt;-</span> adtte <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_obs_number</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">vars</span>(PARAMCD),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;error&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="13%" />
+<col width="4%" />
+<col width="5%" />
+<col width="4%" />
+<col width="3%" />
+<col width="6%" />
+<col width="13%" />
+<col width="6%" />
+<col width="4%" />
+<col width="15%" />
+<col width="3%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">STUDYID</th>
+<th align="left">USUBJID</th>
+<th align="left">EVNTDESC</th>
+<th align="left">SRCDOM</th>
+<th align="left">SRCVAR</th>
+<th align="right">SRCSEQ</th>
+<th align="right">CNSR</th>
+<th align="left">ADT</th>
+<th align="left">CNSDTDSC</th>
+<th align="left">STARTDT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="right">AVAL</th>
+<th align="right">ASEQ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1015</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-07-02</td>
+<td align="left">Alive During Study</td>
+<td align="left">2014-01-02</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">182</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1015</td>
+<td align="left">Disease Progression</td>
+<td align="left">ADRS</td>
+<td align="left">ADT</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="left">2014-06-18</td>
+<td align="left">NA</td>
+<td align="left">2014-01-02</td>
+<td align="left">PFS</td>
+<td align="left">Progression Free Survival</td>
+<td align="right">168</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1015</td>
+<td align="left">Disease Progression</td>
+<td align="left">ADRS</td>
+<td align="left">ADT</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="left">2014-06-18</td>
+<td align="left">NA</td>
+<td align="left">2014-02-12</td>
+<td align="left">RSD</td>
+<td align="left">Duration of Response</td>
+<td align="right">127</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1023</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2012-09-02</td>
+<td align="left">Alive During Study</td>
+<td align="left">2012-08-05</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">29</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1023</td>
+<td align="left">Randomization</td>
+<td align="left">ADSL</td>
+<td align="left">RANDDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2012-08-05</td>
+<td align="left">Randomization</td>
+<td align="left">2012-08-05</td>
+<td align="left">PFS</td>
+<td align="left">Progression Free Survival</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1028</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-01-14</td>
+<td align="left">Alive During Study</td>
+<td align="left">2013-07-19</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">180</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1028</td>
+<td align="left">Last Tumor Assessment</td>
+<td align="left">ADRS</td>
+<td align="left">ADT</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="left">2014-01-06</td>
+<td align="left">Last Tumor Assessment</td>
+<td align="left">2013-07-19</td>
+<td align="left">PFS</td>
+<td align="left">Progression Free Survival</td>
+<td align="right">172</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1028</td>
+<td align="left">Last Tumor Assessment</td>
+<td align="left">ADRS</td>
+<td align="left">ADT</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="left">2014-01-06</td>
+<td align="left">Last Tumor Assessment</td>
+<td align="left">2013-08-29</td>
+<td align="left">RSD</td>
+<td align="left">Duration of Response</td>
+<td align="right">131</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1033</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-04-14</td>
+<td align="left">Alive During Study</td>
+<td align="left">2014-03-18</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">28</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1033</td>
+<td align="left">Randomization</td>
+<td align="left">ADSL</td>
+<td align="left">RANDDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-03-18</td>
+<td align="left">Randomization</td>
+<td align="left">2014-03-18</td>
+<td align="left">PFS</td>
+<td align="left">Progression Free Survival</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="adslvars" class="section level2">
+<h2>Add ADSL Variables</h2>
+<p>Variables from ADSL which are required for time-to-event analyses, e.g., treatment variables or covariates can be added using <code>admiral::derive_vars_merged()</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>adtte <span class="ot">&lt;-</span> adtte <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adsl,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">vars</span>(ARMCD, ARM, ACTARMCD, ACTARM, AGE, SEX),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="right">CNSR</th>
+<th align="right">AVAL</th>
+<th align="left">ARMCD</th>
+<th align="right">AGE</th>
+<th align="left">SEX</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OS</td>
+<td align="right">1</td>
+<td align="right">182</td>
+<td align="left">Pbo</td>
+<td align="right">63</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">PFS</td>
+<td align="right">0</td>
+<td align="right">168</td>
+<td align="left">Pbo</td>
+<td align="right">63</td>
+<td align="left">F</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">RSD</td>
+<td align="right">0</td>
+<td align="right">127</td>
+<td align="left">Pbo</td>
+<td align="right">63</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">OS</td>
+<td align="right">1</td>
+<td align="right">29</td>
+<td align="left">Pbo</td>
+<td align="right">64</td>
+<td align="left">M</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">PFS</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">Pbo</td>
+<td align="right">64</td>
+<td align="left">M</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OS</td>
+<td align="right">1</td>
+<td align="right">180</td>
+<td align="left">Xan_Hi</td>
+<td align="right">71</td>
+<td align="left">M</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">PFS</td>
+<td align="right">1</td>
+<td align="right">172</td>
+<td align="left">Xan_Hi</td>
+<td align="right">71</td>
+<td align="left">M</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">RSD</td>
+<td align="right">1</td>
+<td align="right">131</td>
+<td align="left">Xan_Hi</td>
+<td align="right">71</td>
+<td align="left">M</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1033</td>
+<td align="left">OS</td>
+<td align="right">1</td>
+<td align="right">28</td>
+<td align="left">Xan_Lo</td>
+<td align="right">74</td>
+<td align="left">M</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1033</td>
+<td align="left">PFS</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">Xan_Lo</td>
+<td align="right">74</td>
+<td align="left">M</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="example" class="section level1">
+<h1>Example Script</h1>
+<table>
+<thead>
+<tr class="header">
+<th>ADaM</th>
+<th>Sample Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ADTTE</td>
+<td><a href="https://github.com/pharmaverse/admiralonco/blob/main/inst/templates/ad_adtte.R" target="_blank">ad_adtte.R</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
