@@ -108,13 +108,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -272,7 +279,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCVAR =</span> <span class="st">&quot;DTHDT&quot;</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>An optional step at this stage would be required to enable derivation of duration of response: If using <code>ADRS</code> / <code>ADEVENT</code> parameters as input for any response dates (instead of a variable in <code>ADSL</code>) then you would need to use <code>admiral::derive_vars_merged()</code> to add the response date as a temporary variable (e.g. <code>TEMP_RESPDT</code>) to be able to feed into <code>admiral::derive_param_tte()</code> as the start date. You would also need to use this to filter the input datasets so as to only derive the records for responders. This could also be repeated as needed for IRF and confirmed responses.</p>
+<p>An optional step at this stage would be required to enable derivation of duration of response: If using <code>ADRS</code> / <code>ADEVENT</code> parameters as input for any response dates (instead of a variable in <code>ADSL</code>) then you would need to use <code>admiral::derive_vars_merged()</code> to add the response date as a temporary variable (e.g. <code>TEMP_RESPDT</code>) to be able to feed into <code>admiral::derive_param_tte()</code> as the start date. You would also need to use this to filter the input datasets so as to only derive the records for responders. This could also be repeated as needed for IRF/BICR and confirmed responses.</p>
 <p>Here is an example of the code needed.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
@@ -410,7 +417,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="creating-your-own-time-to-event-source-objects" class="section level3">
 <h3>Creating Your Own Time-to-Event Source Objects</h3>
-<p>We advise you consult the <code>{admiral}</code> <a href="https://pharmaverse.github.io/admiral/articles/bds_tte.html">“Creating a BDS Time-to-Event ADaM” vignette</a> for further guidance on the different options available and more examples.</p>
+<p>We advise you consult the <code>{admiral}</code> <a href="https://pharmaverse.github.io/admiral/articles/bds_tte.html">Creating a BDS Time-to-Event ADaM vignette</a> for further guidance on the different options available and more examples.</p>
 <p>One extra common oncology case we include here is around PFS when censoring at new anti-cancer therapy. This could either be controlled using <code>ANLzzFL</code> as explained in the ADRS vignette, so that records after new anti-cancer therapy never contribute to the PD and DEATH parameters. Or alternatively you can control this on the ADTTE side by filtering which records are used in <code>admiral::event_source()</code> and <code>admiral::censor_source()</code>, e.g. for PD or death event date we can use <code>filter</code> argument to exclude events occurring after new anti-cancer therapy.</p>
 <p>The censor could be set as whichever date your analysis requires, e.g. date of last tumor assessment prior to new anti-cancer therapy or last radiological assessment. If you pass multiple censor dates then remember the function will choose the latest occurring of these, so be cautious here if feeding in say one censor date for last assessment prior to new anti-cancer therapy and one for last assessment - as the function would choose the maximum of these which in this case would be incorrect. The easiest solution here would be to pass in one censor date as the date of last assessment prior to new anti-cancer therapy or date of last assessment <strong>if no new anti-cancer therapy</strong>. If you wanted to use different censor dates which could have different <code>CNSDTDSC</code> values, then you’d need to ensure only one is set per patient.</p>
 <p>This case is demonstrated in the below example (where <code>NACTDT</code> would be pre-derived as first date of new anti-cancer therapy, and <code>LASTANDT</code> as the single tumor assessment censor date as described above).</p>
@@ -998,7 +1005,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td>ADTTE</td>
-<td><a href="https://github.com/pharmaverse/admiralonco/blob/main/inst/templates/ad_adtte.R" target="_blank">ad_adtte.R</a></td>
+<td><a href="https://github.com/pharmaverse/admiralonco/blob/main/inst/templates/ad_adtte.R">ad_adtte.R</a></td>
 </tr>
 </tbody>
 </table>

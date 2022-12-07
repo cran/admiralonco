@@ -4,6 +4,36 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+library(admiral)
+
+link <- function(text, url) {
+  return(
+    paste0(
+      "[", text, "]",
+      "(", url, ")"
+    )
+  )
+}
+dyn_link <- function(text,
+                     base_url,
+                     relative_url = "",
+                     # Change to TRUE when admiral adopts multiversion docs
+                     is_multiversion = FALSE,
+                     multiversion_default_ref = "main") {
+  url <- paste(base_url, relative_url, sep = "/")
+  if (is_multiversion) {
+    url <- paste(
+      base_url,
+      Sys.getenv("BRANCH_NAME", multiversion_default_ref),
+      relative_url,
+      sep = "/"
+    )
+  }
+  return(link(text, url))
+}
+# Other variables
+admiral_homepage <- "https://pharmaverse.github.io/admiral"
+
 library(admiraldev)
 
 ## ----message=FALSE------------------------------------------------------------
@@ -25,8 +55,10 @@ rs <- convert_blanks_to_na(rs)
 tu <- convert_blanks_to_na(tu)
 
 ## ----echo=FALSE---------------------------------------------------------------
-rs <- filter(rs, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024"))
-tu <- filter(tu, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024"))
+rs <- filter(rs, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024")) %>%
+  ungroup()
+tu <- filter(tu, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024")) %>%
+  ungroup()
 adsl <- filter(adsl, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024"))
 
 ## ----eval=TRUE----------------------------------------------------------------
@@ -119,13 +151,25 @@ dataset_vignette(
 #      )
 #    )
 
+## ---- eval=FALSE--------------------------------------------------------------
+#  adrs <- adrs %>%
+#    derive_var_relative_flag(
+#      by_vars = vars(USUBJID),
+#      order = vars(ADT, AVISITN),
+#      new_var = ANL02FL,
+#      condition = AVALC == "PD",
+#      mode = "first",
+#      selection = "before",
+#      inclusive = TRUE
+#    )
+
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_param_first_event(
+  derive_param_extreme_event(
     dataset_adsl = adsl,
     dataset_source = adrs,
     filter_source = PARAMCD == "OVR" & AVALC == "PD" & ANL01FL == "Y",
-    date_var = ADT,
+    order = vars(ADT, RSSEQ),
     set_values_to = vars(
       PARAMCD = "PD",
       PARAM = "Disease Progression by Investigator",
@@ -256,11 +300,11 @@ dataset_vignette(
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_param_first_event(
+  derive_param_extreme_event(
     dataset_adsl = adsl,
     dataset_source = adrs,
     filter_source = PARAMCD == "BOR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
-    date_var = ADT,
+    order = vars(ADT, RSSEQ),
     set_values_to = vars(
       PARAMCD = "BCP",
       PARAM = "Best Overall Response of CR/PR by Investigator (confirmation not required)",
@@ -337,11 +381,11 @@ adrs <- adrs %>%
       ANL01FL = "Y"
     )
   ) %>%
-  derive_param_first_event(
+  derive_param_extreme_event(
     dataset_adsl = adsl,
     dataset_source = adrs,
     filter_source = PARAMCD == "CBOR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
-    date_var = ADT,
+    order = vars(ADT, RSSEQ),
     set_values_to = vars(
       PARAMCD = "CBCP",
       PARAM = "Best Confirmed Overall Response of CR/PR by Investigator",
@@ -382,16 +426,16 @@ adsldth <- adsl %>%
   select(STUDYID, USUBJID, DTHDT, !!!adsl_vars)
 
 adrs <- adrs %>%
-  derive_param_first_event(
+  derive_param_extreme_event(
     dataset_adsl = adsldth,
     dataset_source = adsldth,
     filter_source = !is.na(DTHDT),
-    date_var = DTHDT,
     set_values_to = vars(
       PARAMCD = "DEATH",
       PARAM = "Death",
       PARCAT1 = "Reference Event",
-      ANL01FL = "Y"
+      ANL01FL = "Y",
+      ADT = DTHDT
     )
   ) %>%
   select(-DTHDT)
@@ -405,8 +449,13 @@ dataset_vignette(
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_param_lasta(
+  derive_param_extreme_event(
+    dataset_adsl = adsl,
+    dataset_source = adrs,
     filter_source = PARAMCD == "OVR" & ANL01FL == "Y",
+    order = vars(ADT, RSSEQ),
+    mode = "last",
+    new_var = dummy,
     set_values_to = vars(
       PARAMCD = "LSTA",
       PARAM = "Last Disease Assessment by Investigator",
@@ -415,7 +464,8 @@ adrs <- adrs %>%
       PARCAT3 = "Recist 1.1",
       ANL01FL = "Y"
     )
-  )
+  ) %>%
+  select(-dummy)
 
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
@@ -449,6 +499,23 @@ dataset_vignette(
   adrs,
   display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
   filter = PARAMCD == "MDIS"
+)
+
+## ----eval=TRUE----------------------------------------------------------------
+adrs <- adrs %>%
+  mutate(
+    AVAL = case_when(
+      AVALC == "Y" ~ 1,
+      AVALC == "N" ~ 0,
+      TRUE ~ AVAL
+    )
+  )
+
+## ---- eval=TRUE, echo=FALSE---------------------------------------------------
+dataset_vignette(
+  adrs,
+  display_vars = vars(USUBJID, PARAMCD, AVALC, AVAL),
+  filter = USUBJID == "01-701-1015" & AVALC %in% c("Y", "N")
 )
 
 ## ----eval=TRUE----------------------------------------------------------------
