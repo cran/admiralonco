@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Creating ADTR</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Creating ADTR</h1>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This article describes creating an <code>ADTR</code> (Tumor Results) ADaM with common oncology parameters based on RECIST v1.1.</p>
+<p>The main part in programming a tumor results dataset is the calculation of the sum of diameters of all target lesions (lymph nodes &amp; non-lymph nodes), the calculation of nadir, change &amp; percentage change from baseline, and the analysis flags that could be required for reporting. The tumor results data could be set up for investigator and/or Independent review facility (IRF)/Blinded Independent Central Review (BICR) data. The below sample code would need to be updated (for example, update the Evaluator <code>TR.TREVAL</code>, <code>TU.TUEVAL</code>, and the applicable parameter details <code>PARAM</code>, <code>PARAMCD</code>, <code>PARCATy</code>) in order to create the acquired data for Independent review facility (IRF)/Blinded Independent Central Review (BICR).</p>
+<p>The source dataset used will depend on each company, this could be solely the <code>TR</code> domain or you may merge <code>TU</code> with <code>TR</code> (SDTM inputs) to get additional data variables or to ensure that you’re processing the same lesions as collected.</p>
+<p>Individual lesion diameters for each target lesion is required to calculate the sum of diameters for all target lesions, this data could be taken directly from <code>TR</code> or additional parameters could be created in <code>ADTR</code> (or similar) depending on the additional processing required (e.g. imputation of dates, re-labeling of visits) and your company specifications.</p>
+<p>The majority of the functions used here exist from <code>{admiral}</code>.</p>
+<p><strong>Note</strong>: <em>All examples assume CDISC SDTM and/or ADaM format as input unless otherwise specified.</em></p>
+<div id="required-packages" class="section level2">
+<h2>Required Packages</h2>
+<p>The examples of this vignette require the following packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral.test)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span></code></pre></div>
+</div>
+</div>
+<div id="programming-workflow" class="section level1">
+<h1>Programming Workflow</h1>
+<ul>
+<li><a href="#readdata">Read in Data</a></li>
+<li><a href="#merge">Merge <code>TR</code> with <code>TU</code> and Derive New Variables</a></li>
+<li><a href="#input">Pre-processing of Input Records</a></li>
+<li><a href="#parameters">Derive Parameters for Lesion Diameters (<code>LDIAMn</code>, <code>NLDIAMn</code>)</a></li>
+<li><a href="#sdiam">Derive Parameter for Sum of Diameters (<code>SDIAM</code>) and <code>ANL01FL</code></a></li>
+<li><a href="#base">Derive Baseline (<code>ABLFL</code>, <code>BASE</code>)</a></li>
+<li><a href="#nadir">Derive NADIR</a></li>
+<li><a href="#chg">Derive Change from Baseline (<code>CHG</code>, <code>PCHG</code>)</a></li>
+<li><a href="#addflag">Derive Additional Flag Variables (e.g. <code>CRFL</code>, <code>CRNFL</code>, <code>PDFL</code>, <code>PDFL</code></a></li>
+<li><a href="#analflag">Derive Additional Analysis Flags (e.g. <code>ANLzzFL</code></a></li>
+<li><a href="#aseq">Derive Analysis Sequence Number (<code>ASEQ</code>)</a></li>
+<li><a href="#adslvars">Add <code>ADSL</code> Variables</a></li>
+</ul>
+<div id="readdata" class="section level2">
+<h2>Read in Data</h2>
+<p>To start, all data frames needed for the creation of <code>ADTR</code> should be read into the environment. This will be a company specific process. Some of the data frames needed may be <code>ADSL</code>, <code>ADRS</code> ,<code>RS</code>, <code>TU</code>, <code>TR</code>, <code>SUPPTU</code> <code>SUPPTR</code>.</p>
+<p>For example purposes, the SDTM and ADaM datasets (based on CDISC Pilot test data)—which are included in <code>{admiral.test}</code>—are used <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Also, see <a href="https://pharmaverse.github.io/admiral/cran-release/articles/admiral.html#handling-of-missing-values">Handling of Missing Values</a> explains why we need to use the <code>convert_blanks_to_na()</code> function.</p>
+<p>On the <code>TR</code> domain we filter on where tumor assessment short name <code>TRTESTCD</code> is <code>&quot;LDIAM&quot;</code> or <code>&quot;LPERP&quot;</code>. Depending on your data collection standards you may need to update the code to filter on <code>TRTESTCD == &quot;DIAMETER&quot;</code>. If this is the case then the template code where we derive parameters for lesions diameters should be updated accordingly.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adsl&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adrs&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_rs&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_tu&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_tr&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> admiral_adsl</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> admiral_adrs</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> admiral_tu</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> admiral_tr</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> admiral_rs</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tu) <span class="sc">%&gt;%</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TUEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tr) <span class="sc">%&gt;%</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    TREVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span> <span class="sc">&amp;</span> TRGRPID <span class="sc">==</span> <span class="st">&quot;TARGET&quot;</span> <span class="sc">&amp;</span> TRTESTCD <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;LDIAM&quot;</span>, <span class="st">&quot;LPERP&quot;</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(rs)</span></code></pre></div>
+<p>At this step, it may be useful to join <code>ADSL</code> to your <code>TR</code> domain. For efficiency, only the <code>ADSL</code> variables (in this example, Randomization date (<code>RANDDT</code>) used for derivations are selected at this step. The rest of the relevant <code>ADSL</code> variables would be added later.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adsl_vars <span class="ot">&lt;-</span> <span class="fu">exprs</span>(RANDDT)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  tr,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_add =</span> adsl,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_vars =</span> adsl_vars,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="merge" class="section level2">
+<h2>Merge <code>TR</code> with <code>TU</code> and Derive New Variables</h2>
+<p>Depending on your company specifications you may want to merge <code>TU</code> with <code>TR</code>. At this point if you require any new variables these could be added in this step. As an example, here we are keeping the tumor location (<code>TULOC</code>), and deriving a new variable for the tumor group site (<code>TULOCGR1</code>).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  tr,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_add =</span> tu,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_vars =</span> <span class="fu">exprs</span>(TULOC),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, <span class="at">TRLNKID =</span> TULNKID)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">TULOCGR1 =</span> <span class="fu">if_else</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    TULOC <span class="sc">==</span> <span class="st">&quot;LYMPH NODE&quot;</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;NODAL&quot;</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;NON-NODAL&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">VISIT</th>
+<th align="left">TRLNKID</th>
+<th align="left">TULOC</th>
+<th align="left">TULOCGR1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T01</td>
+<td align="left">ADRENAL GLAND</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T01</td>
+<td align="left">ADRENAL GLAND</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T02</td>
+<td align="left">LYMPH NODE</td>
+<td align="left">NODAL</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T02</td>
+<td align="left">LYMPH NODE</td>
+<td align="left">NODAL</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T03</td>
+<td align="left">BLADDER</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T03</td>
+<td align="left">BLADDER</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T04</td>
+<td align="left">BODY</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T04</td>
+<td align="left">BODY</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T05</td>
+<td align="left">BONE</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="left">T05</td>
+<td align="left">BONE</td>
+<td align="left">NON-NODAL</td>
+</tr>
+</tbody>
+</table>
+<p>Furthermore, you could create additional new variables that are required downstream when deriving the required parameters. For example, here we include lesion ID expected (<code>LSEXP</code>) and lesion ID assessed (<code>LSASS</code>).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  tr,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">LSEXP =</span> TRLNKID,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">LSASS =</span> <span class="fu">if_else</span>(<span class="sc">!</span><span class="fu">is.na</span>(TRSTRESN), TRLNKID, <span class="cn">NA_character_</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">TRLNKID</th>
+<th align="left">VISIT</th>
+<th align="left">LSEXP</th>
+<th align="left">LSASS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">BASELINE</td>
+<td align="left">T01</td>
+<td align="left">T01</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">BASELINE</td>
+<td align="left">T01</td>
+<td align="left">T01</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T02</td>
+<td align="left">BASELINE</td>
+<td align="left">T02</td>
+<td align="left">T02</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T02</td>
+<td align="left">BASELINE</td>
+<td align="left">T02</td>
+<td align="left">T02</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T03</td>
+<td align="left">BASELINE</td>
+<td align="left">T03</td>
+<td align="left">T03</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T03</td>
+<td align="left">BASELINE</td>
+<td align="left">T03</td>
+<td align="left">T03</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T04</td>
+<td align="left">BASELINE</td>
+<td align="left">T04</td>
+<td align="left">T04</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T04</td>
+<td align="left">BASELINE</td>
+<td align="left">T04</td>
+<td align="left">T04</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T05</td>
+<td align="left">BASELINE</td>
+<td align="left">T05</td>
+<td align="left">T05</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T05</td>
+<td align="left">BASELINE</td>
+<td align="left">T05</td>
+<td align="left">T05</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="input" class="section level2">
+<h2>Pre-processing of Input Records</h2>
+<p>The next step involves company-specific pre-processing of records required downstream prior to the parameter derivations, to ensure that all the associated variable processing is done once before any new parameters are derived.</p>
+<p>In order to calculate the sum of diameter of lesions, we need to ensure that lesions are grouped correctly, how this is done will be based on your company specifications but individual lesions sizes could be grouped either by using the analysis date <code>ADT</code> or visit <code>AVISIT</code>. This is to ensure that each lesion size is only counted once.</p>
+<p>Below are some considerations depending on your analysis.</p>
+<div id="partial-date-imputation-and-deriving-adt-adtf-avisit-etc" class="section level3">
+<h3>Partial Date Imputation and Deriving <code>ADT</code>, <code>ADTF</code>, <code>AVISIT</code> etc</h3>
+<p>If your data collection allows for partial dates, you could apply a company-specific imputation rule when deriving the analysis date <code>ADT</code> (you could also add further code to handle missing <code>ADT</code>, if this is a consideration).</p>
+<p>In the example below, we impute the missing day to the earliest possible date to derive the analysis date <code>ADT</code>, and then re-derive the analysis day <code>ADY</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">derive_vars_dt</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  tr,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dtc =</span> TRDTC,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_imputation =</span> <span class="st">&quot;first&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_dy</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_vars =</span> <span class="fu">exprs</span>(ADT)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">RANDDT</th>
+<th align="left">TRLNKID</th>
+<th align="left">TRDTC</th>
+<th align="left">ADT</th>
+<th align="left">ADTF</th>
+<th align="right">ADY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T01</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T01</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T02</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T02</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T03</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T03</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T04</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T04</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T05</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T05</td>
+<td align="left">2014-01</td>
+<td align="left">2014-01-01</td>
+<td align="left">D</td>
+<td align="right">-1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="unscheduled-visits" class="section level3">
+<h3>Unscheduled visits</h3>
+<p>If you have data collected at unscheduled visits, these could be identified as uniquely in your SDTM. However, if this is not the case and your grouping lesions by visit then you will need to amend the below code to apply company specific algorithm to re-label unscheduled visits as per your specifications.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  tr,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AVISIT =</span> VISIT,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">AVISITN =</span> VISITNUM</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+<div id="parameters" class="section level2">
+<h2>Derive Parameters for Lesion Diameters (<code>LDIAMn</code> &amp; <code>NLDIAMn</code>)</h2>
+<p>Depending on your company specifications you may either create parameters for Target Lesion diameter for lymph nodes (<code>LDIAMn</code>) and non-lymph nodes (<code>NLDIAMn</code>) in <code>ADTR</code> or similar dataset.</p>
+<p>The below examples show the set up of the parameter details and the analysis value &amp; flag (<code>AVAL</code>/<code>ANL01FL</code>) variables.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">mutate</span>(tr, <span class="at">tmp_lesion_nr =</span> <span class="fu">str_sub</span>(TRLNKID, <span class="dv">3</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  tr <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(TRTESTCD <span class="sc">==</span> <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="fu">paste0</span>(<span class="st">&quot;LDIAM&quot;</span>, tmp_lesion_nr),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="fu">paste</span>(<span class="st">&quot;Target Lesion&quot;</span>, tmp_lesion_nr, <span class="st">&quot;Analysis Diameter&quot;</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  tr <span class="sc">%&gt;%</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(TRTESTCD <span class="sc">==</span> <span class="st">&quot;LPERP&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="fu">paste0</span>(<span class="st">&quot;NLDIAM&quot;</span>, tmp_lesion_nr),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="fu">paste</span>(<span class="st">&quot;Target Lesion&quot;</span>, tmp_lesion_nr, <span class="st">&quot;Analysis Perpendicular&quot;</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;Target Lesion(s)&quot;</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> TRSTRESN,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL01FL =</span> <span class="fu">if_else</span>(<span class="sc">!</span><span class="fu">is.na</span>(AVAL), <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>tmp_lesion_nr)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">TRLNKID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="right">AVAL</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">BASELINE</td>
+<td align="left">LDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Diameter</td>
+<td align="right">10.0</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">BASELINE</td>
+<td align="left">NLDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Perpendicular</td>
+<td align="right">9.0</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 6</td>
+<td align="left">LDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Diameter</td>
+<td align="right">11.0</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 6</td>
+<td align="left">NLDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Perpendicular</td>
+<td align="right">9.9</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 12</td>
+<td align="left">LDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Diameter</td>
+<td align="right">0.0</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 12</td>
+<td align="left">NLDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Perpendicular</td>
+<td align="right">0.0</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 24</td>
+<td align="left">LDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Diameter</td>
+<td align="right">5.0</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 24</td>
+<td align="left">NLDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Perpendicular</td>
+<td align="right">4.5</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T02</td>
+<td align="left">BASELINE</td>
+<td align="left">LDIAM2</td>
+<td align="left">Target Lesion 2 Analysis Diameter</td>
+<td align="right">17.6</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T02</td>
+<td align="left">BASELINE</td>
+<td align="left">NLDIAM2</td>
+<td align="left">Target Lesion 2 Analysis Perpendicular</td>
+<td align="right">16.0</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="sdiam" class="section level2">
+<h2>Derive Parameter for Sum of Diameter and Analysis Flag <code>ANL01FL</code></h2>
+<p>Sum of Target Lesions Diameters is the sum of the diameters of both lymph and non-lymph nodes (sum of analysis values <code>AVAL</code> from source observations <code>LDIAMn</code> &amp; <code>LNDIAMn</code>).</p>
+<p>In this vignette, the sum of the diameters is calculated across all the available lesion measurements, and we use the analysis flag <code>ANL01FL</code> to select the records that should be used as part of the analysis based on RECIST 1.1. Subsequently we then build on this analysis flag (see <a href="#analflag"><code>ANLzzFL</code></a>) to demonstrate additional analysis flags for example purposes only. The analysis flags therefore should be setup according to your company specifications.</p>
+<p>In the example below, the lesion sizes are counted and grouped according to the by variables specified, in this case we group by the visit (<code>AVISIT</code> and <code>AVISITN</code>) to ensure that the correct lesion measurements are summed together.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> <span class="fu">get_summary_records</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  adtr,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, <span class="sc">!!!</span>adsl_vars, AVISIT, AVISITN),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">analysis_var =</span> AVAL,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">sum</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;SDIAM&quot;</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;Target Lesions Sum of Diameters by Investigator&quot;</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;Target Lesion(s)&quot;</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="9%" />
+<col width="58%" />
+<col width="10%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+</tr>
+</tbody>
+</table>
+<p>The analysis flag <code>ANL01FL</code> flags the sum of diameters where the number of lesions assessed at baseline and at post-baseline match. To assess whether the number of lesions expected and assessed match, you could compare lesion identifiers (<code>TR.TRLNKID</code>) or use the previous variables set up earlier to compare lesion expected (<code>LSEXP</code>) vs lesion assessed (<code>LSASS</code>) or check for target lesion response (from <code>RS</code>) = <code>NE</code>. A target lesion response of <code>NE</code> means all lesions from baseline are not measured at that post-baseline visit.</p>
+<p>Lesions can split or merge, if this is a consideration then this needs to be taken care of when deciding on which algorithm to use to check that all lesions are measured at post-baseline.</p>
+<p>In the below example, we use <code>derive_var_merged_summary()</code> function multiple times in order to process additional variables for sum of diameter parameter, and calculate the analysis flag (<code>ANL01FL</code>).</p>
+<p>In the first step we concatenate lesions IDs measured <code>LSEXP</code> at baseline, and merge in with the second step where we concatenate the lesions IDs assessed <code>LSASS</code> at that visit record. You can then compare <code>LSEXP</code> vs <code>LSASS</code> at each visit.</p>
+<p>In the final step, the analysis flag is set <code>ANL01FL = &quot;Y&quot;</code> where lesions assessed at post-baseline match baseline.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_summary</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> AVISIT <span class="sc">==</span> <span class="st">&quot;BASELINE&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      ((<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>)),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> LSEXP,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">analysis_var =</span> TRLNKID,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="fu">sort</span>(x), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_summary</span>(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, AVISIT),</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> ((<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>)) <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> LSASS,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">analysis_var =</span> TRLNKID,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="fu">sort</span>(x), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL01FL =</span> <span class="fu">if_else</span>(LSEXP <span class="sc">==</span> LSASS, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>In the next step we include the analysis day and date (<code>ADY</code>/<code>ADT</code>) variables to the sum of diameter parameter dataset. If there are different analysis day/dates associated with a particular visit, we take the minimum day/date.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_summary</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, AVISIT),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> ADY,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">analysis_var =</span> ADY,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_summary</span>(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, AVISIT),</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>),</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> ADT,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">analysis_var =</span> ADT,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="8%" />
+<col width="9%" />
+<col width="24%" />
+<col width="24%" />
+<col width="8%" />
+<col width="11%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVISIT</th>
+<th align="left">LSEXP</th>
+<th align="left">LSASS</th>
+<th align="left">ANL01FL</th>
+<th align="left">ADT</th>
+<th align="right">ADY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">BASELINE</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">Y</td>
+<td align="left">2014-01-01</td>
+<td align="right">-1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 6</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">Y</td>
+<td align="left">2014-02-12</td>
+<td align="right">42</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 12</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">Y</td>
+<td align="left">2014-03-26</td>
+<td align="right">84</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 24</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">Y</td>
+<td align="left">2014-06-18</td>
+<td align="right">168</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">SDIAM</td>
+<td align="left">BASELINE</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">Y</td>
+<td align="left">2012-08-05</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">SDIAM</td>
+<td align="left">BASELINE</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">Y</td>
+<td align="left">2013-08-08</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 6</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T02, T03, T04, T05</td>
+<td align="left">NA</td>
+<td align="left">2013-09-22</td>
+<td align="right">46</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="base" class="section level2">
+<h2>Derive Baseline (<code>ABLFL</code>, <code>BASE</code>)</h2>
+<p>These functions are available in <code>admiral</code>, below examples show its usage for <code>ADTR</code>. Here we create baseline record flag <code>ABLFL</code> by selecting the last record prior to analysis day 1, and then derive the baseline value <code>BASE</code>. If in a particular study/or subject, baseline is defined differently, you need to make sure to update appropriate arguments.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(ADY),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ABLFL,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;last&quot;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ADY <span class="sc">&lt;=</span> <span class="dv">1</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_base</span>(</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="nadir" class="section level2">
+<h2>Derive <code>NADIR</code></h2>
+<p>Once we have Sum of Target Lesions Diameters parameter (<code>SDIAM</code>), the <code>NADIR</code> is set to the lowest sum of diameters in Analysis Value (<code>AVAL</code>) before the current observation, where all lesions were assessed (i.e. <code>ANL01F == &quot;Y&quot;</code>). The first observations after baseline (depending on how you have defined baseline earlier) is set to the baseline value.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_joined</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr_sum,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(AVAL),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">NADIR =</span> AVAL),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">join_vars =</span> <span class="fu">exprs</span>(ADY),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_join =</span> ADY.join <span class="sc">&lt;</span> ADY,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVISIT</th>
+<th align="right">ADY</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">BASELINE</td>
+<td align="right">-1</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 6</td>
+<td align="right">42</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 12</td>
+<td align="right">84</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 24</td>
+<td align="right">168</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">SDIAM</td>
+<td align="left">BASELINE</td>
+<td align="right">1</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">SDIAM</td>
+<td align="left">BASELINE</td>
+<td align="right">1</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 6</td>
+<td align="right">46</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="chg" class="section level2">
+<h2>Derive Change from Baseline (<code>CHG</code>, <code>PCHG</code>)</h2>
+<p>These functions are available in admiral, below examples show its usage for <code>ADTR</code>. We calculate the change from baseline (<code>CHG</code>, <code>CHGNAD</code>) and percentage change from baseline (<code>PCHG</code> , <code>PCHGNAD</code>) for the parameter <code>SDIAM</code> (using <code>AVAL - BASE</code>) the variable <code>NADIR</code> (using <code>AVAL - NADIR</code>).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_chg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_pchg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">CHGNAD =</span> AVAL <span class="sc">-</span> NADIR,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">PCHGNAD =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">NA_real_</span>, <span class="dv">100</span> <span class="sc">*</span> CHGNAD <span class="sc">/</span> NADIR)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+<th align="right">BASE</th>
+<th align="right">CHG</th>
+<th align="right">PCHG</th>
+<th align="right">CHGNAD</th>
+<th align="right">PCHGNAD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+<td align="right">73</td>
+<td align="right">0.0</td>
+<td align="right">0.00000</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+<td align="right">73</td>
+<td align="right">-31.0</td>
+<td align="right">-42.46575</td>
+<td align="right">-31.0</td>
+<td align="right">-42.46575</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+<td align="right">73</td>
+<td align="right">-73.0</td>
+<td align="right">-100.00000</td>
+<td align="right">-42.0</td>
+<td align="right">-100.00000</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+<td align="right">73</td>
+<td align="right">-19.1</td>
+<td align="right">-26.16438</td>
+<td align="right">53.9</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+<td align="right">71</td>
+<td align="right">0.0</td>
+<td align="right">0.00000</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+<td align="right">40</td>
+<td align="right">0.0</td>
+<td align="right">0.00000</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+<td align="right">40</td>
+<td align="right">25.0</td>
+<td align="right">62.50000</td>
+<td align="right">25.0</td>
+<td align="right">62.50000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="addflag" class="section level2">
+<h2>Derive Additional Flag Variables</h2>
+<p>Depending on the analysis flags you require, you may want to create additional flag variables that will then aid setting up any additional analysis flag variables defined as per your company specifications.</p>
+<div id="derive-pdfl" class="section level3">
+<h3>Derive <code>PDFL</code></h3>
+<p>In this example, we want to flag when a patient has had <code>PD</code>. This could be done in a number of ways:</p>
+<div id="take-the-date-of-pd-from-adrs" class="section level4">
+<h4>1. Take the date of <code>PD</code> from <code>ADRS</code></h4>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_exist_flag</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;PD&quot;</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, ADT),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> PDFL,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+<th align="right">CHGNAD</th>
+<th align="right">PCHGNAD</th>
+<th align="left">PDFL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+<td align="right">-31.0</td>
+<td align="right">-42.46575</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+<td align="right">-42.0</td>
+<td align="right">-100.00000</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+<td align="right">53.9</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+<td align="right">25.0</td>
+<td align="right">62.50000</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="take-the-first-date-when-the-overall-response-is-pd-from-rs" class="section level4">
+<h4>2. Take the first date when the overall response is <code>PD</code> from <code>RS</code></h4>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_exist_flag</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> <span class="fu">derive_vars_dt</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      rs,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">dtc =</span> RSDTC,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_imputation =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> RSTESTCD <span class="sc">==</span> <span class="st">&quot;OVRLRESP&quot;</span> <span class="sc">&amp;</span> RSEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, ADT),</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> PDFL,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> RSSTRESC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+<th align="right">CHGNAD</th>
+<th align="right">PCHGNAD</th>
+<th align="left">PDFL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+<td align="right">-31.0</td>
+<td align="right">-42.46575</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+<td align="right">-42.0</td>
+<td align="right">-100.00000</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+<td align="right">53.9</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+<td align="right">25.0</td>
+<td align="right">62.50000</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="target-lesion-response-of-no-cr-at-the-current-observation-visit-and-but-a-cr-response-at-the-nadir-observation" class="section level4">
+<h4>3. Target lesion response of no <code>CR</code> at the current observation visit and but a <code>CR</code> response at the <code>NADIR</code> observation</h4>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRFL =</span> <span class="fu">if_else</span>(AVAL <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRNFL =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">PDFL =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(CRFL) <span class="sc">&amp;</span> CRNFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+<th align="right">CHGNAD</th>
+<th align="right">PCHGNAD</th>
+<th align="left">PDFL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+<td align="right">-31.0</td>
+<td align="right">-42.46575</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+<td align="right">-42.0</td>
+<td align="right">-100.00000</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+<td align="right">53.9</td>
+<td align="right">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+<td align="right">25.0</td>
+<td align="right">62.50000</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="calculate-from-source-data" class="section level4">
+<h4>4. Calculate from source data</h4>
+<p>The derivation for <code>PD</code> for target lesions is based on the calculated sum of diameters of the assessed lesions results in a calculated Percent Change from NADIR &gt;=20% (<code>PCHGNAD</code>) and a calculated Change from NADIR &gt;=5mm (<code>CHGNAD</code>).</p>
+<p>In this example, <code>CRFL</code> flags where the patient has had Complete Response, and <code>CRNFL</code>, flags where Complete response contributed to the <code>NADIR</code> calculation.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRFL =</span> <span class="fu">if_else</span>(AVAL <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRNFL =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">PDFL =</span> <span class="fu">if_else</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      PCHGNAD <span class="sc">&gt;=</span> <span class="dv">20</span> <span class="sc">&amp;</span> CHGNAD <span class="sc">&gt;=</span> <span class="dv">5</span> <span class="sc">|</span> <span class="fu">is.na</span>(CRFL) <span class="sc">&amp;</span> CRNFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA_character_</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+<th align="right">CHGNAD</th>
+<th align="right">PCHGNAD</th>
+<th align="left">PDFL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+<td align="right">-31.0</td>
+<td align="right">-42.46575</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+<td align="right">-42.0</td>
+<td align="right">-100.00000</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+<td align="right">53.9</td>
+<td align="right">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+<td align="right">25.0</td>
+<td align="right">62.50000</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="analflag" class="section level2">
+<h2>Derive Analysis Flags <code>ANLzzFL</code></h2>
+<p>Based on your specifications, additional analysis flags (<code>ANLzzFL</code>) could be set up in <code>ADTR</code>. Below are some examples which use the <code>ANL01FL</code> flag derived earlier for the sum of diameter parameter (<code>SDIAM</code>) as a basis.</p>
+<p>Analysis 02 Flag (<code>ANL02FL</code>) only includes visits (where analysis date is e.g after randomization date (<code>RANDDT</code>)) with the lowest <code>NADIR</code> (lowest sum of diameter) so maximum tumor shrinkage by using the first non-missing lowest percentage change from baseline (<code>PCHG</code>).</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_relative_flag</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> POSTRNDFL,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> ADT <span class="sc">&gt;</span> RANDDT,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">selection =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">inclusive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_no_ref_groups =</span> <span class="cn">FALSE</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL02FL,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(PCHG),</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">check_type =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> POSTRNDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>POSTRNDFL)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+<th align="right">PCHG</th>
+<th align="left">ANL01FL</th>
+<th align="left">ANL02FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+<td align="right">0.00000</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+<td align="right">-42.46575</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+<td align="right">-100.00000</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+<td align="right">-26.16438</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+<td align="right">0.00000</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+<td align="right">0.00000</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+<td align="right">62.50000</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+<p>Analysis 03 flag (<code>ANL03FL</code>) includes all sum of diameters where all lesions were assessed (where <code>ANL01FL == &quot;Y&quot;</code>) until the patient has <code>PD</code>, indicated by using the <code>PDFL</code> variable.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_relative_flag,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL03FL,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">condition =</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(ADY),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">selection =</span> <span class="st">&quot;before&quot;</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">inclusive =</span> <span class="cn">FALSE</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">|</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+<th align="left">PDFL</th>
+<th align="left">ANL01FL</th>
+<th align="left">ANL03FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+<p>Analysis 04 flag (<code>ANL04FL</code>) includes all sum of diameters where all lesions were assessed (where <code>ANL01FL == &quot;Y&quot;</code>) and additionally those indicating <code>PD</code> using the <code>PDFL</code> variable.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL04FL =</span> <span class="fu">if_else</span>(ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">|</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="right">AVAL</th>
+<th align="right">NADIR</th>
+<th align="left">PDFL</th>
+<th align="left">ANL01FL</th>
+<th align="left">ANL04FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BASELINE</td>
+<td align="right">73.0</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">42.0</td>
+<td align="right">73</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 12</td>
+<td align="right">0.0</td>
+<td align="right">42</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 24</td>
+<td align="right">53.9</td>
+<td align="right">0</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">BASELINE</td>
+<td align="right">71.0</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1440</td>
+<td align="left">BASELINE</td>
+<td align="right">40.0</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1440</td>
+<td align="left">WEEK 6</td>
+<td align="right">65.0</td>
+<td align="right">40</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(adtr, adtr_sum)</span></code></pre></div>
+</div>
+<div id="aseq" class="section level2">
+<h2>Derive Analysis Sequence Number (<code>ASEQ</code>)</h2>
+<p>The <code>{admiral}</code> function <code>admiral::derive_var_obs_number()</code> can be used to derive <code>ASEQ</code>:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> adtr <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_obs_number</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(PARAMCD, AVISITN, TRSEQ),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;error&quot;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVISIT</th>
+<th align="right">ASEQ</th>
+<th align="right">AVAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM1</td>
+<td align="left">BASELINE</td>
+<td align="right">1</td>
+<td align="right">10.0</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM1</td>
+<td align="left">WEEK 6</td>
+<td align="right">2</td>
+<td align="right">11.0</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM1</td>
+<td align="left">WEEK 12</td>
+<td align="right">3</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM1</td>
+<td align="left">WEEK 24</td>
+<td align="right">4</td>
+<td align="right">5.0</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM2</td>
+<td align="left">BASELINE</td>
+<td align="right">5</td>
+<td align="right">17.6</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM2</td>
+<td align="left">WEEK 6</td>
+<td align="right">6</td>
+<td align="right">6.6</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM2</td>
+<td align="left">WEEK 12</td>
+<td align="right">7</td>
+<td align="right">0.0</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM2</td>
+<td align="left">WEEK 24</td>
+<td align="right">8</td>
+<td align="right">11.0</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM3</td>
+<td align="left">BASELINE</td>
+<td align="right">9</td>
+<td align="right">13.0</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM3</td>
+<td align="left">WEEK 6</td>
+<td align="right">10</td>
+<td align="right">12.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="adslvars" class="section level2">
+<h2>Add <code>ADSL</code> Variables</h2>
+<p>If needed, the other <code>ADSL</code> variables can now be added. List of <code>ADSL</code> variables already merged held in vector <code>adsl_vars</code>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> adtr <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> <span class="fu">select</span>(adsl, <span class="sc">!!!</span><span class="fu">negate_vars</span>(adsl_vars)),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">RFSTDTC</th>
+<th align="left">RFENDTC</th>
+<th align="left">DTHDTC</th>
+<th align="left">DTHFL</th>
+<th align="right">AGE</th>
+<th align="left">AGEU</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="example" class="section level1">
+<h1>Example Script</h1>
+<table>
+<thead>
+<tr class="header">
+<th>ADaM</th>
+<th>Sample Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ADTR</code></td>
+<td><a href="https://github.com/pharmaverse/admiralonco/blob/main/inst/templates/ad_adtr.R">ad_adtr.R</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>In this vignette we use only data for subjects “01-701-1015”, “01-701-1023”, “01-701-1440”. This avoids that the vignette takes a long time to load.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

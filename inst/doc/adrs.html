@@ -195,12 +195,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(rs)</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tu)</span></code></pre></div>
 <p>At this step, it may be useful to join <code>ADSL</code> to your <code>RS</code> domain. Only the <code>ADSL</code> variables used for derivations are selected at this step. The rest of the relevant <code>ADSL</code> would be added later.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adsl_vars <span class="ot">&lt;-</span> <span class="fu">vars</span>(RANDDT)</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adsl_vars <span class="ot">&lt;-</span> <span class="fu">exprs</span>(RANDDT)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  rs,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_add =</span> adsl,</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_vars =</span> adsl_vars,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <table>
 <thead>
@@ -472,7 +472,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PR</td>
+<td align="left">PD</td>
 <td align="left">2014-02-12</td>
 <td align="left">2014-02-12</td>
 <td align="left">NA</td>
@@ -492,7 +492,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 24</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PD</td>
+<td align="left">SD</td>
 <td align="left">2014-06-18</td>
 <td align="left">2014-06-18</td>
 <td align="left">NA</td>
@@ -502,7 +502,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-10-13</td>
 <td align="left">2012-10-13</td>
 <td align="left">NA</td>
@@ -512,7 +512,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 12</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-11-27</td>
 <td align="left">2012-11-27</td>
 <td align="left">NA</td>
@@ -522,7 +522,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-08-24</td>
 <td align="left">2012-08-24</td>
 <td align="left">NA</td>
@@ -542,7 +542,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 18 (T)</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PR</td>
+<td align="left">SD</td>
 <td align="left">2012-11-17</td>
 <td align="left">2012-11-17</td>
 <td align="left">NA</td>
@@ -552,7 +552,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 24</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-12-30</td>
 <td align="left">2012-12-30</td>
 <td align="left">NA</td>
@@ -586,9 +586,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PR</td>
-<td align="left">PR</td>
-<td align="right">2</td>
+<td align="left">PD</td>
+<td align="left">PD</td>
+<td align="right">5</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
@@ -604,36 +604,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 24</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PD</td>
-<td align="left">PD</td>
-<td align="right">5</td>
+<td align="left">SD</td>
+<td align="left">SD</td>
+<td align="right">3</td>
 </tr>
 <tr class="even">
 <td align="left">01-703-1086</td>
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
-<td align="left">SD</td>
-<td align="right">3</td>
+<td align="left">PD</td>
+<td align="left">PD</td>
+<td align="right">5</td>
 </tr>
 <tr class="odd">
 <td align="left">01-703-1086</td>
 <td align="left">WEEK 12</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
-<td align="left">SD</td>
-<td align="right">3</td>
+<td align="left">PD</td>
+<td align="left">PD</td>
+<td align="right">5</td>
 </tr>
 <tr class="even">
 <td align="left">01-716-1024</td>
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
-<td align="left">SD</td>
-<td align="right">3</td>
+<td align="left">PD</td>
+<td align="left">PD</td>
+<td align="right">5</td>
 </tr>
 <tr class="odd">
 <td align="left">01-716-1024</td>
@@ -649,18 +649,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 18 (T)</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PR</td>
-<td align="left">PR</td>
-<td align="right">2</td>
+<td align="left">SD</td>
+<td align="left">SD</td>
+<td align="right">3</td>
 </tr>
 <tr class="odd">
 <td align="left">01-716-1024</td>
 <td align="left">WEEK 24</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
-<td align="left">SD</td>
-<td align="right">3</td>
+<td align="left">PD</td>
+<td align="left">PD</td>
+<td align="right">5</td>
 </tr>
 </tbody>
 </table>
@@ -672,8 +672,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID, ADT),</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">vars</span>(AVAL, RSSEQ),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, ADT),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(AVAL, RSSEQ),</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL01FL,</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;last&quot;</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
@@ -708,7 +708,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PR</td>
+<td align="left">PD</td>
 <td align="left">2014-02-12</td>
 <td align="left">2014-01-02</td>
 <td align="left">Y</td>
@@ -728,7 +728,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 24</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PD</td>
+<td align="left">SD</td>
 <td align="left">2014-06-18</td>
 <td align="left">2014-01-02</td>
 <td align="left">Y</td>
@@ -738,7 +738,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-10-13</td>
 <td align="left">2012-09-02</td>
 <td align="left">Y</td>
@@ -748,7 +748,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 12</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-11-27</td>
 <td align="left">2012-09-02</td>
 <td align="left">Y</td>
@@ -758,7 +758,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-08-24</td>
 <td align="left">2012-07-09</td>
 <td align="left">Y</td>
@@ -778,7 +778,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 18 (T)</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">PR</td>
+<td align="left">SD</td>
 <td align="left">2012-11-17</td>
 <td align="left">2012-07-09</td>
 <td align="left">Y</td>
@@ -788,7 +788,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 24</td>
 <td align="left">OVR</td>
 <td align="left">Overall Response by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-12-30</td>
 <td align="left">2012-07-09</td>
 <td align="left">Y</td>
@@ -810,8 +810,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>However, if you prefer not to rely on <code>source_pd</code> arguments, then the user is free to filter out records after first <code>PD</code> at this stage in a similar way via a <code>ANLzzFL</code> flag, and then you could leave <code>source_pd</code> as null in all downstream parameter derivation function calls. So, for example the user could create <code>ANL02FL</code> flag to subset the post-baseline response data up to and including first reported progressive disease. This would be an alternative and transparent method to the use of <code>source_pd</code> argument approach to create ADRS parameters below. Using <code>{admiral}</code> function <code>admiral::derive_var_relative_flag()</code> we could create <code>ANL02FL</code> as below.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_relative_flag</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(USUBJID),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">vars</span>(ADT, AVISITN),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, AVISITN),</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> ANL02FL,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span>,</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
@@ -829,8 +829,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_source =</span> adrs,</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">vars</span>(ADT, RSSEQ),</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;PD&quot;</span>,</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Disease Progression by Investigator&quot;</span>,</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -854,11 +854,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
+<td align="left">WEEK 6</td>
 <td align="left">PD</td>
 <td align="left">Disease Progression by Investigator</td>
+<td align="left">PD</td>
+<td align="left">2014-02-12</td>
 <td align="left">Y</td>
-<td align="left">2014-06-18</td>
+</tr>
+<tr class="even">
+<td align="left">01-703-1086</td>
+<td align="left">WEEK 6</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">PD</td>
+<td align="left">2012-10-13</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-716-1024</td>
+<td align="left">WEEK 6</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">PD</td>
+<td align="left">2012-08-24</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
@@ -866,43 +884,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">PD</td>
 <td align="left">Disease Progression by Investigator</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
 <tr class="odd">
-<td align="left">01-703-1086</td>
-<td align="left">NA</td>
-<td align="left">PD</td>
-<td align="left">Disease Progression by Investigator</td>
-<td align="left">N</td>
-<td align="left">NA</td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
 <td align="left">01-703-1096</td>
 <td align="left">NA</td>
 <td align="left">PD</td>
 <td align="left">Disease Progression by Investigator</td>
-<td align="left">N</td>
 <td align="left">NA</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">01-707-1037</td>
-<td align="left">NA</td>
-<td align="left">PD</td>
-<td align="left">Disease Progression by Investigator</td>
-<td align="left">N</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
-<td align="left">01-716-1024</td>
+<td align="left">01-707-1037</td>
 <td align="left">NA</td>
 <td align="left">PD</td>
 <td align="left">Disease Progression by Investigator</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
@@ -930,7 +930,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>) <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_pd =</span> pd,</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;RSP&quot;</span>,</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Response by Investigator (confirmation not required)&quot;</span>,</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -939,12 +939,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="10%" />
-<col width="10%" />
+<col width="11%" />
 <col width="7%" />
-<col width="48%" />
+<col width="7%" />
+<col width="50%" />
 <col width="5%" />
 <col width="10%" />
 <col width="7%" />
@@ -963,23 +963,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
+<td align="left">WEEK 12</td>
 <td align="left">RSP</td>
 <td align="left">Response by Investigator (confirmation not required)</td>
 <td align="left">Y</td>
-<td align="left">2014-02-12</td>
+<td align="left">2014-03-26</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
-<td align="left">01-716-1024</td>
-<td align="left">WEEK 18 (T)</td>
-<td align="left">RSP</td>
-<td align="left">Response by Investigator (confirmation not required)</td>
-<td align="left">Y</td>
-<td align="left">2012-11-17</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
 <td align="left">01-701-1023</td>
 <td align="left">NA</td>
 <td align="left">RSP</td>
@@ -988,7 +979,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">01-703-1086</td>
 <td align="left">NA</td>
 <td align="left">RSP</td>
@@ -997,7 +988,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">01-703-1096</td>
 <td align="left">NA</td>
 <td align="left">RSP</td>
@@ -1006,8 +997,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">01-707-1037</td>
+<td align="left">NA</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-716-1024</td>
 <td align="left">NA</td>
 <td align="left">RSP</td>
 <td align="left">Response by Investigator (confirmation not required)</td>
@@ -1036,7 +1036,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_start_window =</span> <span class="dv">42</span>,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CB&quot;</span>,</span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Clinical Benefit by Investigator (confirmation for response not required)&quot;</span>,</span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -1071,11 +1071,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
+<td align="left">WEEK 12</td>
 <td align="left">CB</td>
 <td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
 <td align="left">Y</td>
-<td align="left">2014-02-12</td>
+<td align="left">2014-03-26</td>
 <td align="left">2014-01-02</td>
 <td align="left">Y</td>
 </tr>
@@ -1091,11 +1091,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="odd">
 <td align="left">01-703-1086</td>
-<td align="left">WEEK 12</td>
+<td align="left">NA</td>
 <td align="left">CB</td>
 <td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
-<td align="left">Y</td>
-<td align="left">2012-11-27</td>
+<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">2012-09-02</td>
 <td align="left">Y</td>
 </tr>
@@ -1121,11 +1121,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">01-716-1024</td>
-<td align="left">WEEK 6</td>
+<td align="left">WEEK 12</td>
 <td align="left">CB</td>
 <td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
 <td align="left">Y</td>
-<td align="left">2012-08-24</td>
+<td align="left">2012-09-30</td>
 <td align="left">2012-07-09</td>
 <td align="left">Y</td>
 </tr>
@@ -1143,7 +1143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_start_window =</span> <span class="dv">42</span>,</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;BOR&quot;</span>,</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Overall Response by Investigator (confirmation not required)&quot;</span>,</span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -1154,14 +1154,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <colgroup>
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="50%" />
+<col width="6%" />
 <col width="8%" />
 <col width="8%" />
-<col width="5%" />
-<col width="48%" />
-<col width="5%" />
-<col width="8%" />
-<col width="8%" />
-<col width="5%" />
+<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1198,11 +1198,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="odd">
 <td align="left">01-703-1086</td>
-<td align="left">WEEK 12</td>
+<td align="left">WEEK 6</td>
 <td align="left">BOR</td>
 <td align="left">Best Overall Response by Investigator (confirmation not required)</td>
-<td align="left">SD</td>
-<td align="left">2012-11-27</td>
+<td align="left">PD</td>
+<td align="left">2012-10-13</td>
 <td align="left">2012-09-02</td>
 <td align="left">Y</td>
 </tr>
@@ -1228,11 +1228,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">01-716-1024</td>
-<td align="left">WEEK 18 (T)</td>
+<td align="left">WEEK 12</td>
 <td align="left">BOR</td>
 <td align="left">Best Overall Response by Investigator (confirmation not required)</td>
-<td align="left">PR</td>
-<td align="left">2012-11-17</td>
+<td align="left">SD</td>
+<td align="left">2012-09-30</td>
 <td align="left">2012-07-09</td>
 <td align="left">Y</td>
 </tr>
@@ -1262,8 +1262,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_source =</span> adrs,</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;BOR&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>) <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">vars</span>(ADT, RSSEQ),</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;BCP&quot;</span>,</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Overall Response of CR/PR by Investigator (confirmation not required)&quot;</span>,</span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -1275,9 +1275,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <table>
 <colgroup>
 <col width="9%" />
-<col width="9%" />
 <col width="6%" />
-<col width="56%" />
+<col width="6%" />
+<col width="58%" />
 <col width="4%" />
 <col width="8%" />
 <col width="6%" />
@@ -1299,52 +1299,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 12</td>
 <td align="left">BCP</td>
 <td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
-<td align="left">Y</td>
+<td align="left">CR</td>
 <td align="left">2014-03-26</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
-<td align="left">01-716-1024</td>
-<td align="left">WEEK 18 (T)</td>
-<td align="left">BCP</td>
-<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
-<td align="left">Y</td>
-<td align="left">2012-11-17</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
 <td align="left">01-701-1023</td>
 <td align="left">NA</td>
 <td align="left">BCP</td>
 <td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
-<td align="left">N</td>
 <td align="left">NA</td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">01-703-1086</td>
-<td align="left">NA</td>
-<td align="left">BCP</td>
-<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
-<td align="left">N</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
 <tr class="odd">
-<td align="left">01-703-1096</td>
+<td align="left">01-703-1086</td>
 <td align="left">NA</td>
 <td align="left">BCP</td>
 <td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
+<td align="left">01-703-1096</td>
+<td align="left">NA</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
 <td align="left">01-707-1037</td>
 <td align="left">NA</td>
 <td align="left">BCP</td>
 <td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
-<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-716-1024</td>
+<td align="left">NA</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
@@ -1361,7 +1361,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_pd =</span> pd,</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_confirm =</span> <span class="dv">28</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CRSP&quot;</span>,</span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Confirmed Response by Investigator&quot;</span>,</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -1386,7 +1386,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
 <span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
 <span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_start_window =</span> <span class="dv">42</span>,</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CCB&quot;</span>,</span>
 <span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Confirmed Clinical Benefit by Investigator&quot;</span>,</span>
 <span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -1403,7 +1403,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
 <span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_start_window =</span> <span class="dv">42</span>,</span>
 <span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_confirm =</span> <span class="dv">28</span>,</span>
-<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CBOR&quot;</span>,</span>
 <span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Confirmed Overall Response by Investigator&quot;</span>,</span>
 <span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -1416,8 +1416,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
 <span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_source =</span> adrs,</span>
 <span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;CBOR&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>) <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">vars</span>(ADT, RSSEQ),</span>
-<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CBCP&quot;</span>,</span>
 <span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Confirmed Overall Response of CR/PR by Investigator&quot;</span>,</span>
 <span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -1452,11 +1452,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
+<td align="left">NA</td>
 <td align="left">CRSP</td>
 <td align="left">Confirmed Response by Investigator</td>
-<td align="left">Y</td>
-<td align="left">2014-02-12</td>
+<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">2014-01-02</td>
 <td align="left">Y</td>
 </tr>
@@ -1512,11 +1512,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
+<td align="left">WEEK 12</td>
 <td align="left">CCB</td>
 <td align="left">Confirmed Clinical Benefit by Investigator</td>
 <td align="left">Y</td>
-<td align="left">2014-02-12</td>
+<td align="left">2014-03-26</td>
 <td align="left">2014-01-02</td>
 <td align="left">Y</td>
 </tr>
@@ -1532,11 +1532,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="odd">
 <td align="left">01-703-1086</td>
-<td align="left">WEEK 12</td>
+<td align="left">NA</td>
 <td align="left">CCB</td>
 <td align="left">Confirmed Clinical Benefit by Investigator</td>
-<td align="left">Y</td>
-<td align="left">2012-11-27</td>
+<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">2012-09-02</td>
 <td align="left">Y</td>
 </tr>
@@ -1706,7 +1706,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsldth,</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_source =</span> adsldth,</span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> <span class="sc">!</span><span class="fu">is.na</span>(DTHDT),</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;DEATH&quot;</span>,</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Death&quot;</span>,</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Reference Event&quot;</span>,</span>
@@ -1733,7 +1733,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">DEATH</td>
 <td align="left">Death</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
@@ -1742,7 +1742,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">DEATH</td>
 <td align="left">Death</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
@@ -1751,7 +1751,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">DEATH</td>
 <td align="left">Death</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
@@ -1760,7 +1760,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">DEATH</td>
 <td align="left">Death</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
@@ -1769,7 +1769,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">DEATH</td>
 <td align="left">Death</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
@@ -1778,7 +1778,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">NA</td>
 <td align="left">DEATH</td>
 <td align="left">Death</td>
-<td align="left">N</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 </tr>
@@ -1793,10 +1793,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_source =</span> adrs,</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">vars</span>(ADT, RSSEQ),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;last&quot;</span>,</span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> dummy,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;LSTA&quot;</span>,</span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Last Disease Assessment by Investigator&quot;</span>,</span>
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
@@ -1833,7 +1833,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 24</td>
 <td align="left">LSTA</td>
 <td align="left">Last Disease Assessment by Investigator</td>
-<td align="left">PD</td>
+<td align="left">SD</td>
 <td align="left">2014-06-18</td>
 <td align="left">Y</td>
 </tr>
@@ -1842,7 +1842,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 12</td>
 <td align="left">LSTA</td>
 <td align="left">Last Disease Assessment by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-11-27</td>
 <td align="left">Y</td>
 </tr>
@@ -1851,7 +1851,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 24</td>
 <td align="left">LSTA</td>
 <td align="left">Last Disease Assessment by Investigator</td>
-<td align="left">SD</td>
+<td align="left">PD</td>
 <td align="left">2012-12-30</td>
 <td align="left">Y</td>
 </tr>
@@ -1898,7 +1898,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> TUEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span> <span class="sc">&amp;</span> TUSTRESC <span class="sc">==</span> <span class="st">&quot;TARGET&quot;</span> <span class="sc">&amp;</span> VISIT <span class="sc">==</span> <span class="st">&quot;BASELINE&quot;</span>,</span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_value =</span> <span class="st">&quot;N&quot;</span>,</span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_value =</span> <span class="st">&quot;N&quot;</span>,</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;MDIS&quot;</span>,</span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Measurable Disease at Baseline by Investigator&quot;</span>,</span>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
@@ -2005,45 +2005,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">PD</td>
-<td align="left">Y</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
 <td align="left">CB</td>
-<td align="left">Y</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">BCP</td>
 <td align="left">Y</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">CRSP</td>
-<td align="left">Y</td>
-<td align="right">1</td>
+<td align="left">N</td>
+<td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">CCB</td>
 <td align="left">Y</td>
 <td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">CBCP</td>
-<td align="left">N</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">DEATH</td>
-<td align="left">N</td>
-<td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
@@ -2059,8 +2035,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The function <code>admiral::derive_var_obs_number()</code> can be used to derive <code>ASEQ</code>. An example call is:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_obs_number</span>(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID),</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">vars</span>(PARAMCD, ADT, VISITNUM, RSSEQ),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(PARAMCD, ADT, VISITNUM, RSSEQ),</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;error&quot;</span></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
@@ -2094,9 +2070,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">CB</td>
-<td align="left">2014-02-12</td>
-<td align="right">7</td>
-<td align="left">WEEK 6</td>
+<td align="left">2014-03-26</td>
+<td align="right">9</td>
+<td align="left">WEEK 12</td>
 <td align="right">3</td>
 </tr>
 <tr class="even">
@@ -2110,25 +2086,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">CBOR</td>
-<td align="left">2014-02-12</td>
-<td align="right">7</td>
-<td align="left">WEEK 6</td>
+<td align="left">2014-03-26</td>
+<td align="right">9</td>
+<td align="left">WEEK 12</td>
 <td align="right">5</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">CCB</td>
-<td align="left">2014-02-12</td>
-<td align="right">7</td>
-<td align="left">WEEK 6</td>
+<td align="left">2014-03-26</td>
+<td align="right">9</td>
+<td align="left">WEEK 12</td>
 <td align="right">6</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">CRSP</td>
-<td align="left">2014-02-12</td>
-<td align="right">7</td>
-<td align="left">WEEK 6</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
 <td align="right">7</td>
 </tr>
 <tr class="even">
@@ -2164,7 +2140,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> <span class="fu">select</span>(adsl, <span class="sc">!!!</span><span class="fu">negate_vars</span>(adsl_vars)),</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>

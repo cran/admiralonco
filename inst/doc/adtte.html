@@ -273,36 +273,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adsl_death_event <span class="ot">&lt;-</span> <span class="fu">event_source</span>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> DTHDT,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">EVNTDESC =</span> <span class="st">&quot;STUDY DEATH&quot;</span>,</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCDOM =</span> <span class="st">&quot;ADSL&quot;</span>,</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCVAR =</span> <span class="st">&quot;DTHDT&quot;</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>An optional step at this stage would be required to enable derivation of duration of response: If using <code>ADRS</code> / <code>ADEVENT</code> parameters as input for any response dates (instead of a variable in <code>ADSL</code>) then you would need to use <code>admiral::derive_vars_merged()</code> to add the response date as a temporary variable (e.g. <code>TEMP_RESPDT</code>) to be able to feed into <code>admiral::derive_param_tte()</code> as the start date. You would also need to use this to filter the input datasets so as to only derive the records for responders. This could also be repeated as needed for IRF/BICR and confirmed responses.</p>
+<p>An optional step at this stage would be required to enable derivation of duration of response: If using <code>ADRS</code> / <code>ADEVENT</code> parameters as input for any response dates (instead of a variable in <code>ADSL</code>) then you would need to use <code>admiral::derive_vars_merged()</code> to add the response date as a temporary variable (e.g. <code>TEMP_RESPDT</code>) to be able to feed into <code>admiral::derive_param_tte()</code> as the start date. You would also need to use this to filter the source <code>ADSL</code> dataset so as to only derive the records for responders. This could also be repeated as needed for IRF/BICR and confirmed responses.</p>
 <p>Here is an example of the code needed.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;RSP&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">vars</span>(<span class="at">TEMP_RESPDT =</span> ADT)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adsl,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">vars</span>(TEMP_RESPDT)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p>The pre-defined objects can be passed directly to <code>admiral::derive_param_tte()</code> to create a new time-to-event parameter. Below shows example calls for Overall Survival (OS), Progression Free Survival (PFS), and duration of response (as above, this is only derived for responder patients so we have to filter source datasets). Note that the reason for including a randomization date censor is to catch those patients that never have a tumor assessment.</p>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">TEMP_RESPDT =</span> ADT)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>The pre-defined objects can be passed directly to <code>admiral::derive_param_tte()</code> to create a new time-to-event parameter. Below shows example calls for Overall Survival (OS), Progression Free Survival (PFS), and duration of response (as above, this is only derived for responder patients so we have to filter source <code>ADSL</code> dataset). Note that the reason for including a randomization date censor is to catch those patients that never have a tumor assessment.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adtte <span class="ot">&lt;-</span> <span class="fu">derive_param_tte</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_adsl =</span> adsl,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> RANDDT,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">event_conditions =</span> <span class="fu">list</span>(death_event),</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">censor_conditions =</span> <span class="fu">list</span>(lastalive_censor, rand_censor),</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> adsl, <span class="at">adrs =</span> adrs),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;OS&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Overall Survival&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;OS&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Overall Survival&quot;</span>)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_tte</span>(</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
@@ -310,15 +303,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_conditions =</span> <span class="fu">list</span>(pd_event, death_event),</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">censor_conditions =</span> <span class="fu">list</span>(lasta_censor, rand_censor),</span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> adsl, <span class="at">adrs =</span> adrs),</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;PFS&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Progression Free Survival&quot;</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;PFS&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Progression Free Survival&quot;</span>)</span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_tte</span>(</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> <span class="fu">filter</span>(adsl, <span class="sc">!</span><span class="fu">is.na</span>(TEMP_RESPDT)),</span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">start_date =</span> TEMP_RESPDT,</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_conditions =</span> <span class="fu">list</span>(pd_event, death_event),</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">censor_conditions =</span> <span class="fu">list</span>(lasta_censor),</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> <span class="fu">filter</span>(adsl, <span class="sc">!</span><span class="fu">is.na</span>(TEMP_RESPDT)), <span class="at">adrs =</span> <span class="fu">filter</span>(adrs, <span class="sc">!</span><span class="fu">is.na</span>(TEMP_RESPDT))),</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">vars</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;RSD&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Duration of Response&quot;</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> adsl, <span class="at">adrs =</span> adrs),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;RSD&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Duration of Response&quot;</span>)</span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
@@ -417,7 +410,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="creating-your-own-time-to-event-source-objects" class="section level3">
 <h3>Creating Your Own Time-to-Event Source Objects</h3>
-<p>We advise you consult the <code>{admiral}</code> <a href="https://pharmaverse.github.io/admiral/articles/bds_tte.html">Creating a BDS Time-to-Event ADaM vignette</a> for further guidance on the different options available and more examples.</p>
+<p>We advise you consult the <code>{admiral}</code> <a href="https://pharmaverse.github.io/admiral/cran-release/articles/bds_tte.html">Creating a BDS Time-to-Event ADaM vignette</a> for further guidance on the different options available and more examples.</p>
 <p>One extra common oncology case we include here is around PFS when censoring at new anti-cancer therapy. This could either be controlled using <code>ANLzzFL</code> as explained in the ADRS vignette, so that records after new anti-cancer therapy never contribute to the PD and DEATH parameters. Or alternatively you can control this on the ADTTE side by filtering which records are used in <code>admiral::event_source()</code> and <code>admiral::censor_source()</code>, e.g. for PD or death event date we can use <code>filter</code> argument to exclude events occurring after new anti-cancer therapy.</p>
 <p>The censor could be set as whichever date your analysis requires, e.g. date of last tumor assessment prior to new anti-cancer therapy or last radiological assessment. If you pass multiple censor dates then remember the function will choose the latest occurring of these, so be cautious here if feeding in say one censor date for last assessment prior to new anti-cancer therapy and one for last assessment - as the function would choose the maximum of these which in this case would be incorrect. The easiest solution here would be to pass in one censor date as the date of last assessment prior to new anti-cancer therapy or date of last assessment <strong>if no new anti-cancer therapy</strong>. If you wanted to use different censor dates which could have different <code>CNSDTDSC</code> values, then you’d need to ensure only one is set per patient.</p>
 <p>This case is demonstrated in the below example (where <code>NACTDT</code> would be pre-derived as first date of new anti-cancer therapy, and <code>LASTANDT</code> as the single tumor assessment censor date as described above).</p>
@@ -425,7 +418,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> PDDT <span class="sc">&lt;</span> NACTDT <span class="sc">|</span> <span class="fu">is.na</span>(NACTDT),</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> PDDT,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">EVNTDESC =</span> <span class="st">&quot;Disease Progression prior to NACT&quot;</span>,</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCDOM =</span> <span class="st">&quot;ADSL&quot;</span>,</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCVAR =</span> <span class="st">&quot;PDDT&quot;</span></span>
@@ -436,7 +429,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> DTHDT <span class="sc">&lt;</span> NACTDT <span class="sc">|</span> <span class="fu">is.na</span>(NACTDT),</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> DTHDT,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">EVNTDESC =</span> <span class="st">&quot;Death prior to NACT&quot;</span>,</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCDOM =</span> <span class="st">&quot;ADSL&quot;</span>,</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCVAR =</span> <span class="st">&quot;DTHDT&quot;</span></span>
@@ -446,7 +439,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>lasta_nact_censor <span class="ot">&lt;-</span> <span class="fu">censor_source</span>(</span>
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> LASTANDT,</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">EVNTDESC =</span> <span class="st">&quot;Last Tumor Assessment prior to NACT&quot;</span>,</span>
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">CNSDTDSC =</span> <span class="st">&quot;Last Tumor Assessment prior to NACT&quot;</span>,</span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRCDOM =</span> <span class="st">&quot;ADSL&quot;</span>,</span>
@@ -460,7 +453,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">event_conditions =</span> <span class="fu">list</span>(pd_nact_event, death_nact_event),</span>
 <span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">censor_conditions =</span> <span class="fu">list</span>(lasta_nact_censor, rand_censor),</span>
 <span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adsl =</span> adsl),</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">vars</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;PFSNACT&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Progression Free Survival prior to NACT&quot;</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">PARAMCD =</span> <span class="st">&quot;PFSNACT&quot;</span>, <span class="at">PARAM =</span> <span class="st">&quot;Progression Free Survival prior to NACT&quot;</span>)</span>
 <span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
@@ -674,24 +667,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>{admiral}</code> function <code>admiral::derive_var_obs_number()</code> can be used to derive <code>ASEQ</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adtte <span class="ot">&lt;-</span> adtte <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_obs_number</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">vars</span>(PARAMCD),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(PARAMCD),</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;error&quot;</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <colgroup>
+<col width="8%" />
 <col width="7%" />
-<col width="7%" />
-<col width="13%" />
+<col width="12%" />
 <col width="4%" />
 <col width="5%" />
 <col width="4%" />
 <col width="3%" />
 <col width="6%" />
-<col width="13%" />
+<col width="12%" />
 <col width="6%" />
-<col width="4%" />
-<col width="15%" />
+<col width="5%" />
+<col width="16%" />
 <col width="3%" />
 <col width="3%" />
 </colgroup>
@@ -736,33 +729,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Disease Progression</td>
 <td align="left">ADRS</td>
 <td align="left">ADT</td>
-<td align="right">11</td>
+<td align="right">14</td>
 <td align="right">0</td>
-<td align="left">2014-06-18</td>
+<td align="left">2014-02-12</td>
 <td align="left">NA</td>
 <td align="left">2014-01-02</td>
 <td align="left">PFS</td>
 <td align="left">Progression Free Survival</td>
-<td align="right">168</td>
+<td align="right">42</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
-<td align="left">CDISCPILOT01</td>
-<td align="left">01-701-1015</td>
-<td align="left">Disease Progression</td>
-<td align="left">ADRS</td>
-<td align="left">ADT</td>
-<td align="right">11</td>
-<td align="right">0</td>
-<td align="left">2014-06-18</td>
-<td align="left">NA</td>
-<td align="left">2014-02-12</td>
-<td align="left">RSD</td>
-<td align="left">Duration of Response</td>
-<td align="right">127</td>
-<td align="right">3</td>
-</tr>
-<tr class="even">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1023</td>
 <td align="left">Alive</td>
@@ -778,7 +755,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">29</td>
 <td align="right">1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1023</td>
 <td align="left">Randomization</td>
@@ -794,7 +771,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">1</td>
 <td align="right">2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1028</td>
 <td align="left">Alive</td>
@@ -810,37 +787,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">180</td>
 <td align="right">1</td>
 </tr>
-<tr class="odd">
-<td align="left">CDISCPILOT01</td>
-<td align="left">01-701-1028</td>
-<td align="left">Last Tumor Assessment</td>
-<td align="left">ADRS</td>
-<td align="left">ADT</td>
-<td align="right">6</td>
-<td align="right">1</td>
-<td align="left">2014-01-06</td>
-<td align="left">Last Tumor Assessment</td>
-<td align="left">2013-07-19</td>
-<td align="left">PFS</td>
-<td align="left">Progression Free Survival</td>
-<td align="right">172</td>
-<td align="right">2</td>
-</tr>
 <tr class="even">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1028</td>
-<td align="left">Last Tumor Assessment</td>
+<td align="left">Disease Progression</td>
 <td align="left">ADRS</td>
 <td align="left">ADT</td>
-<td align="right">6</td>
-<td align="right">1</td>
-<td align="left">2014-01-06</td>
-<td align="left">Last Tumor Assessment</td>
+<td align="right">15</td>
+<td align="right">0</td>
 <td align="left">2013-08-29</td>
-<td align="left">RSD</td>
-<td align="left">Duration of Response</td>
-<td align="right">131</td>
-<td align="right">3</td>
+<td align="left">NA</td>
+<td align="left">2013-07-19</td>
+<td align="left">PFS</td>
+<td align="left">Progression Free Survival</td>
+<td align="right">42</td>
+<td align="right">2</td>
 </tr>
 <tr class="odd">
 <td align="left">CDISCPILOT01</td>
@@ -874,6 +835,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">1</td>
 <td align="right">2</td>
 </tr>
+<tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1034</td>
+<td align="left">Alive</td>
+<td align="left">ADSL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="left">2014-12-30</td>
+<td align="left">Alive During Study</td>
+<td align="left">2014-07-01</td>
+<td align="left">OS</td>
+<td align="left">Overall Survival</td>
+<td align="right">183</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1034</td>
+<td align="left">Disease Progression</td>
+<td align="left">ADRS</td>
+<td align="left">ADT</td>
+<td align="right">15</td>
+<td align="right">0</td>
+<td align="left">2014-08-11</td>
+<td align="left">NA</td>
+<td align="left">2014-07-01</td>
+<td align="left">PFS</td>
+<td align="left">Progression Free Survival</td>
+<td align="right">42</td>
+<td align="right">2</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -883,8 +876,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>adtte <span class="ot">&lt;-</span> adtte <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adsl,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">vars</span>(ARMCD, ARM, ACTARMCD, ACTARM, AGE, SEX),</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">vars</span>(STUDYID, USUBJID)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(ARMCD, ARM, ACTARMCD, ACTARM, AGE, SEX),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
@@ -912,21 +905,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">01-701-1015</td>
 <td align="left">PFS</td>
 <td align="right">0</td>
-<td align="right">168</td>
+<td align="right">42</td>
 <td align="left">Pbo</td>
 <td align="right">63</td>
 <td align="left">F</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">RSD</td>
-<td align="right">0</td>
-<td align="right">127</td>
-<td align="left">Pbo</td>
-<td align="right">63</td>
-<td align="left">F</td>
-</tr>
-<tr class="even">
 <td align="left">01-701-1023</td>
 <td align="left">OS</td>
 <td align="right">1</td>
@@ -935,7 +919,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">64</td>
 <td align="left">M</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">01-701-1023</td>
 <td align="left">PFS</td>
 <td align="right">1</td>
@@ -944,7 +928,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">64</td>
 <td align="left">M</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">01-701-1028</td>
 <td align="left">OS</td>
 <td align="right">1</td>
@@ -953,20 +937,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">71</td>
 <td align="left">M</td>
 </tr>
-<tr class="odd">
-<td align="left">01-701-1028</td>
-<td align="left">PFS</td>
-<td align="right">1</td>
-<td align="right">172</td>
-<td align="left">Xan_Hi</td>
-<td align="right">71</td>
-<td align="left">M</td>
-</tr>
 <tr class="even">
 <td align="left">01-701-1028</td>
-<td align="left">RSD</td>
-<td align="right">1</td>
-<td align="right">131</td>
+<td align="left">PFS</td>
+<td align="right">0</td>
+<td align="right">42</td>
 <td align="left">Xan_Hi</td>
 <td align="right">71</td>
 <td align="left">M</td>
@@ -988,6 +963,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Xan_Lo</td>
 <td align="right">74</td>
 <td align="left">M</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">OS</td>
+<td align="right">1</td>
+<td align="right">183</td>
+<td align="left">Xan_Hi</td>
+<td align="right">77</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">PFS</td>
+<td align="right">0</td>
+<td align="right">42</td>
+<td align="left">Xan_Hi</td>
+<td align="right">77</td>
+<td align="left">F</td>
 </tr>
 </tbody>
 </table>

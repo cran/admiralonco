@@ -32,7 +32,7 @@ dyn_link <- function(text,
   return(link(text, url))
 }
 # Other variables
-admiral_homepage <- "https://pharmaverse.github.io/admiral"
+admiral_homepage <- "https://pharmaverse.github.io/admiral/cran-release"
 
 library(admiraldev)
 
@@ -62,18 +62,18 @@ tu <- filter(tu, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01
 adsl <- filter(adsl, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024"))
 
 ## ----eval=TRUE----------------------------------------------------------------
-adsl_vars <- vars(RANDDT)
+adsl_vars <- exprs(RANDDT)
 adrs <- derive_vars_merged(
   rs,
   dataset_add = adsl,
   new_vars = adsl_vars,
-  by_vars = vars(STUDYID, USUBJID)
+  by_vars = exprs(STUDYID, USUBJID)
 )
 
 ## ---- eval=TRUE, echo=FALSE---------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, RSTESTCD, RSDTC, VISIT, RANDDT),
+  display_vars = exprs(USUBJID, RSTESTCD, RSDTC, VISIT, RANDDT),
   filter = RSTESTCD == "OVRLRESP"
 )
 
@@ -91,7 +91,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, VISIT, RSTESTCD, RSEVAL, PARAMCD, PARAM, PARCAT1, PARCAT2, PARCAT3)
+  display_vars = exprs(USUBJID, VISIT, RSTESTCD, RSEVAL, PARAMCD, PARAM, PARCAT1, PARCAT2, PARCAT3)
 )
 
 ## -----------------------------------------------------------------------------
@@ -107,7 +107,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, RSSTRESC, RSDTC, ADT, ADTF)
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, RSSTRESC, RSDTC, ADT, ADTF)
 )
 
 ## -----------------------------------------------------------------------------
@@ -120,7 +120,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, RSSTRESC, AVALC, AVAL)
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, RSSTRESC, AVALC, AVAL)
 )
 
 ## -----------------------------------------------------------------------------
@@ -128,8 +128,8 @@ adrs <- adrs %>%
   restrict_derivation(
     derivation = derive_var_extreme_flag,
     args = params(
-      by_vars = vars(STUDYID, USUBJID, ADT),
-      order = vars(AVAL, RSSEQ),
+      by_vars = exprs(STUDYID, USUBJID, ADT),
+      order = exprs(AVAL, RSSEQ),
       new_var = ANL01FL,
       mode = "last"
     ),
@@ -139,7 +139,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL)
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL)
 )
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -154,8 +154,8 @@ dataset_vignette(
 ## ---- eval=FALSE--------------------------------------------------------------
 #  adrs <- adrs %>%
 #    derive_var_relative_flag(
-#      by_vars = vars(USUBJID),
-#      order = vars(ADT, AVISITN),
+#      by_vars = exprs(USUBJID),
+#      order = exprs(ADT, AVISITN),
 #      new_var = ANL02FL,
 #      condition = AVALC == "PD",
 #      mode = "first",
@@ -169,8 +169,8 @@ adrs <- adrs %>%
     dataset_adsl = adsl,
     dataset_source = adrs,
     filter_source = PARAMCD == "OVR" & AVALC == "PD" & ANL01FL == "Y",
-    order = vars(ADT, RSSEQ),
-    set_values_to = vars(
+    order = exprs(ADT, RSSEQ),
+    set_values_to = exprs(
       PARAMCD = "PD",
       PARAM = "Disease Progression by Investigator",
       PARCAT1 = "Tumor Response",
@@ -183,7 +183,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
   filter = PARAMCD == "PD"
 )
 
@@ -207,7 +207,7 @@ adrs <- adrs %>%
     filter_source = PARAMCD == "OVR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
     source_pd = pd,
     source_datasets = list(adrs = adrs),
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "RSP",
       PARAM = "Response by Investigator (confirmation not required)",
       PARCAT1 = "Tumor Response",
@@ -220,7 +220,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
   filter = PARAMCD == "RSP"
 )
 
@@ -241,7 +241,7 @@ adrs <- adrs %>%
     source_datasets = list(adrs = adrs),
     reference_date = RANDDT,
     ref_start_window = 42,
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "CB",
       PARAM = "Clinical Benefit by Investigator (confirmation for response not required)",
       PARCAT1 = "Tumor Response",
@@ -254,7 +254,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
   filter = PARAMCD == "CB"
 )
 
@@ -267,7 +267,7 @@ adrs <- adrs %>%
     source_datasets = list(adrs = adrs),
     reference_date = RANDDT,
     ref_start_window = 42,
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "BOR",
       PARAM = "Best Overall Response by Investigator (confirmation not required)",
       PARCAT1 = "Tumor Response",
@@ -280,7 +280,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
   filter = PARAMCD == "BOR"
 )
 
@@ -304,8 +304,8 @@ adrs <- adrs %>%
     dataset_adsl = adsl,
     dataset_source = adrs,
     filter_source = PARAMCD == "BOR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
-    order = vars(ADT, RSSEQ),
-    set_values_to = vars(
+    order = exprs(ADT, RSSEQ),
+    set_values_to = exprs(
       PARAMCD = "BCP",
       PARAM = "Best Overall Response of CR/PR by Investigator (confirmation not required)",
       PARCAT1 = "Tumor Response",
@@ -318,7 +318,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
   filter = PARAMCD == "BCP"
 )
 
@@ -330,7 +330,7 @@ adrs <- adrs %>%
     source_pd = pd,
     source_datasets = list(adrs = adrs),
     ref_confirm = 28,
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "CRSP",
       PARAM = "Confirmed Response by Investigator",
       PARCAT1 = "Tumor Response",
@@ -355,7 +355,7 @@ adrs <- adrs %>%
     source_datasets = list(adrs = adrs),
     reference_date = RANDDT,
     ref_start_window = 42,
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "CCB",
       PARAM = "Confirmed Clinical Benefit by Investigator",
       PARCAT1 = "Tumor Response",
@@ -372,7 +372,7 @@ adrs <- adrs %>%
     reference_date = RANDDT,
     ref_start_window = 42,
     ref_confirm = 28,
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "CBOR",
       PARAM = "Best Confirmed Overall Response by Investigator",
       PARCAT1 = "Tumor Response",
@@ -385,8 +385,8 @@ adrs <- adrs %>%
     dataset_adsl = adsl,
     dataset_source = adrs,
     filter_source = PARAMCD == "CBOR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
-    order = vars(ADT, RSSEQ),
-    set_values_to = vars(
+    order = exprs(ADT, RSSEQ),
+    set_values_to = exprs(
       PARAMCD = "CBCP",
       PARAM = "Best Confirmed Overall Response of CR/PR by Investigator",
       PARCAT1 = "Tumor Response",
@@ -399,7 +399,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
   filter = PARAMCD %in% c("CRSP", "CCB", "CBOR", "CBCP")
 )
 
@@ -417,7 +417,7 @@ adrsirf <- rs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrsirf,
-  display_vars = vars(USUBJID, VISIT, RSTESTCD, RSEVAL, PARAMCD, PARAM, PARCAT1, PARCAT2, PARCAT3),
+  display_vars = exprs(USUBJID, VISIT, RSTESTCD, RSEVAL, PARAMCD, PARAM, PARCAT1, PARCAT2, PARCAT3),
   filter = PARAMCD == "OVRR1"
 )
 
@@ -430,7 +430,7 @@ adrs <- adrs %>%
     dataset_adsl = adsldth,
     dataset_source = adsldth,
     filter_source = !is.na(DTHDT),
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "DEATH",
       PARAM = "Death",
       PARCAT1 = "Reference Event",
@@ -443,7 +443,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
   filter = PARAMCD == "DEATH"
 )
 
@@ -453,10 +453,10 @@ adrs <- adrs %>%
     dataset_adsl = adsl,
     dataset_source = adrs,
     filter_source = PARAMCD == "OVR" & ANL01FL == "Y",
-    order = vars(ADT, RSSEQ),
+    order = exprs(ADT, RSSEQ),
     mode = "last",
     new_var = dummy,
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "LSTA",
       PARAM = "Last Disease Assessment by Investigator",
       PARCAT1 = "Tumor Response",
@@ -470,7 +470,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
   filter = PARAMCD == "LSTA"
 )
 
@@ -485,7 +485,7 @@ adrs <- adrs %>%
     condition = TUEVAL == "INVESTIGATOR" & TUSTRESC == "TARGET" & VISIT == "BASELINE",
     false_value = "N",
     missing_value = "N",
-    set_values_to = vars(
+    set_values_to = exprs(
       PARAMCD = "MDIS",
       PARAM = "Measurable Disease at Baseline by Investigator",
       PARCAT2 = "Investigator",
@@ -497,7 +497,7 @@ adrs <- adrs %>%
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
+  display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
   filter = PARAMCD == "MDIS"
 )
 
@@ -514,22 +514,22 @@ adrs <- adrs %>%
 ## ---- eval=TRUE, echo=FALSE---------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, PARAMCD, AVALC, AVAL),
+  display_vars = exprs(USUBJID, PARAMCD, AVALC, AVAL),
   filter = USUBJID == "01-701-1015" & AVALC %in% c("Y", "N")
 )
 
 ## ----eval=TRUE----------------------------------------------------------------
 adrs <- adrs %>%
   derive_var_obs_number(
-    by_vars = vars(STUDYID, USUBJID),
-    order = vars(PARAMCD, ADT, VISITNUM, RSSEQ),
+    by_vars = exprs(STUDYID, USUBJID),
+    order = exprs(PARAMCD, ADT, VISITNUM, RSSEQ),
     check_type = "error"
   )
 
 ## ---- eval=TRUE, echo=FALSE---------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, PARAMCD, ADT, VISITNUM, AVISIT, ASEQ),
+  display_vars = exprs(USUBJID, PARAMCD, ADT, VISITNUM, AVISIT, ASEQ),
   filter = USUBJID == "01-701-1015"
 )
 
@@ -537,13 +537,13 @@ dataset_vignette(
 adrs <- adrs %>%
   derive_vars_merged(
     dataset_add = select(adsl, !!!negate_vars(adsl_vars)),
-    by_vars = vars(STUDYID, USUBJID)
+    by_vars = exprs(STUDYID, USUBJID)
   )
 
 ## ---- eval=TRUE, echo=FALSE---------------------------------------------------
 dataset_vignette(
   adrs,
-  display_vars = vars(USUBJID, RFSTDTC, RFENDTC, DTHDTC, DTHFL, AGE, AGEU),
+  display_vars = exprs(USUBJID, RFSTDTC, RFENDTC, DTHDTC, DTHFL, AGE, AGEU),
   filter = USUBJID == "01-701-1015"
 )
 
