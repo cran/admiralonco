@@ -165,17 +165,21 @@ dataset_vignette(
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_param_extreme_event(
-    dataset_adsl = adsl,
-    dataset_source = adrs,
-    filter_source = PARAMCD == "OVR" & AVALC == "PD" & ANL01FL == "Y",
+  derive_extreme_records(
+    dataset_ref = adsl,
+    dataset_add = adrs,
+    by_vars = exprs(STUDYID, USUBJID),
+    filter_add = PARAMCD == "OVR" & AVALC == "PD" & ANL01FL == "Y",
     order = exprs(ADT, RSSEQ),
+    mode = "first",
+    exist_flag = AVALC,
     set_values_to = exprs(
       PARAMCD = "PD",
       PARAM = "Disease Progression by Investigator",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
   )
@@ -213,6 +217,7 @@ adrs <- adrs %>%
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
   )
@@ -247,6 +252,7 @@ adrs <- adrs %>%
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
   )
@@ -273,6 +279,7 @@ adrs <- adrs %>%
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = aval_resp(AVALC),
       ANL01FL = "Y"
     )
   )
@@ -300,17 +307,21 @@ dataset_vignette(
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_param_extreme_event(
-    dataset_adsl = adsl,
-    dataset_source = adrs,
-    filter_source = PARAMCD == "BOR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
+  derive_extreme_records(
+    dataset_ref = adsl,
+    dataset_add = adrs,
+    by_vars = exprs(STUDYID, USUBJID),
+    filter_add = PARAMCD == "BOR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
     order = exprs(ADT, RSSEQ),
+    mode = "first",
+    exist_flag = AVALC,
     set_values_to = exprs(
       PARAMCD = "BCP",
       PARAM = "Best Overall Response of CR/PR by Investigator (confirmation not required)",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
   )
@@ -336,6 +347,7 @@ adrs <- adrs %>%
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
   )
@@ -361,6 +373,7 @@ adrs <- adrs %>%
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
   ) %>%
@@ -378,20 +391,25 @@ adrs <- adrs %>%
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = aval_resp(AVALC),
       ANL01FL = "Y"
     )
   ) %>%
-  derive_param_extreme_event(
-    dataset_adsl = adsl,
-    dataset_source = adrs,
-    filter_source = PARAMCD == "CBOR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
+  derive_extreme_records(
+    dataset_ref = adsl,
+    dataset_add = adrs,
+    by_vars = exprs(STUDYID, USUBJID),
+    filter_add = PARAMCD == "CBOR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
     order = exprs(ADT, RSSEQ),
+    mode = "first",
+    exist_flag = AVALC,
     set_values_to = exprs(
       PARAMCD = "CBCP",
       PARAM = "Best Confirmed Overall Response of CR/PR by Investigator",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
   )
@@ -405,7 +423,9 @@ dataset_vignette(
 
 ## -----------------------------------------------------------------------------
 adrsirf <- rs %>%
-  filter(RSEVAL == "INDEPENDENT ASSESSOR" & RSEVALID == "RADIOLOGIST 1" & RSTESTCD == "OVRLRESP") %>%
+  filter(
+    RSEVAL == "INDEPENDENT ASSESSOR" & RSEVALID == "RADIOLOGIST 1" & RSTESTCD == "OVRLRESP"
+  ) %>%
   mutate(
     PARAMCD = "OVRR1",
     PARAM = "Overall Response by Radiologist 1",
@@ -426,14 +446,17 @@ adsldth <- adsl %>%
   select(STUDYID, USUBJID, DTHDT, !!!adsl_vars)
 
 adrs <- adrs %>%
-  derive_param_extreme_event(
-    dataset_adsl = adsldth,
-    dataset_source = adsldth,
-    filter_source = !is.na(DTHDT),
+  derive_extreme_records(
+    dataset_ref = adsldth,
+    dataset_add = adsldth,
+    by_vars = exprs(STUDYID, USUBJID),
+    filter_add = !is.na(DTHDT),
+    exist_flag = AVALC,
     set_values_to = exprs(
       PARAMCD = "DEATH",
       PARAM = "Death",
       PARCAT1 = "Reference Event",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y",
       ADT = DTHDT
     )
@@ -449,13 +472,13 @@ dataset_vignette(
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_param_extreme_event(
-    dataset_adsl = adsl,
-    dataset_source = adrs,
-    filter_source = PARAMCD == "OVR" & ANL01FL == "Y",
+  derive_extreme_records(
+    dataset_ref = adsl,
+    dataset_add = adrs,
+    by_vars = exprs(STUDYID, USUBJID),
+    filter_add = PARAMCD == "OVR" & ANL01FL == "Y",
     order = exprs(ADT, RSSEQ),
     mode = "last",
-    new_var = dummy,
     set_values_to = exprs(
       PARAMCD = "LSTA",
       PARAM = "Last Disease Assessment by Investigator",
@@ -464,8 +487,7 @@ adrs <- adrs %>%
       PARCAT3 = "Recist 1.1",
       ANL01FL = "Y"
     )
-  ) %>%
-  select(-dummy)
+  )
 
 ## ---- echo=FALSE--------------------------------------------------------------
 dataset_vignette(
@@ -480,7 +502,7 @@ adslmdis <- adsl %>%
 
 adrs <- adrs %>%
   derive_param_exist_flag(
-    dataset_adsl = adslmdis,
+    dataset_ref = adslmdis,
     dataset_add = tu,
     condition = TUEVAL == "INVESTIGATOR" & TUSTRESC == "TARGET" & VISIT == "BASELINE",
     false_value = "N",
@@ -490,6 +512,7 @@ adrs <- adrs %>%
       PARAM = "Measurable Disease at Baseline by Investigator",
       PARCAT2 = "Investigator",
       PARCAT3 = "Recist 1.1",
+      AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
   )
@@ -499,23 +522,6 @@ dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
   filter = PARAMCD == "MDIS"
-)
-
-## ----eval=TRUE----------------------------------------------------------------
-adrs <- adrs %>%
-  mutate(
-    AVAL = case_when(
-      AVALC == "Y" ~ 1,
-      AVALC == "N" ~ 0,
-      TRUE ~ AVAL
-    )
-  )
-
-## ---- eval=TRUE, echo=FALSE---------------------------------------------------
-dataset_vignette(
-  adrs,
-  display_vars = exprs(USUBJID, PARAMCD, AVALC, AVAL),
-  filter = USUBJID == "01-701-1015" & AVALC %in% c("Y", "N")
 )
 
 ## ----eval=TRUE----------------------------------------------------------------
