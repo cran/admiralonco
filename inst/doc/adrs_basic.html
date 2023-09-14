@@ -1,0 +1,2417 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Creating a Basic ADRS</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Creating a Basic ADRS</h1>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This article describes creating an <code>ADRS</code> ADaM with common oncology endpoint parameters based on RECIST v1.1. Therefore response values are expected as either <code>CR</code>, <code>PR</code>, <code>SD</code>, <code>NON-CR/NON-PD</code>, <code>PD</code> or <code>NE</code>.</p>
+<p>Please note that this vignette describes the endpoints which were considered by the admiralonco team as the most common ones. The admiralonco functions used to derive these endpoints provide a certain flexibility, e.g., specifying the reference date or time windows for confirmation or stable disease. If different endpoints or more flexibility is required please read <a href="adrs.html">Creating ADRS (Including Non-standard Endpoints)</a>.</p>
+<p>Examples are currently presented and tested using <code>ADSL</code> (ADaM) and <code>RS</code>, <code>TU</code> (SDTM) inputs. However, other domains could be used. The functions and workflow could similarly be used to create an intermediary <code>ADEVENT</code> ADaM.</p>
+<p><strong>Note</strong>: <em>All examples assume CDISC SDTM and/or ADaM format as input unless otherwise specified.</em></p>
+</div>
+<div id="programming-workflow" class="section level1">
+<h1>Programming Workflow</h1>
+<ul>
+<li><a href="#readdata">Read in Data</a></li>
+<li><a href="#input">Pre-processing of Input Records</a></li>
+<li><a href="#pd">Derive Progressive Disease Parameter</a></li>
+<li><a href="#rsp">Derive Response Parameter</a></li>
+<li><a href="#cb">Derive Clinical Benefit Parameter</a></li>
+<li><a href="#bor">Derive Best Overall Response Parameter</a></li>
+<li><a href="#bcp">Derive Best Overall Response of CR/PR Parameter</a></li>
+<li><a href="#confirm">Derive Response Parameters requiring Confirmation</a></li>
+<li><a href="#irf">Derive Parameters using Independent Review Facility (IRF)/ Blinded Independent Central Review (BICR) responses</a></li>
+<li><a href="#death">Derive Death Parameter</a></li>
+<li><a href="#lsta">Derive Last Disease Assessment Parameters</a></li>
+<li><a href="#mdis">Derive Measurable Disease at Baseline Parameter</a></li>
+<li><a href="#aval">Derive <code>AVAL</code> for New Parameters</a></li>
+<li><a href="#aseq">Assign <code>ASEQ</code></a></li>
+<li><a href="#adsl_vars">Add ADSL variables</a></li>
+</ul>
+<div id="readdata" class="section level2">
+<h2>Read in Data</h2>
+<p>To start, all data frames needed for the creation of <code>ADRS</code> should be read into the environment. This will be a company specific process. Some of the data frames needed may be <code>ADSL</code>, <code>RS</code> and <code>TU</code>.</p>
+<p>For example purpose, the SDTM and ADaM datasets (based on CDISC Pilot test data)—which are included in <code>{pharmaversesdtm}</code>—are used.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pharmaversesdtm)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adsl&quot;</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;rs_onco_recist&quot;</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tu_onco_recist&quot;</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> admiral_adsl</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> rs_onco_recist</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> tu_onco_recist</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(rs)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tu)</span></code></pre></div>
+<p>At this step, it may be useful to join <code>ADSL</code> to your <code>RS</code> domain. Only the <code>ADSL</code> variables used for derivations are selected at this step. The rest of the relevant <code>ADSL</code> would be added later.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adsl_vars <span class="ot">&lt;-</span> <span class="fu">exprs</span>(RANDDT)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  rs,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_add =</span> adsl,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_vars =</span> adsl_vars,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">RSTESTCD</th>
+<th align="left">RSDTC</th>
+<th align="left">VISIT</th>
+<th align="left">RANDDT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-01-23</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-01-23</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-01-23</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-02</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-02</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-02</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-03-06</td>
+<td align="left">WEEK 9</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-03-06</td>
+<td align="left">WEEK 9</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-03-06</td>
+<td align="left">WEEK 9</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2013-08-09</td>
+<td align="left">WEEK 3</td>
+<td align="left">2013-07-19</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="input" class="section level2">
+<h2>Pre-processing of Input Records</h2>
+<p>The first step involves company-specific pre-processing of records for the required input to the downstream parameter functions. Note that this could be needed multiple times (e.g. once for investigator and once for Independent Review Facility (IRF)/Blinded Independent Central Review (BICR) records). It could even involve merging input data from other sources besides <code>RS</code>, such as <code>ADTR</code>.</p>
+<p>This step would include any required selection/derivation of <code>ADT</code> or applying any necessary partial date imputations, updating <code>AVAL</code> (e.g. this should be ordered from best to worst response), and setting analysis flag <code>ANL01FL</code>. Common options for <code>ANL01FL</code> would be to set null for invalid assessments or those occurring after new anti-cancer therapy, or to only flag assessments on or after after date of first treatment/randomization, or rules to cover the case when a patient has multiple observations per visit (e.g. by selecting worst value). Another consideration could be extra potential protocol-specific sources of Progressive Disease such as radiological assessments, which could be pre-processed here to create a PD record to feed downstream derivations.</p>
+<p>For the derivation of the parameters it is expected that the subject identifier variables (usually <code>STUDYID</code> and <code>USUBJID</code>) and <code>ADT</code> are a unique key. This can be achieved by deriving an analysis flag (<code>ANLzzFL</code>). See <a href="#anl01fl">Derive <code>ANL01FL</code></a> for an example.</p>
+<p>The below shows an example of a possible company-specific implementation of this step.</p>
+<div id="select-overall-response-records-and-set-parameter-details" class="section level3">
+<h3>Select Overall Response Records and Set Parameter Details</h3>
+<p>In this case we use the overall response records from <code>RS</code> from the investigator as our starting point. The parameter details such as <code>PARAMCD</code>, <code>PARAM</code> etc will always be company-specific, but an example is shown below so that you can trace through how these records feed into the other parameter derivations.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RSEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span> <span class="sc">&amp;</span> RSTESTCD <span class="sc">==</span> <span class="st">&quot;OVRLRESP&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;OVR&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;Overall Response by Investigator&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="5%" />
+<col width="7%" />
+<col width="10%" />
+<col width="6%" />
+<col width="27%" />
+<col width="12%" />
+<col width="10%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">VISIT</th>
+<th align="left">RSTESTCD</th>
+<th align="left">RSEVAL</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">PARCAT1</th>
+<th align="left">PARCAT2</th>
+<th align="left">PARCAT3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">Recist 1.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="partial-date-imputation-and-deriving-adt-adtf-avisit-etc" class="section level3">
+<h3>Partial Date Imputation and Deriving <code>ADT</code>, <code>ADTF</code>, <code>AVISIT</code> etc</h3>
+<p>If your data collection allows for partial dates, you could apply a company-specific imputation rule at this stage when deriving <code>ADT</code>. For this example, here we impute missing day to last possible date.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_dt</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dtc =</span> RSDTC,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_imputation =</span> <span class="st">&quot;last&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">AVISIT =</span> VISIT)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="6%" />
+<col width="7%" />
+<col width="32%" />
+<col width="13%" />
+<col width="10%" />
+<col width="10%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">RSSTRESC</th>
+<th align="left">RSDTC</th>
+<th align="left">ADT</th>
+<th align="left">ADTF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2014-01-23</td>
+<td align="left">2014-01-23</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NE</td>
+<td align="left">2014-02</td>
+<td align="left">2014-02-28</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">CR</td>
+<td align="left">2014-03-06</td>
+<td align="left">2014-03-06</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2013-08-09</td>
+<td align="left">2013-08-09</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">PD</td>
+<td align="left">2013-08-30</td>
+<td align="left">2013-08-30</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2013-09-20</td>
+<td align="left">2013-09-20</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-07-22</td>
+<td align="left">2014-07-22</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-08-12</td>
+<td align="left">2014-08-12</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-01-22</td>
+<td align="left">2014-01-22</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2012-12-21</td>
+<td align="left">2012-12-21</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="derive-avalc-and-aval" class="section level3">
+<h3>Derive <code>AVALC</code> and <code>AVAL</code></h3>
+<p>Here we populate <code>AVALC</code> and create the numeric version as <code>AVAL</code> (ordered from best to worst response). This ordering is already covered within our RECIST v1.1 parameter derivation functions, and so changing <code>AVAL</code> here would not change the result of those derivations.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVALC =</span> RSSTRESC,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> <span class="fu">aval_resp</span>(AVALC)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="12%" />
+<col width="7%" />
+<col width="8%" />
+<col width="35%" />
+<col width="15%" />
+<col width="15%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">RSSTRESC</th>
+<th align="left">AVALC</th>
+<th align="right">AVAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NE</td>
+<td align="left">NE</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">CR</td>
+<td align="left">CR</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">PD</td>
+<td align="left">PD</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="anl01fl" class="section level3">
+<h3>Flag Worst Assessment at Each Date (<code>ANL01FL</code>)</h3>
+<p>When deriving <code>ANL01FL</code> this is an opportunity to exclude any records that should not contribute to any downstream parameter derivations. In the below example this includes only selecting valid assessments and those occurring on or after randomization date. If there is more than one assessment at a date, the worst one is flagged.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, ADT),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(AVAL, RSSEQ),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL01FL,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;last&quot;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> <span class="sc">!</span><span class="fu">is.na</span>(AVAL) <span class="sc">&amp;</span> ADT <span class="sc">&gt;=</span> RANDDT</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="11%" />
+<col width="6%" />
+<col width="7%" />
+<col width="31%" />
+<col width="13%" />
+<col width="10%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2014-01-23</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NE</td>
+<td align="left">2014-02-28</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">CR</td>
+<td align="left">2014-03-06</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2013-08-09</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">PD</td>
+<td align="left">2013-08-30</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2013-09-20</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-07-22</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-08-12</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-01-22</td>
+<td align="left">2014-01-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2012-12-21</td>
+<td align="left">2012-11-30</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+<p>Here is an alternative example where those records occurring after new anti-cancer therapy are additionally excluded (where <code>NACTDT</code> would be pre-derived as first date of new anti-cancer therapy. See <code>{admiralonco}</code> <a href="nactdt.html">Creating and Using New Anti-Cancer Start Date</a> for deriving this variable).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL01FL =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(AVAL) <span class="sc">&amp;</span> ADT <span class="sc">&gt;=</span> RANDDT <span class="sc">&amp;</span> ADT <span class="sc">&lt;</span> NACTDT <span class="sc">~</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Note here that we don’t filter out records after first <code>PD</code> at this stage, as that is specifically catered for in the <code>{admiralonco}</code> parameter derivation functions in the below steps, via <code>source_pd</code> arguments.</p>
+</div>
+<div id="anl02fl" class="section level3">
+<h3>Flag Assessments up to First PD (<code>ANL02FL</code>)</h3>
+<p>However, if you prefer not to rely on <code>source_pd</code> arguments, then the user is free to filter out records after first <code>PD</code> at this stage in a similar way via a <code>ANLzzFL</code> flag, and then you could leave <code>source_pd</code> as null in all downstream parameter derivation function calls. So, for example the user could create <code>ANL02FL</code> flag to subset the post-baseline response data up to and including first reported progressive disease. This would be an alternative and transparent method to the use of <code>source_pd</code> argument approach to create ADRS parameters below. Using <code>{admiral}</code> function <code>admiral::derive_var_relative_flag()</code> we could create <code>ANL02FL</code> as below.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_relative_flag</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> ANL02FL,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">selection =</span> <span class="st">&quot;before&quot;</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">inclusive =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+</div>
+<div id="pd" class="section level2">
+<h2>Derive Progressive Disease Parameter</h2>
+<p>Now that we have the input records prepared above with any company-specific requirements, we can start to derive new parameter records. For the parameter derivations, all values except those overwritten by <code>set_values_to</code> argument are kept from the earliest occurring input record fulfilling the required criteria.</p>
+<p>The function <code>admiral::derive_extreme_records()</code> can be used to find the date of first <code>PD</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_records</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_ref =</span> adsl,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">exist_flag =</span> AVALC,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;PD&quot;</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Disease Progression by Investigator&quot;</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">Y</td>
+<td align="left">2013-08-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 9</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">Y</td>
+<td align="left">2014-04-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 9</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">Y</td>
+<td align="left">2012-12-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">NA</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">NA</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">NA</td>
+<td align="left">PD</td>
+<td align="left">Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+<p>For progressive disease, response and death parameters shown in steps here and below, in our examples we show these as <code>ADRS</code> parameters, but they could equally be achieved via <code>ADSL</code> dates or <code>ADEVENT</code> parameters. If you prefer to store as an ADSL date, then the function <code>admiral::derive_var_extreme_dt()</code> could be used to find the date of first <code>PD</code> as a variable, rather than as a new parameter record. All the parameter derivation functions that use these dates are flexible to allow sourcing these from any input source using <code>admiral::date_source()</code>. See examples below.</p>
+</div>
+<div id="rsp" class="section level2">
+<h2>Derive Response Parameter</h2>
+<p>The next required step is to define the source location for this newly derived <code>PD</code> date.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">date_source</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> ADT,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>An equivalent example if using <code>ADSL</code> instead could be as follows (where <code>PDDT</code> would be pre-derived as first date of progressive disease).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pd <span class="ot">&lt;-</span> <span class="fu">date_source</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> PDDT</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>The function <code>derive_param_response()</code> can then be used to find the date of first response. This differs from the <code>admiral::derive_extreme_records()</code> function in that it only looks for events occurring prior to first <code>PD</code>. In the below example, the response condition has been defined as <code>CR</code> or <code>PR</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_response</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>) <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_pd =</span> pd,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;RSP&quot;</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Response by Investigator (confirmation not required)&quot;</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="6%" />
+<col width="7%" />
+<col width="50%" />
+<col width="5%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-03-06</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2013-01-11</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-04-23</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 3</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2012-11-18</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1130</td>
+<td align="left">NA</td>
+<td align="left">RSP</td>
+<td align="left">Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="cb" class="section level2">
+<h2>Derive Clinical Benefit Parameter</h2>
+<p>Similarly, we now define the source location for this newly derived first response date.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">date_source</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> ADT,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;RSP&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>The function <code>derive_param_clinbenefit()</code> can then be used to derive the clinical benefit parameter, which we define as a patient having had a response or a sustained period of time before first <code>PD</code>. This could also be known as disease control. In this example the “sustained period” has been defined as 42 days after randomization date, using the <code>ref_start_window</code> argument.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_clinbenefit</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_resp =</span> resp,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_pd =</span> pd,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_start_window =</span> <span class="dv">42</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CB&quot;</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Clinical Benefit by Investigator (confirmation for response not required)&quot;</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="5%" />
+<col width="5%" />
+<col width="54%" />
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-03-06</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2012-08-05</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-08-12</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-01-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2013-01-11</td>
+<td align="left">2012-11-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-04-23</td>
+<td align="left">2014-03-12</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 6</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-03-29</td>
+<td align="left">2014-02-15</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 3</td>
+<td align="left">CB</td>
+<td align="left">Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2012-11-18</td>
+<td align="left">2012-10-28</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="bor" class="section level2">
+<h2>Derive Best Overall Response Parameter</h2>
+<p>The function <code>derive_param_bor()</code> can be used to derive the best overall response (without confirmation required) parameter. Similar to the above function you can optionally decide what period would you consider a <code>SD</code> or <code>NON-CR/NON-PD</code> as being eligible from. In this example, 42 days after randomization date has been used again.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_bor</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_pd =</span> pd,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_start_window =</span> <span class="dv">42</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;BOR&quot;</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Overall Response by Investigator (confirmation not required)&quot;</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">aval_resp</span>(AVALC),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="5%" />
+<col width="5%" />
+<col width="48%" />
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">CR</td>
+<td align="left">2014-03-06</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">MISSING</td>
+<td align="left">NA</td>
+<td align="left">2012-08-05</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">PD</td>
+<td align="left">2013-08-30</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-08-12</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 3</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">NE</td>
+<td align="left">2014-01-22</td>
+<td align="left">2014-01-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 9</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">CR</td>
+<td align="left">2013-02-01</td>
+<td align="left">2012-11-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">PR</td>
+<td align="left">2014-04-23</td>
+<td align="left">2014-03-12</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 6</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">SD</td>
+<td align="left">2014-03-29</td>
+<td align="left">2014-02-15</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 6</td>
+<td align="left">BOR</td>
+<td align="left">Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">CR</td>
+<td align="left">2012-12-09</td>
+<td align="left">2012-10-28</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the above gives pre-defined <code>AVAL</code> values (defined by <code>aval_resp()</code>) of: <code>&quot;CR&quot; ~ 1</code>, <code>&quot;PR&quot; ~ 2</code>, <code>&quot;SD&quot; ~ 3</code>, <code>&quot;NON-CR/NON-PD&quot; ~ 4</code>, <code>&quot;PD&quot; ~ 5</code>, <code>&quot;NE&quot; ~ 6</code>, <code>&quot;MISSING&quot; ~ 7</code>.</p>
+<p>If you’d like to provide your own company-specific ordering here you could do this as follows:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>aval_resp_new <span class="ot">&lt;-</span> <span class="cf">function</span>(arg) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">case_when</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;CR&quot;</span> <span class="sc">~</span> <span class="dv">7</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;PR&quot;</span> <span class="sc">~</span> <span class="dv">6</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;SD&quot;</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;NON-CR/NON-PD&quot;</span> <span class="sc">~</span> <span class="dv">4</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;NE&quot;</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;MISSING&quot;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_real_</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Then update the definition of <code>AVAL</code> in the <code>set_values_to</code> argument of the above <code>derive_param_bor()</code> call. Be aware that this will only impact the <code>AVAL</code> mapping, not the derivation of BOR in any way - as the function derivation relies only on <code>AVALC</code> here.</p>
+</div>
+<div id="bcp" class="section level2">
+<h2>Derive Best Overall Response of CR/PR Parameter</h2>
+<p>The function <code>admiral::derive_extreme_records()</code> can be used to check if a patient had a response for BOR.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_records</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_ref =</span> adsl,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;BOR&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">exist_flag =</span> AVALC,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;BCP&quot;</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Overall Response of CR/PR by Investigator (confirmation not required)&quot;</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="9%" />
+<col width="5%" />
+<col width="6%" />
+<col width="59%" />
+<col width="4%" />
+<col width="8%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-03-06</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 9</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2013-02-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-04-23</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 6</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2012-12-09</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1130</td>
+<td align="left">NA</td>
+<td align="left">BCP</td>
+<td align="left">Best Overall Response of CR/PR by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="confirm" class="section level2">
+<h2>Derive Response Parameters requiring Confirmation</h2>
+<p>Any of the above response parameters can be repeated for “confirmed” responses only. For these the functions <code>derive_param_confirmed_resp()</code> and <code>derive_param_confirmed_bor()</code> can be used. Some of the other functions from above can then be re-used passing in these confirmed response records. See the examples below of derived parameters requiring confirmation. The assessment and the confirmatory assessment here need to occur at least 28 days apart <em>(without any +1 applied to this calculation of days between visits)</em>, using the <code>ref_confirm</code> argument.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_confirmed_resp</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_pd =</span> pd,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_confirm =</span> <span class="dv">28</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CRSP&quot;</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Confirmed Response by Investigator&quot;</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>confirmed_resp <span class="ot">&lt;-</span> <span class="fu">date_source</span>(</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> ADT,</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;CRSP&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_clinbenefit</span>(</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_resp =</span> confirmed_resp,</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_pd =</span> pd,</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_start_window =</span> <span class="dv">42</span>,</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CCB&quot;</span>,</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Confirmed Clinical Benefit by Investigator&quot;</span>,</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_confirmed_bor</span>(</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_adsl =</span> adsl,</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_source =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_pd =</span> pd,</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">adrs =</span> adrs),</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference_date =</span> RANDDT,</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_start_window =</span> <span class="dv">42</span>,</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_confirm =</span> <span class="dv">28</span>,</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CBOR&quot;</span>,</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Confirmed Overall Response by Investigator&quot;</span>,</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">aval_resp</span>(AVALC),</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_records</span>(</span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_ref =</span> adsl,</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;CBOR&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>),</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">exist_flag =</span> AVALC,</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CBCP&quot;</span>,</span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Confirmed Overall Response of CR/PR by Investigator&quot;</span>,</span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="6%" />
+<col width="7%" />
+<col width="40%" />
+<col width="5%" />
+<col width="10%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">NA</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2012-08-05</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-01-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">NA</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2012-11-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">Y</td>
+<td align="left">2014-04-23</td>
+<td align="left">2014-03-12</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">NA</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-02-15</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">NA</td>
+<td align="left">CRSP</td>
+<td align="left">Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2012-10-28</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">CCB</td>
+<td align="left">Confirmed Clinical Benefit by Investigator</td>
+<td align="left">Y</td>
+<td align="left">2014-03-06</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="irf" class="section level2">
+<h2>Derive Parameters using Independent Review Facility (IRF)/Blinded Independent Central Review (BICR) responses</h2>
+<p>All of the above steps can be repeated for different sets of records, such as now using assessments from the IRF/BICR instead of investigator. For this you would just need to replace the first steps with selecting the required records, and then feed these as input to the downstream parameter functions.</p>
+<p>Remember that a new progressive disease and response source object would be required for passing to <code>source_pd</code> and <code>source_resp</code> respectively.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>adrs_bicr <span class="ot">&lt;-</span> rs <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    RSEVAL <span class="sc">==</span> <span class="st">&quot;INDEPENDENT ASSESSOR&quot;</span> <span class="sc">&amp;</span> RSACPTFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> RSTESTCD <span class="sc">==</span> <span class="st">&quot;OVRLRESP&quot;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;OVRB&quot;</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;Overall Response by BICR&quot;</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT2 =</span> <span class="st">&quot;Blinded Independent Central Review&quot;</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">VISIT</th>
+<th align="left">RSTESTCD</th>
+<th align="left">RSEVAL</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">PARCAT1</th>
+<th align="left">PARCAT2</th>
+<th align="left">PARCAT3</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p>Then in all the calls to the parameter derivation functions you would replace the <code>PARAMCD == &quot;OVR&quot;</code> source with <code>PARAMCD == &quot;OVRR1&quot;</code>.</p>
+</div>
+<div id="death" class="section level2">
+<h2>Derive Death Parameter</h2>
+<p>The function <code>admiral::derive_extreme_records()</code> can be used to create a new death parameter using death date from <code>ADSL</code>. We need to restrict the columns from <code>ADSL</code> as we’ll merge all required variables later across all our <code>ADRS</code> records.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>adsldth <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(STUDYID, USUBJID, DTHDT, <span class="sc">!!!</span>adsl_vars)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_records</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_ref =</span> adsldth,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adsldth,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> <span class="sc">!</span><span class="fu">is.na</span>(DTHDT),</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">exist_flag =</span> AVALC,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;DEATH&quot;</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Death&quot;</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Reference Event&quot;</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">ADT =</span> DTHDT</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>DTHDT)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">NA</td>
+<td align="left">DEATH</td>
+<td align="left">Death</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="lsta" class="section level2">
+<h2>Derive Last Disease Assessment Parameters</h2>
+<p>The function <code>admiral::derive_extreme_records()</code> can be used to create a parameter for last disease assessment.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_records</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_ref =</span> adsl,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;last&quot;</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;LSTA&quot;</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Last Disease Assessment by Investigator&quot;</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="39%" />
+<col width="13%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">CR</td>
+<td align="left">2014-03-06</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">SD</td>
+<td align="left">2013-09-20</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-08-12</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 3</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">NON-CR/NON-PD</td>
+<td align="left">2014-01-22</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 9</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">CR</td>
+<td align="left">2013-02-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 12</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">PR</td>
+<td align="left">2014-06-04</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 9</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">PD</td>
+<td align="left">2014-04-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 9</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">PD</td>
+<td align="left">2012-12-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">LSTA</td>
+<td align="left">Last Disease Assessment by Investigator</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="mdis" class="section level2">
+<h2>Derive Measurable Disease at Baseline Parameter</h2>
+<p>The function <code>admiral::derive_param_exist_flag()</code> can be used to check whether a patient has measurable disease at baseline, according to a company-specific condition. In this example we check <code>TU</code> for target lesions during the baseline visit. We need to restrict the columns from <code>ADSL</code> as we’ll merge all required variables later across all our <code>ADRS</code> records.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>adslmdis <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(STUDYID, USUBJID, <span class="sc">!!!</span>adsl_vars)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_param_exist_flag</span>(</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_ref =</span> adslmdis,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> tu,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> TUEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span> <span class="sc">&amp;</span> TUSTRESC <span class="sc">==</span> <span class="st">&quot;TARGET&quot;</span> <span class="sc">&amp;</span> VISIT <span class="sc">==</span> <span class="st">&quot;SCREENING&quot;</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_value =</span> <span class="st">&quot;N&quot;</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_value =</span> <span class="st">&quot;N&quot;</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;MDIS&quot;</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Measurable Disease at Baseline by Investigator&quot;</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">NA</td>
+<td align="left">MDIS</td>
+<td align="left">Measurable Disease at Baseline by Investigator</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="aseq" class="section level2">
+<h2>Assign <code>ASEQ</code></h2>
+<p>The function <code>admiral::derive_var_obs_number()</code> can be used to derive <code>ASEQ</code>. An example call is:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_obs_number</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(PARAMCD, ADT, VISITNUM, RSSEQ),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;error&quot;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">ADT</th>
+<th align="right">VISITNUM</th>
+<th align="left">AVISIT</th>
+<th align="right">ASEQ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">BCP</td>
+<td align="left">2014-03-06</td>
+<td align="right">4</td>
+<td align="left">WEEK 9</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BOR</td>
+<td align="left">2014-03-06</td>
+<td align="right">4</td>
+<td align="left">WEEK 9</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">CB</td>
+<td align="left">2014-03-06</td>
+<td align="right">4</td>
+<td align="left">WEEK 9</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">CBCP</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">CBOR</td>
+<td align="left">2014-03-06</td>
+<td align="right">4</td>
+<td align="left">WEEK 9</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">CCB</td>
+<td align="left">2014-03-06</td>
+<td align="right">4</td>
+<td align="left">WEEK 9</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">CRSP</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">DEATH</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">LSTA</td>
+<td align="left">2014-03-06</td>
+<td align="right">4</td>
+<td align="left">WEEK 9</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">MDIS</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="adsl_vars" class="section level2">
+<h2>Add ADSL variables</h2>
+<p>If needed, the other <code>ADSL</code> variables can now be added. List of ADSL variables already merged held in vector <code>adsl_vars</code>.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> <span class="fu">select</span>(adsl, <span class="sc">!!!</span><span class="fu">negate_vars</span>(adsl_vars)),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">RFSTDTC</th>
+<th align="left">RFENDTC</th>
+<th align="left">DTHDTC</th>
+<th align="left">DTHFL</th>
+<th align="right">AGE</th>
+<th align="left">AGEU</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-07-02</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">63</td>
+<td align="left">YEARS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="example" class="section level1">
+<h1>Example Script</h1>
+<table>
+<thead>
+<tr class="header">
+<th>ADaM</th>
+<th>Sample Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ADRS_BASIC</td>
+<td><a href="https://github.com/pharmaverse/admiralonco/blob/main/inst/templates/ad_adrs_basic.R">ad_adrs_basic.R</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

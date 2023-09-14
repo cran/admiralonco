@@ -161,8 +161,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral.test)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
 </div>
 </div>
 <div id="programming-workflow" class="section level1">
@@ -220,6 +219,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
+<td align="left">pd_event</td>
+<td align="left">adrs</td>
+<td align="left">PARAMCD == “PD” &amp; AVALC == “Y” &amp; ANL01FL == “Y”</td>
+<td align="left">ADT</td>
+<td align="right">0</td>
+<td align="left">EVNTDESC: “Disease Progression”<br>SRCDOM: “ADRS”<br>SRCVAR: “ADT”<br>SRCSEQ: ASEQ</td>
+</tr>
+<tr class="even">
 <td align="left">lasta_censor</td>
 <td align="left">adrs</td>
 <td align="left">PARAMCD == “LSTA” &amp; ANL01FL == “Y”</td>
@@ -227,7 +234,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">1</td>
 <td align="left">EVNTDESC: “Last Tumor Assessment”<br>CNSDTDSC: “Last Tumor Assessment”<br>SRCDOM: “ADRS”<br>SRCVAR: “ADT”<br>SRCSEQ: ASEQ</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">trts_censor</td>
 <td align="left">adsl</td>
 <td align="left">NULL</td>
@@ -235,21 +242,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">1</td>
 <td align="left">EVNTDESC: “Treatment Start”<br>CNSDTDSC: “Treatment Start”<br>SRCDOM: “ADSL”<br>SRCVAR: “TRTSDT”</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">rand_censor</td>
 <td align="left">adsl</td>
 <td align="left">NULL</td>
 <td align="left">RANDDT</td>
 <td align="right">1</td>
 <td align="left">EVNTDESC: “Randomization”<br>CNSDTDSC: “Randomization”<br>SRCDOM: “ADSL”<br>SRCVAR: “RANDDT”</td>
-</tr>
-<tr class="even">
-<td align="left">lastalive_censor</td>
-<td align="left">adsl</td>
-<td align="left">NULL</td>
-<td align="left">LSTALVDT</td>
-<td align="right">1</td>
-<td align="left">EVNTDESC: “Alive”<br>CNSDTDSC: “Alive During Study”<br>SRCDOM: “ADSL”<br>SRCVAR: “LSTALVDT”</td>
 </tr>
 <tr class="odd">
 <td align="left">death_event</td>
@@ -260,12 +259,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">EVNTDESC: “Death”<br>SRCDOM: “ADRS”<br>SRCVAR: “ADT”<br>SRCSEQ: ASEQ</td>
 </tr>
 <tr class="even">
-<td align="left">pd_event</td>
-<td align="left">adrs</td>
-<td align="left">PARAMCD == “PD” &amp; AVALC == “Y” &amp; ANL01FL == “Y”</td>
-<td align="left">ADT</td>
-<td align="right">0</td>
-<td align="left">EVNTDESC: “Disease Progression”<br>SRCDOM: “ADRS”<br>SRCVAR: “ADT”<br>SRCSEQ: ASEQ</td>
+<td align="left">lastalive_censor</td>
+<td align="left">adsl</td>
+<td align="left">NULL</td>
+<td align="left">LSTALVDT</td>
+<td align="right">1</td>
+<td align="left">EVNTDESC: “Alive”<br>CNSDTDSC: “Alive During Study”<br>SRCDOM: “ADSL”<br>SRCVAR: “LSTALVDT”</td>
 </tr>
 </tbody>
 </table>
@@ -673,18 +672,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <colgroup>
-<col width="8%" />
 <col width="7%" />
-<col width="12%" />
+<col width="7%" />
+<col width="13%" />
 <col width="4%" />
 <col width="5%" />
 <col width="4%" />
 <col width="3%" />
 <col width="6%" />
-<col width="12%" />
+<col width="13%" />
 <col width="6%" />
-<col width="5%" />
-<col width="16%" />
+<col width="4%" />
+<col width="15%" />
 <col width="3%" />
 <col width="3%" />
 </colgroup>
@@ -726,20 +725,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1015</td>
-<td align="left">Disease Progression</td>
+<td align="left">Last Tumor Assessment</td>
 <td align="left">ADRS</td>
 <td align="left">ADT</td>
-<td align="right">14</td>
-<td align="right">0</td>
-<td align="left">2014-02-12</td>
-<td align="left">NA</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="left">2014-03-06</td>
+<td align="left">Last Tumor Assessment</td>
 <td align="left">2014-01-02</td>
 <td align="left">PFS</td>
 <td align="left">Progression Free Survival</td>
-<td align="right">42</td>
+<td align="right">64</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
+<td align="left">CDISCPILOT01</td>
+<td align="left">01-701-1015</td>
+<td align="left">Last Tumor Assessment</td>
+<td align="left">ADRS</td>
+<td align="left">ADT</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="left">2014-03-06</td>
+<td align="left">Last Tumor Assessment</td>
+<td align="left">2014-03-06</td>
+<td align="left">RSD</td>
+<td align="left">Duration of Response</td>
+<td align="right">1</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1023</td>
 <td align="left">Alive</td>
@@ -755,7 +770,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">29</td>
 <td align="right">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1023</td>
 <td align="left">Randomization</td>
@@ -771,7 +786,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">1</td>
 <td align="right">2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1028</td>
 <td align="left">Alive</td>
@@ -787,23 +802,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">180</td>
 <td align="right">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1028</td>
 <td align="left">Disease Progression</td>
 <td align="left">ADRS</td>
 <td align="left">ADT</td>
-<td align="right">15</td>
+<td align="right">14</td>
 <td align="right">0</td>
-<td align="left">2013-08-29</td>
+<td align="left">2013-08-30</td>
 <td align="left">NA</td>
 <td align="left">2013-07-19</td>
 <td align="left">PFS</td>
 <td align="left">Progression Free Survival</td>
-<td align="right">42</td>
+<td align="right">43</td>
 <td align="right">2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1033</td>
 <td align="left">Alive</td>
@@ -819,7 +834,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">28</td>
 <td align="right">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1033</td>
 <td align="left">Randomization</td>
@@ -835,7 +850,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">1</td>
 <td align="right">2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">CDISCPILOT01</td>
 <td align="left">01-701-1034</td>
 <td align="left">Alive</td>
@@ -850,22 +865,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Overall Survival</td>
 <td align="right">183</td>
 <td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">CDISCPILOT01</td>
-<td align="left">01-701-1034</td>
-<td align="left">Disease Progression</td>
-<td align="left">ADRS</td>
-<td align="left">ADT</td>
-<td align="right">15</td>
-<td align="right">0</td>
-<td align="left">2014-08-11</td>
-<td align="left">NA</td>
-<td align="left">2014-07-01</td>
-<td align="left">PFS</td>
-<td align="left">Progression Free Survival</td>
-<td align="right">42</td>
-<td align="right">2</td>
 </tr>
 </tbody>
 </table>
@@ -904,13 +903,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">PFS</td>
-<td align="right">0</td>
-<td align="right">42</td>
+<td align="right">1</td>
+<td align="right">64</td>
 <td align="left">Pbo</td>
 <td align="right">63</td>
 <td align="left">F</td>
 </tr>
 <tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">RSD</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">Pbo</td>
+<td align="right">63</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
 <td align="left">01-701-1023</td>
 <td align="left">OS</td>
 <td align="right">1</td>
@@ -919,7 +927,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">64</td>
 <td align="left">M</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">01-701-1023</td>
 <td align="left">PFS</td>
 <td align="right">1</td>
@@ -928,7 +936,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">64</td>
 <td align="left">M</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">01-701-1028</td>
 <td align="left">OS</td>
 <td align="right">1</td>
@@ -937,16 +945,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">71</td>
 <td align="left">M</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">01-701-1028</td>
 <td align="left">PFS</td>
 <td align="right">0</td>
-<td align="right">42</td>
+<td align="right">43</td>
 <td align="left">Xan_Hi</td>
 <td align="right">71</td>
 <td align="left">M</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">01-701-1033</td>
 <td align="left">OS</td>
 <td align="right">1</td>
@@ -955,7 +963,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">74</td>
 <td align="left">M</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">01-701-1033</td>
 <td align="left">PFS</td>
 <td align="right">1</td>
@@ -964,20 +972,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="right">74</td>
 <td align="left">M</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">01-701-1034</td>
 <td align="left">OS</td>
 <td align="right">1</td>
 <td align="right">183</td>
-<td align="left">Xan_Hi</td>
-<td align="right">77</td>
-<td align="left">F</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1034</td>
-<td align="left">PFS</td>
-<td align="right">0</td>
-<td align="right">42</td>
 <td align="left">Xan_Hi</td>
 <td align="right">77</td>
 <td align="left">F</td>

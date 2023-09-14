@@ -162,7 +162,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The examples of this vignette require the following packages.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral.test)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pharmaversesdtm)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span></code></pre></div>
@@ -187,18 +187,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="readdata" class="section level2">
 <h2>Read in Data</h2>
 <p>To start, all data frames needed for the creation of <code>ADTR</code> should be read into the environment. This will be a company specific process. Some of the data frames needed may be <code>ADSL</code>, <code>ADRS</code> ,<code>RS</code>, <code>TU</code>, <code>TR</code>, <code>SUPPTU</code> <code>SUPPTR</code>.</p>
-<p>For example purposes, the SDTM and ADaM datasets (based on CDISC Pilot test data)—which are included in <code>{admiral.test}</code>—are used <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Also, see <a href="https://pharmaverse.github.io/admiral/cran-release/articles/admiral.html#handling-of-missing-values">Handling of Missing Values</a> explains why we need to use the <code>convert_blanks_to_na()</code> function.</p>
+<p>For example purposes, the SDTM and ADaM datasets (based on CDISC Pilot test data)—which are included in <code>{pharmaversesdtm}</code>—are used. Also, see <a href="https://pharmaverse.github.io/admiral/cran-release/articles/admiral.html#handling-of-missing-values">Handling of Missing Values</a> explains why we need to use the <code>convert_blanks_to_na()</code> function.</p>
 <p>On the <code>TR</code> domain we filter on where tumor assessment short name <code>TRTESTCD</code> is <code>&quot;LDIAM&quot;</code> or <code>&quot;LPERP&quot;</code>. Depending on your data collection standards you may need to update the code to filter on <code>TRTESTCD == &quot;DIAMETER&quot;</code>. If this is the case then the template code where we derive parameters for lesions diameters should be updated accordingly.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adsl&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adrs&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_rs&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_tu&quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_tr&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;rs_onco_recist&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tu_onco_recist&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tr_onco_recist&quot;</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> admiral_adsl</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> admiral_adrs</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> admiral_tu</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> admiral_tr</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> admiral_rs</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> tu_onco_recist</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> tr_onco_recist</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> rs_onco_recist</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tu) <span class="sc">%&gt;%</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TUEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span>)</span>
@@ -244,73 +244,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
 <td align="left">T01</td>
 <td align="left">ADRENAL GLAND</td>
 <td align="left">NON-NODAL</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
+<td align="left">T02</td>
+<td align="left">LYMPH NODE</td>
+<td align="left">NODAL</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SCREENING</td>
+<td align="left">T03</td>
+<td align="left">BODY</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SCREENING</td>
+<td align="left">T04</td>
+<td align="left">BONE</td>
+<td align="left">NON-NODAL</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SCREENING</td>
 <td align="left">T01</td>
 <td align="left">ADRENAL GLAND</td>
 <td align="left">NON-NODAL</td>
 </tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
-<td align="left">T02</td>
-<td align="left">LYMPH NODE</td>
-<td align="left">NODAL</td>
-</tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
 <td align="left">T02</td>
 <td align="left">LYMPH NODE</td>
 <td align="left">NODAL</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
 <td align="left">T03</td>
-<td align="left">BLADDER</td>
-<td align="left">NON-NODAL</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
-<td align="left">T03</td>
-<td align="left">BLADDER</td>
-<td align="left">NON-NODAL</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
-<td align="left">T04</td>
 <td align="left">BODY</td>
 <td align="left">NON-NODAL</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
 <td align="left">T04</td>
-<td align="left">BODY</td>
+<td align="left">BONE</td>
 <td align="left">NON-NODAL</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
-<td align="left">T05</td>
-<td align="left">BONE</td>
+<td align="left">WEEK 3</td>
+<td align="left">T01</td>
+<td align="left">ADRENAL GLAND</td>
 <td align="left">NON-NODAL</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">BASELINE</td>
-<td align="left">T05</td>
-<td align="left">BONE</td>
-<td align="left">NON-NODAL</td>
+<td align="left">WEEK 3</td>
+<td align="left">T02</td>
+<td align="left">LYMPH NODE</td>
+<td align="left">NODAL</td>
 </tr>
 </tbody>
 </table>
@@ -334,72 +334,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">T01</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
 <td align="left">T01</td>
 <td align="left">T01</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">T01</td>
-<td align="left">BASELINE</td>
-<td align="left">T01</td>
-<td align="left">T01</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
 <td align="left">T02</td>
-<td align="left">BASELINE</td>
-<td align="left">T02</td>
-<td align="left">T02</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">T02</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
 <td align="left">T02</td>
 <td align="left">T02</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">T03</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
 <td align="left">T03</td>
 <td align="left">T03</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">T03</td>
-<td align="left">BASELINE</td>
-<td align="left">T03</td>
-<td align="left">T03</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
 <td align="left">T04</td>
-<td align="left">BASELINE</td>
-<td align="left">T04</td>
-<td align="left">T04</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">T04</td>
-<td align="left">BASELINE</td>
+<td align="left">SCREENING</td>
 <td align="left">T04</td>
 <td align="left">T04</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
-<td align="left">T05</td>
-<td align="left">BASELINE</td>
-<td align="left">T05</td>
-<td align="left">T05</td>
+<td align="left">T01</td>
+<td align="left">SCREENING</td>
+<td align="left">T01</td>
+<td align="left">T01</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">T05</td>
-<td align="left">BASELINE</td>
-<td align="left">T05</td>
-<td align="left">T05</td>
+<td align="left">T02</td>
+<td align="left">SCREENING</td>
+<td align="left">T02</td>
+<td align="left">T02</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T03</td>
+<td align="left">SCREENING</td>
+<td align="left">T03</td>
+<td align="left">T03</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T04</td>
+<td align="left">SCREENING</td>
+<td align="left">T04</td>
+<td align="left">T04</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 3</td>
+<td align="left">T01</td>
+<td align="left">T01</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T02</td>
+<td align="left">WEEK 3</td>
+<td align="left">T02</td>
+<td align="left">T02</td>
 </tr>
 </tbody>
 </table>
@@ -441,91 +441,91 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
 <td align="left">T01</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-01-02</td>
+<td align="left">NA</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T02</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-01-02</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T03</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-01-02</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">2014-01-02</td>
+<td align="left">T04</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-01-02</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
 <td align="left">T01</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
-<td align="left">T02</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
+<td align="left">2014-01-02</td>
+<td align="left">NA</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
 <td align="left">T02</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-01-02</td>
+<td align="left">NA</td>
+<td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
 <td align="left">T03</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
-<td align="left">T03</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
-<td align="left">T04</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
+<td align="left">NA</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
 <td align="left">T04</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
+<td align="left">2014-01-02</td>
+<td align="left">2014-01-02</td>
+<td align="left">NA</td>
+<td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
-<td align="left">T05</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
+<td align="left">T01</td>
+<td align="left">2014-01-23</td>
+<td align="left">2014-01-23</td>
+<td align="left">NA</td>
+<td align="right">22</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">2014-01-02</td>
-<td align="left">T05</td>
-<td align="left">2014-01</td>
-<td align="left">2014-01-01</td>
-<td align="left">D</td>
-<td align="right">-1</td>
+<td align="left">T02</td>
+<td align="left">2014-01-23</td>
+<td align="left">2014-01-23</td>
+<td align="left">NA</td>
+<td align="right">22</td>
 </tr>
 </tbody>
 </table>
@@ -535,9 +535,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>If you have data collected at unscheduled visits, these could be identified as uniquely in your SDTM. However, if this is not the case and your grouping lesions by visit then you will need to amend the below code to apply company specific algorithm to re-label unscheduled visits as per your specifications.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  tr,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AVISIT =</span> VISIT,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">AVISITN =</span> VISITNUM</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AVISIT =</span> <span class="fu">if_else</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    VISIT <span class="sc">==</span> <span class="st">&quot;SCREENING&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;BASELINE&quot;</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    VISIT</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">AVISITN =</span> <span class="fu">if_else</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    AVISIT <span class="sc">==</span> <span class="st">&quot;BASELINE&quot;</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    VISITNUM</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
 <div id="parameters" class="section level2">
@@ -568,6 +576,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>tmp_lesion_nr)</span></code></pre></div>
 <table>
+<colgroup>
+<col width="13%" />
+<col width="8%" />
+<col width="10%" />
+<col width="8%" />
+<col width="43%" />
+<col width="6%" />
+<col width="8%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">USUBJID</th>
@@ -586,7 +603,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">BASELINE</td>
 <td align="left">LDIAM1</td>
 <td align="left">Target Lesion 1 Analysis Diameter</td>
-<td align="right">10.0</td>
+<td align="right">21.00</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
@@ -595,7 +612,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">BASELINE</td>
 <td align="left">NLDIAM1</td>
 <td align="left">Target Lesion 1 Analysis Perpendicular</td>
-<td align="right">9.0</td>
+<td align="right">20.37</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 3</td>
+<td align="left">LDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Diameter</td>
+<td align="right">20.00</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">T01</td>
+<td align="left">WEEK 3</td>
+<td align="left">NLDIAM1</td>
+<td align="left">Target Lesion 1 Analysis Perpendicular</td>
+<td align="right">19.20</td>
 <td align="left">Y</td>
 </tr>
 <tr class="odd">
@@ -604,7 +639,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">LDIAM1</td>
 <td align="left">Target Lesion 1 Analysis Diameter</td>
-<td align="right">11.0</td>
+<td align="right">20.00</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
@@ -613,43 +648,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">WEEK 6</td>
 <td align="left">NLDIAM1</td>
 <td align="left">Target Lesion 1 Analysis Perpendicular</td>
-<td align="right">9.9</td>
+<td align="right">19.00</td>
 <td align="left">Y</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">T01</td>
-<td align="left">WEEK 12</td>
+<td align="left">WEEK 9</td>
 <td align="left">LDIAM1</td>
 <td align="left">Target Lesion 1 Analysis Diameter</td>
-<td align="right">0.0</td>
+<td align="right">0.00</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">T01</td>
-<td align="left">WEEK 12</td>
+<td align="left">WEEK 9</td>
 <td align="left">NLDIAM1</td>
 <td align="left">Target Lesion 1 Analysis Perpendicular</td>
-<td align="right">0.0</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">T01</td>
-<td align="left">WEEK 24</td>
-<td align="left">LDIAM1</td>
-<td align="left">Target Lesion 1 Analysis Diameter</td>
-<td align="right">5.0</td>
-<td align="left">Y</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">T01</td>
-<td align="left">WEEK 24</td>
-<td align="left">NLDIAM1</td>
-<td align="left">Target Lesion 1 Analysis Perpendicular</td>
-<td align="right">4.5</td>
+<td align="right">0.00</td>
 <td align="left">Y</td>
 </tr>
 <tr class="odd">
@@ -658,7 +675,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">BASELINE</td>
 <td align="left">LDIAM2</td>
 <td align="left">Target Lesion 2 Analysis Diameter</td>
-<td align="right">17.6</td>
+<td align="right">33.28</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
@@ -667,7 +684,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">BASELINE</td>
 <td align="left">NLDIAM2</td>
 <td align="left">Target Lesion 2 Analysis Perpendicular</td>
-<td align="right">16.0</td>
+<td align="right">32.00</td>
 <td align="left">Y</td>
 </tr>
 </tbody>
@@ -716,49 +733,70 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">SDIAM</td>
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 </tr>
 <tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+</tr>
+<tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">SDIAM</td>
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">SDIAM</td>
-<td align="left">Target Lesions Sum of Diameters by Investigator</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
+<td align="right">38</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">SDIAM</td>
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">BASELINE</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
-<td align="left">BASELINE</td>
-<td align="right">40.0</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 6</td>
-<td align="right">65.0</td>
+<td align="right">110</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">BASELINE</td>
+<td align="right">90</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">SDIAM</td>
+<td align="left">Target Lesions Sum of Diameters by Investigator</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
 </tr>
 </tbody>
 </table>
@@ -838,71 +876,101 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">01-701-1015</td>
 <td align="left">SDIAM</td>
 <td align="left">BASELINE</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T01, T02, T03, T04</td>
+<td align="left">T01, T02, T03, T04</td>
 <td align="left">Y</td>
-<td align="left">2014-01-01</td>
-<td align="right">-1</td>
+<td align="left">2014-01-02</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 3</td>
+<td align="left">T01, T02, T03, T04</td>
+<td align="left">T01, T02, T03, T04</td>
+<td align="left">Y</td>
+<td align="left">2014-01-23</td>
+<td align="right">22</td>
+</tr>
+<tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">SDIAM</td>
 <td align="left">WEEK 6</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">Y</td>
-<td align="left">2014-02-12</td>
-<td align="right">42</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 12</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">Y</td>
-<td align="left">2014-03-26</td>
-<td align="right">84</td>
+<td align="left">T01, T02, T03, T04</td>
+<td align="left">T01, T04</td>
+<td align="left">NA</td>
+<td align="left">2014-02-01</td>
+<td align="right">31</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">SDIAM</td>
-<td align="left">WEEK 24</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">WEEK 9</td>
+<td align="left">T01, T02, T03, T04</td>
+<td align="left">T01, T02, T03, T04</td>
 <td align="left">Y</td>
-<td align="left">2014-06-18</td>
-<td align="right">168</td>
+<td align="left">2014-03-06</td>
+<td align="right">64</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
 <td align="left">BASELINE</td>
 <td align="left">T01, T02, T03, T04, T05</td>
 <td align="left">T01, T02, T03, T04, T05</td>
 <td align="left">Y</td>
-<td align="left">2012-08-05</td>
+<td align="left">2013-07-19</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
-<td align="left">BASELINE</td>
+<td align="left">WEEK 3</td>
 <td align="left">T01, T02, T03, T04, T05</td>
 <td align="left">T01, T02, T03, T04, T05</td>
 <td align="left">Y</td>
-<td align="left">2013-08-08</td>
-<td align="right">1</td>
+<td align="left">2013-08-09</td>
+<td align="right">22</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
 <td align="left">WEEK 6</td>
 <td align="left">T01, T02, T03, T04, T05</td>
 <td align="left">T02, T03, T04, T05</td>
 <td align="left">NA</td>
-<td align="left">2013-09-22</td>
-<td align="right">46</td>
+<td align="left">2013-08-30</td>
+<td align="right">43</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 9</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">T01, T02, T03, T04, T05</td>
+<td align="left">Y</td>
+<td align="left">2013-09-20</td>
+<td align="right">64</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">SDIAM</td>
+<td align="left">BASELINE</td>
+<td align="left">T01, T02, T03</td>
+<td align="left">T01, T02, T03</td>
+<td align="left">Y</td>
+<td align="left">2012-11-30</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 3</td>
+<td align="left">T01, T02, T03</td>
+<td align="left">T01, T02, T03</td>
+<td align="left">Y</td>
+<td align="left">2012-12-21</td>
+<td align="right">22</td>
 </tr>
 </tbody>
 </table>
@@ -956,57 +1024,81 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">01-701-1015</td>
 <td align="left">SDIAM</td>
 <td align="left">BASELINE</td>
-<td align="right">-1</td>
-<td align="right">73.0</td>
+<td align="right">1</td>
+<td align="right">96</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 3</td>
+<td align="right">22</td>
+<td align="right">96</td>
+<td align="right">96</td>
+</tr>
+<tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">SDIAM</td>
 <td align="left">WEEK 6</td>
-<td align="right">42</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 12</td>
-<td align="right">84</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
+<td align="right">31</td>
+<td align="right">38</td>
+<td align="right">96</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">SDIAM</td>
-<td align="left">WEEK 24</td>
-<td align="right">168</td>
-<td align="right">53.9</td>
-<td align="right">0</td>
+<td align="left">WEEK 9</td>
+<td align="right">64</td>
+<td align="right">7</td>
+<td align="right">96</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
 <td align="left">BASELINE</td>
 <td align="right">1</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
-<td align="left">BASELINE</td>
-<td align="right">1</td>
-<td align="right">40.0</td>
-<td align="right">NA</td>
+<td align="left">WEEK 3</td>
+<td align="right">22</td>
+<td align="right">91</td>
+<td align="right">94</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">SDIAM</td>
 <td align="left">WEEK 6</td>
-<td align="right">46</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
+<td align="right">43</td>
+<td align="right">110</td>
+<td align="right">91</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 9</td>
+<td align="right">64</td>
+<td align="right">92</td>
+<td align="right">91</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">SDIAM</td>
+<td align="left">BASELINE</td>
+<td align="right">1</td>
+<td align="right">90</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">SDIAM</td>
+<td align="left">WEEK 3</td>
+<td align="right">22</td>
+<td align="right">74</td>
+<td align="right">90</td>
 </tr>
 </tbody>
 </table>
@@ -1039,79 +1131,112 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 <td align="right">NA</td>
-<td align="right">73</td>
-<td align="right">0.0</td>
-<td align="right">0.00000</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
-<td align="right">73</td>
-<td align="right">-31.0</td>
-<td align="right">-42.46575</td>
-<td align="right">-31.0</td>
-<td align="right">-42.46575</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
-<td align="right">73</td>
-<td align="right">-73.0</td>
-<td align="right">-100.00000</td>
-<td align="right">-42.0</td>
-<td align="right">-100.00000</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
+<td align="right">96</td>
 <td align="right">0</td>
-<td align="right">73</td>
-<td align="right">-19.1</td>
-<td align="right">-26.16438</td>
-<td align="right">53.9</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1023</td>
-<td align="left">BASELINE</td>
-<td align="right">71.0</td>
-<td align="right">NA</td>
-<td align="right">71</td>
-<td align="right">0.0</td>
-<td align="right">0.00000</td>
+<td align="right">0.000000</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+<td align="right">96</td>
+<td align="right">96</td>
+<td align="right">0</td>
+<td align="right">0.000000</td>
+<td align="right">0</td>
+<td align="right">0.000000</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">38</td>
+<td align="right">96</td>
+<td align="right">96</td>
+<td align="right">-58</td>
+<td align="right">-60.416667</td>
+<td align="right">-58</td>
+<td align="right">-60.416667</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
+<td align="right">96</td>
+<td align="right">96</td>
+<td align="right">-89</td>
+<td align="right">-92.708333</td>
+<td align="right">-89</td>
+<td align="right">-92.708333</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
 <td align="left">BASELINE</td>
-<td align="right">40.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
-<td align="right">40</td>
-<td align="right">0.0</td>
-<td align="right">0.00000</td>
+<td align="right">94</td>
+<td align="right">0</td>
+<td align="right">0.000000</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
+<td align="right">94</td>
+<td align="right">94</td>
+<td align="right">-3</td>
+<td align="right">-3.191489</td>
+<td align="right">-3</td>
+<td align="right">-3.191489</td>
+</tr>
 <tr class="odd">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">WEEK 6</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
-<td align="right">40</td>
-<td align="right">25.0</td>
-<td align="right">62.50000</td>
-<td align="right">25.0</td>
-<td align="right">62.50000</td>
+<td align="right">110</td>
+<td align="right">91</td>
+<td align="right">94</td>
+<td align="right">16</td>
+<td align="right">17.021277</td>
+<td align="right">19</td>
+<td align="right">20.879121</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+<td align="right">91</td>
+<td align="right">94</td>
+<td align="right">-2</td>
+<td align="right">-2.127660</td>
+<td align="right">1</td>
+<td align="right">1.098901</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">BASELINE</td>
+<td align="right">90</td>
+<td align="right">NA</td>
+<td align="right">90</td>
+<td align="right">0</td>
+<td align="right">0.000000</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
+<td align="right">90</td>
+<td align="right">90</td>
+<td align="right">-16</td>
+<td align="right">-17.777778</td>
+<td align="right">-16</td>
+<td align="right">-17.777778</td>
 </tr>
 </tbody>
 </table>
@@ -1148,7 +1273,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -1156,57 +1281,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
-<td align="right">-31.0</td>
-<td align="right">-42.46575</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
-<td align="right">-42.0</td>
-<td align="right">-100.00000</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+<td align="right">96</td>
 <td align="right">0</td>
-<td align="right">53.9</td>
-<td align="right">NA</td>
+<td align="right">0.000000</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">38</td>
+<td align="right">96</td>
+<td align="right">-58</td>
+<td align="right">-60.416667</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
+<td align="right">96</td>
+<td align="right">-89</td>
+<td align="right">-92.708333</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
 <td align="left">BASELINE</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
+<td align="right">94</td>
+<td align="right">-3</td>
+<td align="right">-3.191489</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="right">110</td>
+<td align="right">91</td>
+<td align="right">19</td>
+<td align="right">20.879121</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+<td align="right">91</td>
+<td align="right">1</td>
+<td align="right">1.098901</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
 <td align="left">BASELINE</td>
-<td align="right">40.0</td>
+<td align="right">90</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">01-701-1440</td>
-<td align="left">WEEK 6</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
-<td align="right">25.0</td>
-<td align="right">62.50000</td>
-<td align="left">Y</td>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
+<td align="right">90</td>
+<td align="right">-16</td>
+<td align="right">-17.777778</td>
+<td align="left">NA</td>
 </tr>
 </tbody>
 </table>
@@ -1243,7 +1395,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -1251,57 +1403,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
-<td align="right">-31.0</td>
-<td align="right">-42.46575</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
-<td align="right">-42.0</td>
-<td align="right">-100.00000</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+<td align="right">96</td>
 <td align="right">0</td>
-<td align="right">53.9</td>
-<td align="right">NA</td>
+<td align="right">0.000000</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">38</td>
+<td align="right">96</td>
+<td align="right">-58</td>
+<td align="right">-60.416667</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
+<td align="right">96</td>
+<td align="right">-89</td>
+<td align="right">-92.708333</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
 <td align="left">BASELINE</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
+<td align="right">94</td>
+<td align="right">-3</td>
+<td align="right">-3.191489</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="right">110</td>
+<td align="right">91</td>
+<td align="right">19</td>
+<td align="right">20.879121</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+<td align="right">91</td>
+<td align="right">1</td>
+<td align="right">1.098901</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
 <td align="left">BASELINE</td>
-<td align="right">40.0</td>
+<td align="right">90</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">01-701-1440</td>
-<td align="left">WEEK 6</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
-<td align="right">25.0</td>
-<td align="right">62.50000</td>
-<td align="left">Y</td>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
+<td align="right">90</td>
+<td align="right">-16</td>
+<td align="right">-17.777778</td>
+<td align="left">NA</td>
 </tr>
 </tbody>
 </table>
@@ -1329,7 +1508,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -1337,56 +1516,83 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
-<td align="right">-31.0</td>
-<td align="right">-42.46575</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
-<td align="right">-42.0</td>
-<td align="right">-100.00000</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+<td align="right">96</td>
 <td align="right">0</td>
-<td align="right">53.9</td>
-<td align="right">NA</td>
-<td align="left">Y</td>
+<td align="right">0.000000</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">38</td>
+<td align="right">96</td>
+<td align="right">-58</td>
+<td align="right">-60.416667</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
+<td align="right">96</td>
+<td align="right">-89</td>
+<td align="right">-92.708333</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
 <td align="left">BASELINE</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
+<td align="right">94</td>
+<td align="right">-3</td>
+<td align="right">-3.191489</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="right">110</td>
+<td align="right">91</td>
+<td align="right">19</td>
+<td align="right">20.879121</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+<td align="right">91</td>
+<td align="right">1</td>
+<td align="right">1.098901</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
 <td align="left">BASELINE</td>
-<td align="right">40.0</td>
+<td align="right">90</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">01-701-1440</td>
-<td align="left">WEEK 6</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
-<td align="right">25.0</td>
-<td align="right">62.50000</td>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
+<td align="right">90</td>
+<td align="right">-16</td>
+<td align="right">-17.777778</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
@@ -1424,7 +1630,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -1432,57 +1638,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
-<td align="right">-31.0</td>
-<td align="right">-42.46575</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
-<td align="right">-42.0</td>
-<td align="right">-100.00000</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+<td align="right">96</td>
 <td align="right">0</td>
-<td align="right">53.9</td>
-<td align="right">NA</td>
-<td align="left">Y</td>
+<td align="right">0.000000</td>
+<td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="right">38</td>
+<td align="right">96</td>
+<td align="right">-58</td>
+<td align="right">-60.416667</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
+<td align="right">96</td>
+<td align="right">-89</td>
+<td align="right">-92.708333</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
 <td align="left">BASELINE</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
+<td align="right">94</td>
+<td align="right">-3</td>
+<td align="right">-3.191489</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="right">110</td>
+<td align="right">91</td>
+<td align="right">19</td>
+<td align="right">20.879121</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+<td align="right">91</td>
+<td align="right">1</td>
+<td align="right">1.098901</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
 <td align="left">BASELINE</td>
-<td align="right">40.0</td>
+<td align="right">90</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
-<td align="left">01-701-1440</td>
-<td align="left">WEEK 6</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
-<td align="right">25.0</td>
-<td align="right">62.50000</td>
-<td align="left">Y</td>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
+<td align="right">90</td>
+<td align="right">-16</td>
+<td align="right">-17.777778</td>
+<td align="left">NA</td>
 </tr>
 </tbody>
 </table>
@@ -1532,64 +1765,91 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 <td align="right">NA</td>
-<td align="right">0.00000</td>
+<td align="right">0.000000</td>
 <td align="left">Y</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+<td align="right">96</td>
+<td align="right">0.000000</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
-<td align="right">-42.46575</td>
-<td align="left">Y</td>
+<td align="right">38</td>
+<td align="right">96</td>
+<td align="right">-60.416667</td>
 <td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
-<td align="right">-100.00000</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
-<td align="right">0</td>
-<td align="right">-26.16438</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
+<td align="right">96</td>
+<td align="right">-92.708333</td>
 <td align="left">Y</td>
-<td align="left">NA</td>
+<td align="left">Y</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1028</td>
 <td align="left">BASELINE</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
-<td align="right">0.00000</td>
+<td align="right">0.000000</td>
 <td align="left">Y</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
-<td align="left">BASELINE</td>
-<td align="right">40.0</td>
-<td align="right">NA</td>
-<td align="right">0.00000</td>
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
+<td align="right">94</td>
+<td align="right">-3.191489</td>
 <td align="left">Y</td>
-<td align="left">NA</td>
+<td align="left">Y</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">WEEK 6</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
-<td align="right">62.50000</td>
+<td align="right">110</td>
+<td align="right">91</td>
+<td align="right">17.021277</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+<td align="right">91</td>
+<td align="right">-2.127660</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">BASELINE</td>
+<td align="right">90</td>
+<td align="right">NA</td>
+<td align="right">0.000000</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
+<td align="right">90</td>
+<td align="right">-17.777778</td>
+<td align="left">Y</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
@@ -1625,65 +1885,92 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+<td align="right">96</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
+<td align="right">38</td>
+<td align="right">96</td>
 <td align="left">NA</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
 <td align="left">NA</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
-<td align="right">0</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
+<td align="right">96</td>
 <td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1028</td>
 <td align="left">BASELINE</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
-<td align="left">BASELINE</td>
-<td align="right">40.0</td>
-<td align="right">NA</td>
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
+<td align="right">94</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 <td align="left">Y</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">WEEK 6</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
+<td align="right">110</td>
+<td align="right">91</td>
 <td align="left">Y</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+<td align="right">91</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">BASELINE</td>
+<td align="right">90</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
+<td align="right">90</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
 </tr>
 </tbody>
 </table>
@@ -1708,64 +1995,91 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">BASELINE</td>
-<td align="right">73.0</td>
+<td align="right">96</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="right">96</td>
+<td align="right">96</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">WEEK 6</td>
-<td align="right">42.0</td>
-<td align="right">73</td>
+<td align="right">38</td>
+<td align="right">96</td>
 <td align="left">NA</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">WEEK 12</td>
-<td align="right">0.0</td>
-<td align="right">42</td>
 <td align="left">NA</td>
-<td align="left">Y</td>
-<td align="left">Y</td>
+<td align="left">NA</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
-<td align="left">WEEK 24</td>
-<td align="right">53.9</td>
-<td align="right">0</td>
-<td align="left">Y</td>
+<td align="left">WEEK 9</td>
+<td align="right">7</td>
+<td align="right">96</td>
+<td align="left">NA</td>
 <td align="left">Y</td>
 <td align="left">Y</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1023</td>
+<td align="left">01-701-1028</td>
 <td align="left">BASELINE</td>
-<td align="right">71.0</td>
+<td align="right">94</td>
 <td align="right">NA</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 <td align="left">Y</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1440</td>
-<td align="left">BASELINE</td>
-<td align="right">40.0</td>
-<td align="right">NA</td>
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="right">91</td>
+<td align="right">94</td>
 <td align="left">NA</td>
 <td align="left">Y</td>
 <td align="left">Y</td>
 </tr>
 <tr class="odd">
-<td align="left">01-701-1440</td>
+<td align="left">01-701-1028</td>
 <td align="left">WEEK 6</td>
-<td align="right">65.0</td>
-<td align="right">40</td>
+<td align="right">110</td>
+<td align="right">91</td>
 <td align="left">Y</td>
 <td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 9</td>
+<td align="right">92</td>
+<td align="right">91</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">BASELINE</td>
+<td align="right">90</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 3</td>
+<td align="right">74</td>
+<td align="right">90</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
 <td align="left">Y</td>
 </tr>
 </tbody>
@@ -1797,70 +2111,70 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">LDIAM1</td>
 <td align="left">BASELINE</td>
 <td align="right">1</td>
-<td align="right">10.0</td>
+<td align="right">21.00</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">LDIAM1</td>
-<td align="left">WEEK 6</td>
+<td align="left">WEEK 3</td>
 <td align="right">2</td>
-<td align="right">11.0</td>
+<td align="right">20.00</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">LDIAM1</td>
-<td align="left">WEEK 12</td>
+<td align="left">WEEK 6</td>
 <td align="right">3</td>
-<td align="right">0.0</td>
+<td align="right">20.00</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">LDIAM1</td>
-<td align="left">WEEK 24</td>
+<td align="left">WEEK 9</td>
 <td align="right">4</td>
-<td align="right">5.0</td>
+<td align="right">0.00</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">LDIAM2</td>
 <td align="left">BASELINE</td>
 <td align="right">5</td>
-<td align="right">17.6</td>
+<td align="right">33.28</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">LDIAM2</td>
-<td align="left">WEEK 6</td>
+<td align="left">WEEK 3</td>
 <td align="right">6</td>
-<td align="right">6.6</td>
+<td align="right">35.70</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">LDIAM2</td>
-<td align="left">WEEK 12</td>
+<td align="left">WEEK 9</td>
 <td align="right">7</td>
-<td align="right">0.0</td>
+<td align="right">7.49</td>
 </tr>
 <tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">LDIAM2</td>
-<td align="left">WEEK 24</td>
-<td align="right">8</td>
-<td align="right">11.0</td>
-</tr>
-<tr class="odd">
 <td align="left">01-701-1015</td>
 <td align="left">LDIAM3</td>
 <td align="left">BASELINE</td>
+<td align="right">8</td>
+<td align="right">24.00</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">LDIAM3</td>
+<td align="left">WEEK 3</td>
 <td align="right">9</td>
-<td align="right">13.0</td>
+<td align="right">24.00</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
 <td align="left">LDIAM3</td>
-<td align="left">WEEK 6</td>
+<td align="left">WEEK 9</td>
 <td align="right">10</td>
-<td align="right">12.0</td>
+<td align="right">0.00</td>
 </tr>
 </tbody>
 </table>
@@ -1996,12 +2310,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-</div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>In this vignette we use only data for subjects “01-701-1015”, “01-701-1023”, “01-701-1440”. This avoids that the vignette takes a long time to load.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
 
 

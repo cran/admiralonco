@@ -36,7 +36,7 @@ library(admiraldev)
 ## ---- warning=FALSE, message=FALSE--------------------------------------------
 library(admiral)
 library(dplyr)
-library(admiral.test)
+library(pharmaversesdtm)
 library(lubridate)
 library(stringr)
 library(admiralonco)
@@ -44,14 +44,14 @@ library(admiralonco)
 ## -----------------------------------------------------------------------------
 data("admiral_adsl")
 data("admiral_adrs")
-data("admiral_rs")
-data("admiral_tu")
-data("admiral_tr")
+data("rs_onco_recist")
+data("tu_onco_recist")
+data("tr_onco_recist")
 adsl <- admiral_adsl
 adrs <- admiral_adrs
-tu <- admiral_tu
-tr <- admiral_tr
-rs <- admiral_rs
+tu <- tu_onco_recist
+tr <- tr_onco_recist
+rs <- rs_onco_recist
 
 tu <- convert_blanks_to_na(tu) %>%
   filter(TUEVAL == "INVESTIGATOR")
@@ -60,15 +60,6 @@ tr <- convert_blanks_to_na(tr) %>%
     TREVAL == "INVESTIGATOR" & TRGRPID == "TARGET" & TRTESTCD %in% c("LDIAM", "LPERP")
   )
 rs <- convert_blanks_to_na(rs)
-
-## ----echo=FALSE---------------------------------------------------------------
-subjects <- c("01-701-1015", "01-701-1023", "01-701-1440")
-# exclude assessments after PD
-tr <- filter(tr, USUBJID %in% subjects & (USUBJID != "01-701-1440" | VISITNUM <= 7))
-tu <- filter(tu, USUBJID %in% subjects)
-rs <- filter(rs, USUBJID %in% subjects)
-adsl <- filter(adsl, USUBJID %in% subjects)
-adrs <- filter(adrs, USUBJID %in% subjects)
 
 ## ----eval=TRUE----------------------------------------------------------------
 adsl_vars <- exprs(RANDDT)
@@ -125,8 +116,16 @@ dataset_vignette(tr, display_vars = exprs(USUBJID, RANDDT, TRLNKID, TRDTC, ADT, 
 ## -----------------------------------------------------------------------------
 tr <- mutate(
   tr,
-  AVISIT = VISIT,
-  AVISITN = VISITNUM
+  AVISIT = if_else(
+    VISIT == "SCREENING",
+    "BASELINE",
+    VISIT
+  ),
+  AVISITN = if_else(
+    AVISIT == "BASELINE",
+    0,
+    VISITNUM
+  )
 )
 
 ## -----------------------------------------------------------------------------

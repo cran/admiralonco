@@ -37,7 +37,6 @@ library(admiraldev)
 library(admiral)
 library(admiralonco)
 library(dplyr)
-library(admiral.test)
 library(lubridate)
 
 ## -----------------------------------------------------------------------------

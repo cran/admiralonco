@@ -153,142 +153,17 @@ dataset_vignette(
 #      )
 #    )
 
-## -----------------------------------------------------------------------------
-adrs <- adrs %>%
-  derive_var_relative_flag(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(ADT, RSSEQ),
-    new_var = ANL02FL,
-    condition = AVALC == "PD",
-    mode = "first",
-    selection = "before",
-    inclusive = TRUE
-  )
-
-## ---- echo=FALSE--------------------------------------------------------------
-dataset_vignette(
-  adrs,
-  display_vars = exprs(USUBJID, AVISIT, PARAMCD, AVALC, ADT, ANL01FL, ANL02FL)
-)
-
-## -----------------------------------------------------------------------------
-ovr <- filter(adrs, PARAMCD == "OVR" & ANL01FL == "Y" & ANL02FL == "Y")
-
-## ---- echo=FALSE--------------------------------------------------------------
-dataset_vignette(
-  ovr,
-  display_vars = exprs(USUBJID, AVISIT, AVALC, ADT, RANDDT)
-)
-
-## -----------------------------------------------------------------------------
-confirmation_period <- 21
-
-crsp_y_cr <- event_joined(
-  description = paste(
-    "Define confirmed response as CR followed by CR at least",
-    confirmation_period,
-    "days later and at most one NE in between"
-  ),
-  dataset_name = "ovr",
-  join_vars = exprs(AVALC, ADT),
-  join_type = "after",
-  order = exprs(ADT),
-  first_cond = AVALC.join == "CR" &
-    ADT.join >= ADT + days(confirmation_period),
-  condition = AVALC == "CR" &
-    all(AVALC.join %in% c("CR", "NE")) &
-    count_vals(var = AVALC.join, val = "NE") <= 1,
-  set_values_to = exprs(AVALC = "Y")
-)
-
-crsp_y_pr <- event_joined(
-  description = paste(
-    "Define confirmed response as PR followed by CR or PR at least",
-    confirmation_period,
-    "days later, at most one NE in between, and no PR after CR"
-  ),
-  dataset_name = "ovr",
-  join_vars = exprs(AVALC, ADT),
-  join_type = "after",
-  order = exprs(ADT),
-  first_cond = AVALC.join %in% c("CR", "PR") &
-    ADT.join >= ADT + days(confirmation_period),
-  condition = AVALC == "PR" &
-    all(AVALC.join %in% c("CR", "PR", "NE")) &
-    count_vals(var = AVALC.join, val = "NE") <= 1 &
-    (
-      min_cond(
-        var = ADT.join,
-        cond = AVALC.join == "CR"
-      ) > max_cond(var = ADT.join, cond = AVALC.join == "PR") |
-        count_vals(var = AVALC.join, val = "CR") == 0 |
-        count_vals(var = AVALC.join, val = "PR") == 0
-    ),
-  set_values_to = exprs(AVALC = "Y")
-)
-
-cbor_cr <- event_joined(
-  description = paste(
-    "Define complete response (CR) for confirmed best overall response (CBOR) as",
-    "CR followed by CR at least",
-    confirmation_period,
-    "days later and at most one NE in between"
-  ),
-  dataset_name = "ovr",
-  join_vars = exprs(AVALC, ADT),
-  join_type = "after",
-  first_cond = AVALC.join == "CR" &
-    ADT.join >= ADT + confirmation_period,
-  condition = AVALC == "CR" &
-    all(AVALC.join %in% c("CR", "NE")) &
-    count_vals(var = AVALC.join, val = "NE") <= 1,
-  set_values_to = exprs(AVALC = "CR")
-)
-
-cbor_pr <- event_joined(
-  description = paste(
-    "Define partial response (PR) for confirmed best overall response (CBOR) as",
-    "PR followed by CR or PR at least",
-    confirmation_period,
-    "28 days later, at most one NE in between, and no PR after CR"
-  ),
-  dataset_name = "ovr",
-  join_vars = exprs(AVALC, ADT),
-  join_type = "after",
-  first_cond = AVALC.join %in% c("CR", "PR") &
-    ADT.join >= ADT + confirmation_period,
-  condition = AVALC == "PR" &
-    all(AVALC.join %in% c("CR", "PR", "NE")) &
-    count_vals(var = AVALC.join, val = "NE") <= 1 &
-    (
-      min_cond(
-        var = ADT.join,
-        cond = AVALC.join == "CR"
-      ) > max_cond(var = ADT.join, cond = AVALC.join == "PR") |
-        count_vals(var = AVALC.join, val = "CR") == 0 |
-        count_vals(var = AVALC.join, val = "PR") == 0
-    ),
-  set_values_to = exprs(AVALC = "PR")
-)
-
-no_data_n <- event(
-  description = "Define no response for all patients in adsl (should be used as last event)",
-  dataset_name = "adsl",
-  condition = TRUE,
-  set_values_to = exprs(AVALC = "N"),
-  keep_source_vars = adsl_vars
-)
-
-no_data_missing <- event(
-  description = paste(
-    "Define missing response (MISSING) for all patients in adsl (should be used",
-    "as last event)"
-  ),
-  dataset_name = "adsl",
-  condition = TRUE,
-  set_values_to = exprs(AVALC = "MISSING"),
-  keep_source_vars = adsl_vars
-)
+## ---- eval=FALSE--------------------------------------------------------------
+#  adrs <- adrs %>%
+#    derive_var_relative_flag(
+#      by_vars = exprs(STUDYID, USUBJID),
+#      order = exprs(ADT, RSSEQ),
+#      new_var = ANL02FL,
+#      condition = AVALC == "PD",
+#      mode = "first",
+#      selection = "before",
+#      inclusive = TRUE
+#    )
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
@@ -319,19 +194,25 @@ dataset_vignette(
 )
 
 ## -----------------------------------------------------------------------------
-rsp_y
+pd <- date_source(
+  dataset_name = "adrs",
+  date = ADT,
+  filter = PARAMCD == "PD" & AVALC == "Y"
+)
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  pd <- date_source(
+#    dataset_name = "adsl",
+#    date = PDDT
+#  )
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(ADT),
-    mode = "first",
-    events = list(rsp_y, no_data_n),
-    source_datasets = list(
-      ovr = ovr,
-      adsl = adsl
-    ),
+  derive_param_response(
+    dataset_adsl = adsl,
+    filter_source = PARAMCD == "OVR" & AVALC %in% c("CR", "PR") & ANL01FL == "Y",
+    source_pd = pd,
+    source_datasets = list(adrs = adrs),
     set_values_to = exprs(
       PARAMCD = "RSP",
       PARAM = "Response by Investigator (confirmation not required)",
@@ -351,20 +232,22 @@ dataset_vignette(
 )
 
 ## -----------------------------------------------------------------------------
-cb_y
+resp <- date_source(
+  dataset_name = "adrs",
+  date = ADT,
+  filter = PARAMCD == "RSP" & AVALC == "Y"
+)
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(desc(AVALC), ADT),
-    mode = "first",
-    events = list(rsp_y, cb_y, no_data_n),
-    source_datasets = list(
-      ovr = ovr,
-      adsl = adsl
-    ),
-    ignore_event_order = TRUE,
+  derive_param_clinbenefit(
+    dataset_adsl = adsl,
+    filter_source = PARAMCD == "OVR" & ANL01FL == "Y",
+    source_resp = resp,
+    source_pd = pd,
+    source_datasets = list(adrs = adrs),
+    reference_date = RANDDT,
+    ref_start_window = 42,
     set_values_to = exprs(
       PARAMCD = "CB",
       PARAM = "Clinical Benefit by Investigator (confirmation for response not required)",
@@ -373,8 +256,7 @@ adrs <- adrs %>%
       PARCAT3 = "Recist 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
-    ),
-    check_type = "none"
+    )
   )
 
 ## ---- echo=FALSE--------------------------------------------------------------
@@ -386,15 +268,13 @@ dataset_vignette(
 
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(ADT),
-    mode = "first",
-    source_datasets = list(
-      ovr = ovr,
-      adsl = adsl
-    ),
-    events = list(bor_cr, bor_pr, bor_sd, bor_non_crpd, bor_pd, bor_ne, no_data_missing),
+  derive_param_bor(
+    dataset_adsl = adsl,
+    filter_source = PARAMCD == "OVR" & ANL01FL == "Y",
+    source_pd = pd,
+    source_datasets = list(adrs = adrs),
+    reference_date = RANDDT,
+    ref_start_window = 42,
     set_values_to = exprs(
       PARAMCD = "BOR",
       PARAM = "Best Overall Response by Investigator (confirmation not required)",
@@ -434,6 +314,8 @@ adrs <- adrs %>%
     dataset_add = adrs,
     by_vars = exprs(STUDYID, USUBJID),
     filter_add = PARAMCD == "BOR" & AVALC %in% c("CR", "PR"),
+    order = exprs(ADT, RSSEQ),
+    mode = "first",
     exist_flag = AVALC,
     set_values_to = exprs(
       PARAMCD = "BCP",
@@ -454,29 +336,13 @@ dataset_vignette(
 )
 
 ## -----------------------------------------------------------------------------
-crsp_y_cr
-
-## -----------------------------------------------------------------------------
-crsp_y_pr
-
-## -----------------------------------------------------------------------------
-cbor_cr
-
-## -----------------------------------------------------------------------------
-cbor_pr
-
-## -----------------------------------------------------------------------------
 adrs <- adrs %>%
-  derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(desc(AVALC), ADT),
-    mode = "first",
-    source_datasets = list(
-      ovr = ovr,
-      adsl = adsl
-    ),
-    events = list(crsp_y_cr, crsp_y_pr, no_data_n),
-    ignore_event_order = TRUE,
+  derive_param_confirmed_resp(
+    dataset_adsl = adsl,
+    filter_source = PARAMCD == "OVR" & ANL01FL == "Y",
+    source_pd = pd,
+    source_datasets = list(adrs = adrs),
+    ref_confirm = 28,
     set_values_to = exprs(
       PARAMCD = "CRSP",
       PARAM = "Confirmed Response by Investigator",
@@ -488,17 +354,21 @@ adrs <- adrs %>%
     )
   )
 
+confirmed_resp <- date_source(
+  dataset_name = "adrs",
+  date = ADT,
+  filter = PARAMCD == "CRSP" & AVALC == "Y"
+)
+
 adrs <- adrs %>%
-  derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(desc(AVALC), ADT),
-    mode = "first",
-    events = list(crsp_y_cr, crsp_y_pr, cb_y, no_data_n),
-    source_datasets = list(
-      ovr = ovr,
-      adsl = adsl
-    ),
-    ignore_event_order = TRUE,
+  derive_param_clinbenefit(
+    dataset_adsl = adsl,
+    filter_source = PARAMCD == "OVR" & ANL01FL == "Y",
+    source_resp = confirmed_resp,
+    source_pd = pd,
+    source_datasets = list(adrs = adrs),
+    reference_date = RANDDT,
+    ref_start_window = 42,
     set_values_to = exprs(
       PARAMCD = "CCB",
       PARAM = "Confirmed Clinical Benefit by Investigator",
@@ -507,20 +377,16 @@ adrs <- adrs %>%
       PARCAT3 = "Recist 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
-    ),
-    check_type = "none"
-  )
-
-adrs <- adrs %>%
-  derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(ADT),
-    mode = "first",
-    events = list(cbor_cr, cbor_pr, bor_sd, bor_non_crpd, bor_pd, bor_ne, no_data_missing),
-    source_datasets = list(
-      ovr = ovr,
-      adsl = adsl
-    ),
+    )
+  ) %>%
+  derive_param_confirmed_bor(
+    dataset_adsl = adsl,
+    filter_source = PARAMCD == "OVR" & ANL01FL == "Y",
+    source_pd = pd,
+    source_datasets = list(adrs = adrs),
+    reference_date = RANDDT,
+    ref_start_window = 42,
+    ref_confirm = 28,
     set_values_to = exprs(
       PARAMCD = "CBOR",
       PARAM = "Best Confirmed Overall Response by Investigator",
@@ -536,6 +402,8 @@ adrs <- adrs %>%
     dataset_add = adrs,
     by_vars = exprs(STUDYID, USUBJID),
     filter_add = PARAMCD == "CBOR" & AVALC %in% c("CR", "PR"),
+    order = exprs(ADT, RSSEQ),
+    mode = "first",
     exist_flag = AVALC,
     set_values_to = exprs(
       PARAMCD = "CBCP",
@@ -556,75 +424,6 @@ dataset_vignette(
 )
 
 ## -----------------------------------------------------------------------------
-cb_y_pd <- event(
-  description = paste(
-    "Define PD occuring more than 42 days after",
-    "randomization as clinical benefit"
-  ),
-  dataset_name = "ovr",
-  condition = AVALC == "PD" & ADT > RANDDT + 42,
-  set_values_to = exprs(AVALC = "Y")
-)
-
-adrs <- adrs %>%
-  derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(desc(AVALC), ADT),
-    mode = "first",
-    events = list(crsp_y_cr, crsp_y_pr, cb_y, cb_y_pd, no_data_n),
-    source_datasets = list(
-      ovr = ovr,
-      adsl = adsl
-    ),
-    ignore_event_order = TRUE,
-    set_values_to = exprs(
-      PARAMCD = "ACCB",
-      PARAM = "Alternative Confirmed Clinical Benefit by Investigator",
-      PARCAT1 = "Tumor Response",
-      PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
-      AVAL = yn_to_numeric(AVALC),
-      ANL01FL = "Y"
-    ),
-    check_type = "none"
-  )
-
-## -----------------------------------------------------------------------------
-bor_ned <- event(
-  description = paste(
-    "Define no evidence of disease (NED) for best overall response (BOR) as NED",
-    "occuring at least 42 days after randomization"
-  ),
-  dataset_name = "ovr",
-  condition = AVALC == "NED" & ADT >= RANDDT + 42,
-  set_values_to = exprs(AVALC = "NED")
-)
-
-adrs <- adrs %>%
-  derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(ADT),
-    mode = "first",
-    source_datasets = list(
-      ovr = ovr,
-      adsl = adsl
-    ),
-    events = list(bor_cr, bor_pr, bor_sd, bor_non_crpd, bor_ned, bor_pd, bor_ne, no_data_missing),
-    set_values_to = exprs(
-      PARAMCD = "A1BOR",
-      PARAM = paste(
-        "Best Overall Response by Investigator (confirmation not required)",
-        "- Recist 1.1 adjusted for NED at Baseline"
-      ),
-      PARCAT1 = "Tumor Response",
-      PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1 adjusted for NED at Baseline",
-      AVAL = aval_resp(AVALC),
-      ANL01FL = "Y"
-    )
-  )
-
-## -----------------------------------------------------------------------------
 adrs_bicr <- rs %>%
   filter(
     RSEVAL == "INDEPENDENT ASSESSOR" & RSACPTFL == "Y" & RSTESTCD == "OVRLRESP"
@@ -641,7 +440,7 @@ adrs_bicr <- rs %>%
 dataset_vignette(
   adrs_bicr,
   display_vars = exprs(USUBJID, VISIT, RSTESTCD, RSEVAL, PARAMCD, PARAM, PARCAT1, PARCAT2, PARCAT3),
-  filter = PARAMCD == "OVRB"
+  filter = PARAMCD == "OVRR1"
 )
 
 ## -----------------------------------------------------------------------------

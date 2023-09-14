@@ -37,7 +37,6 @@ library(admiraldev)
 ## ---- warning=FALSE, message=FALSE--------------------------------------------
 library(admiral)
 library(dplyr)
-library(admiral.test)
 
 adsl <- admiral_adsl
 
