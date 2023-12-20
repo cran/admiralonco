@@ -3,52 +3,24 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(admiral)
-link <- function(text, url) {
-  return(
-    paste0(
-      "[", text, "]",
-      "(", url, ")"
-    )
-  )
-}
-dyn_link <- function(text,
-                     base_url,
-                     relative_url = "",
-                     # Change to TRUE when admiral adopts multiversion docs
-                     is_multiversion = FALSE,
-                     multiversion_default_ref = "main") {
-  url <- paste(base_url, relative_url, sep = "/")
-  if (is_multiversion) {
-    url <- paste(
-      base_url,
-      Sys.getenv("BRANCH_NAME", multiversion_default_ref),
-      relative_url,
-      sep = "/"
-    )
-  }
-  return(link(text, url))
-}
-# Other variables
-admiral_homepage <- "https://pharmaverse.github.io/admiral"
 library(admiraldev)
 
 ## ---- warning=FALSE, message=FALSE--------------------------------------------
 library(admiral)
 library(dplyr)
 library(pharmaversesdtm)
+library(pharmaverseadam)
 library(lubridate)
 library(stringr)
 library(admiralonco)
 
 ## -----------------------------------------------------------------------------
-data("admiral_adsl")
-data("admiral_adrs")
+data("adsl")
+data("adrs_onco")
 data("rs_onco_recist")
 data("tu_onco_recist")
 data("tr_onco_recist")
-adsl <- admiral_adsl
-adrs <- admiral_adrs
+adrs <- adrs_onco
 tu <- tu_onco_recist
 tr <- tr_onco_recist
 rs <- rs_onco_recist
@@ -147,7 +119,7 @@ adtr <- bind_rows(
   mutate(
     PARCAT1 = "Target Lesion(s)",
     PARCAT2 = "Investigator",
-    PARCAT3 = "Recist 1.1",
+    PARCAT3 = "RECIST 1.1",
     AVAL = TRSTRESN,
     ANL01FL = if_else(!is.na(AVAL), "Y", NA_character_)
   ) %>%
@@ -160,19 +132,20 @@ dataset_vignette(
 )
 
 ## -----------------------------------------------------------------------------
-adtr_sum <- get_summary_records(
-  adtr,
+adtr_sum <- derive_summary_records(
+  dataset_add = adtr,
   by_vars = exprs(STUDYID, USUBJID, !!!adsl_vars, AVISIT, AVISITN),
-  filter = (str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
+  filter_add = (str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
     (str_starts(PARAMCD, "NLDIAM") & TULOCGR1 == "NODAL"),
-  analysis_var = AVAL,
-  summary_fun = function(x) sum(x, na.rm = TRUE),
   set_values_to = exprs(
+    AVAL = sum(AVAL, na.rm = TRUE),
+    ADY = min(ADY, na.rm = TRUE),
+    ADT = min(ADT, na.rm = TRUE),
     PARAMCD = "SDIAM",
     PARAM = "Target Lesions Sum of Diameters by Investigator",
     PARCAT1 = "Target Lesion(s)",
     PARCAT2 = "Investigator",
-    PARCAT3 = "Recist 1.1"
+    PARCAT3 = "RECIST 1.1"
   )
 )
 
@@ -180,8 +153,8 @@ adtr_sum <- get_summary_records(
 dataset_vignette(
   adtr_sum %>%
     arrange(USUBJID, AVISITN) %>%
-    select(USUBJID, PARAMCD, PARAM, AVISIT, AVAL, everything()),
-  display_vars = exprs(USUBJID, PARAMCD, PARAM, AVISIT, AVAL)
+    select(USUBJID, PARAMCD, PARAM, AVISIT, AVAL, ADT, ADY, everything()),
+  display_vars = exprs(USUBJID, PARAMCD, PARAM, AVISIT, AVAL, ADT, ADY)
 )
 
 ## -----------------------------------------------------------------------------
@@ -192,49 +165,18 @@ adtr_sum <- adtr_sum %>%
     filter_add = AVISIT == "BASELINE" &
       ((str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
         (str_starts(PARAMCD, "NLDIAM") & TULOCGR1 == "NODAL")),
-    new_var = LSEXP,
-    analysis_var = TRLNKID,
-    summary_fun = function(x) paste(sort(x), collapse = ", ")
+    new_vars = exprs(LSEXP = paste(sort(TRLNKID), collapse = ", "))
   ) %>%
   derive_var_merged_summary(
     dataset_add = adtr,
     by_vars = exprs(USUBJID, AVISIT),
     filter_add = ((str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
       (str_starts(PARAMCD, "NLDIAM") & TULOCGR1 == "NODAL")) & ANL01FL == "Y",
-    new_var = LSASS,
-    analysis_var = TRLNKID,
-    summary_fun = function(x) paste(sort(x), collapse = ", ")
+    new_vars = exprs(LSASS = paste(sort(TRLNKID), collapse = ", "))
   ) %>%
   mutate(
     ANL01FL = if_else(LSEXP == LSASS, "Y", NA_character_)
   )
-
-## -----------------------------------------------------------------------------
-adtr_sum <- adtr_sum %>%
-  derive_var_merged_summary(
-    dataset_add = adtr,
-    by_vars = exprs(USUBJID, AVISIT),
-    filter_add = (str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
-      (str_starts(PARAMCD, "NLDIAM") & TULOCGR1 == "NODAL"),
-    new_var = ADY,
-    analysis_var = ADY,
-    summary_fun = function(x) min(x, na.rm = TRUE)
-  ) %>%
-  derive_var_merged_summary(
-    dataset_add = adtr,
-    by_vars = exprs(USUBJID, AVISIT),
-    filter_add = (str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
-      (str_starts(PARAMCD, "NLDIAM") & TULOCGR1 == "NODAL"),
-    new_var = ADT,
-    analysis_var = ADT,
-    summary_fun = function(x) min(x, na.rm = TRUE)
-  )
-
-## ---- echo=FALSE--------------------------------------------------------------
-dataset_vignette(
-  arrange(adtr_sum, USUBJID, AVISITN),
-  display_vars = exprs(USUBJID, PARAMCD, AVISIT, LSEXP, LSASS, ANL01FL, ADT, ADY)
-)
 
 ## -----------------------------------------------------------------------------
 adtr_sum <- adtr_sum %>%
@@ -260,6 +202,7 @@ adtr_sum <- adtr_sum %>%
     order = exprs(AVAL),
     new_vars = exprs(NADIR = AVAL),
     join_vars = exprs(ADY),
+    join_type = "all",
     filter_add = ANL01FL == "Y",
     filter_join = ADY.join < ADY,
     mode = "first",

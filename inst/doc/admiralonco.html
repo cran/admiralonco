@@ -151,14 +151,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>As this is a package extension, if you are new to <code>{admiral}</code> then the best place to first start reading would be this <a href="https://pharmaverse.github.io/admiral/cran-release/articles/admiral.html">Get Started</a> guide. This extension package follows the same main idea and conventions, and re-uses many functions from <code>{admiral}</code>, so it is important to thoroughly understand these to be able to use <code>{admiralonco}</code>.</p>
+<p>As this is a package extension, if you are new to <code>{admiral}</code> then the best place to first start reading would be the <a href="https://pharmaverse.github.io/admiral/articles/admiral.html">Get Started</a> page. This extension package follows the same main idea and conventions, and re-uses many functions from <code>{admiral}</code>, so it is important to thoroughly understand these to be able to use <code>{admiralonco}</code>.</p>
 </div>
-<div id="derivations" class="section level1">
-<h1>Derivations</h1>
-<p>The most important functions in <code>{admiralonco}</code> are the <a href="../reference/index.html#section-derivations">derivations</a>. Again these follow the same conventions as <code>{admiral}</code> but are focused to oncology-specific needs.</p>
-</div>
-<div id="starting-a-script" class="section level1">
-<h1>Starting a Script</h1>
+<div id="creating-oncology-adam-datasets" class="section level1">
+<h1>Creating Oncology ADaM Datasets</h1>
 <p>For the oncology ADaM data structures, an overview of the flow and example function calls for the most common steps are provided by the following vignettes:</p>
 <ul>
 <li><a href="adrs_basic.html">Creating a Basic ADRS</a></li>
@@ -166,14 +162,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="adtte.html">Creating ADTTE</a></li>
 <li><a href="adtr.html">Creating ADTR</a></li>
 </ul>
-<p><code>{admiralonco}</code> also provides template R scripts as a starting point. They can be created by calling <code>use_ad_template()</code> from {admiral}, e.g.,</p>
+<p><code>{admiralonco}</code> also provides template R scripts as a starting point. They can be created by calling <code>use_ad_template()</code> from <code>{admiral}</code>, e.g.,</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_ad_template</span>(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">adam_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">save_path =</span> <span class="st">&quot;./ad_adrs.R&quot;</span>,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">package =</span> <span class="st">&quot;admiralonco&quot;</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>A list of all available templates can be obtained by <code>list_all_templates()</code> from {admiral}:</p>
+<p>A list of all available templates can be obtained by <code>list_all_templates()</code> from <code>{admiral}</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_all_templates</span>(<span class="at">package =</span> <span class="st">&quot;admiralonco&quot;</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Existing ADaM templates in package &#39;admiralonco&#39;:</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • ADRS</span></span>

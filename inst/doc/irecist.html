@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Creating ADRS with iRECIST endpoints</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Creating ADRS with iRECIST endpoints</h1>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This article describes creating an <code>ADRS</code> ADaM with oncology endpoint parameters based on iRECIST. It shows a similar way of deriving the endpoints presented in <a href="adrs.html">Creating ADRS (Including Non-standard Endpoints)</a>. Most of the endpoints are derived by calling <code>admiral::derive_extreme_event()</code>.</p>
+<p>This vignette follows the iRECIST guidelines, for more information user may visit <a href="https://recist.eortc.org/irecist/" class="uri">https://recist.eortc.org/irecist/</a></p>
+<p>Examples are currently presented and tested using <code>ADSL</code> (ADaM) and <code>RS</code> (SDTM) inputs. However, other domains could be used. The <code>RS</code> test data contains iRECIST response for target, non-target and overall response. Further pre-processing and considerations may be needed if iRECIST are only collected after RECIST 1.1 progression and input data contains multiple response criteria. The functions and workflow could similarly be used to create an intermediary <code>ADEVENT</code> ADaM.</p>
+<p><strong>Note</strong>: <em>All examples assume CDISC SDTM and/or ADaM format as input unless otherwise specified.</em></p>
+</div>
+<div id="programming-workflow" class="section level1">
+<h1>Programming Workflow</h1>
+<ul>
+<li><a href="#readdata">Read in Data</a></li>
+<li><a href="#input">Pre-processing of Input Records</a></li>
+<li><a href="#pd">Derive Confirmed Progressive Disease Parameter</a></li>
+<li><a href="#rsp">Derive Response Parameter</a></li>
+<li><a href="#cb">Derive Clinical Benefit Parameter</a></li>
+<li><a href="#bor">Derive Best Overall Response Parameter</a></li>
+<li><a href="#confirm">Derive Response Parameters requiring Confirmation</a></li>
+<li><a href="#Other">Other Endpoints</a></li>
+</ul>
+<div id="readdata" class="section level2">
+<h2>Read in Data</h2>
+<p>To start, all data frames needed for the creation of <code>ADRS</code> should be read into the environment. This will be a company specific process. Some of the data frames needed may be <code>ADSL</code>, <code>RS</code> and <code>TU</code>. For this vignette we assume that <code>RS</code> provides the response values <code>&quot;iCR&quot;</code>, <code>&quot;iPR&quot;</code>, <code>&quot;iSD&quot;</code>, <code>&quot;NON-iCR/NON-iUPD&quot;</code>, <code>&quot;iUPD&quot;</code>, <code>&quot;iCPD&quot;</code>, and <code>&quot;NE&quot;</code>. All examples can be easily modified to consider other response values (see <a href="#different_resp_vals">Handling Different Input Response Values</a>).</p>
+<p>For example purpose, the SDTM and ADaM datasets (based on CDISC Pilot test data)—which are included in <code>{pharmaversesdtm}</code> and <code>{pharmaverseadam}</code>—are used.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pharmaverseadam)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pharmaversesdtm)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adsl&quot;</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># iRECIST oncology sdtm data</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;rs_onco_irecist&quot;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> rs_onco_irecist</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(rs)</span></code></pre></div>
+<p>At this step, it may be useful to join <code>ADSL</code> to your <code>RS</code> domain. Only the <code>ADSL</code> variables used for derivations are selected at this step. The rest of the relevant <code>ADSL</code> would be added later.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adsl_vars <span class="ot">&lt;-</span> <span class="fu">exprs</span>(RANDDT)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  rs,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_add =</span> adsl,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_vars =</span> adsl_vars,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">RSTESTCD</th>
+<th align="left">RSDTC</th>
+<th align="left">VISIT</th>
+<th align="left">RANDDT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-02-12</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2013-08</td>
+<td align="left">WEEK 6</td>
+<td align="left">2013-07-19</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2013-10-09</td>
+<td align="left">WEEK 12</td>
+<td align="left">2013-07-19</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2013-11-20</td>
+<td align="left">WEEK 18</td>
+<td align="left">2013-07-19</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-08-11</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-07-01</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-09-25</td>
+<td align="left">WEEK 12</td>
+<td align="left">2014-07-01</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-11-04</td>
+<td align="left">WEEK 18</td>
+<td align="left">2014-07-01</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-02-11</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-01-01</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2013-01-10</td>
+<td align="left">WEEK 6</td>
+<td align="left">2012-11-30</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">OVRLRESP</td>
+<td align="left">2014-04-23</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-03-12</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="input" class="section level2">
+<h2>Pre-processing of Input Records</h2>
+<p>The first step involves company-specific pre-processing of records for the required input to the downstream parameter functions. Note that this could be needed multiple times (e.g. once for investigator and once for Independent Review Facility (IRF)/Blinded Independent Central Review (BICR) records). It could even involve merging input data from other sources besides <code>RS</code>, such as <code>ADTR</code>.</p>
+<p>This step would include any required selection/derivation of <code>ADT</code> or applying any necessary partial date imputations, updating <code>AVAL</code> (e.g. this should be ordered from best to worst response), and setting analysis flag <code>ANL01FL</code>. Common options for <code>ANL01FL</code> would be to set null for invalid assessments or those occurring after new anti-cancer therapy, or to only flag assessments on or after date of first treatment/randomization, or rules to cover the case when a patient has multiple observations per visit (e.g. by selecting the worst value). Another consideration could be extra potential protocol-specific sources of Progressive Disease such as radiological assessments, which could be pre-processed here to create a PD record to feed downstream derivations.</p>
+<p>For the derivation of the parameters it is expected that the subject identifier variables (usually <code>STUDYID</code> and <code>USUBJID</code>) and <code>ADT</code> are a unique key. This can be achieved by deriving an analysis flag (<code>ANLzzFL</code>). See <a href="#anl01fl">Derive <code>ANL01FL</code></a> for an example.</p>
+<p>The below shows an example of a possible company-specific implementation of this step.</p>
+<div id="select-overall-response-records-and-set-parameter-details" class="section level3">
+<h3>Select Overall Response Records and Set Parameter Details</h3>
+<p>In this case we use the overall response records from <code>RS</code> from the investigator as our starting point. The parameter details such as <code>PARAMCD</code>, <code>PARAM</code> etc will always be company-specific, but an example is shown below so that you can trace through how these records feed into the other parameter derivations.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RSEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span> <span class="sc">&amp;</span> RSTESTCD <span class="sc">==</span> <span class="st">&quot;OVRLRESP&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;OVR&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;Overall Response by Investigator&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="6%" />
+<col width="7%" />
+<col width="10%" />
+<col width="6%" />
+<col width="27%" />
+<col width="12%" />
+<col width="10%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">VISIT</th>
+<th align="left">RSTESTCD</th>
+<th align="left">RSEVAL</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">PARCAT1</th>
+<th align="left">PARCAT2</th>
+<th align="left">PARCAT3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">Tumor Response</td>
+<td align="left">Investigator</td>
+<td align="left">iRECIST</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="partial-date-imputation-and-deriving-adt-adtf-avisit-etc" class="section level3">
+<h3>Partial Date Imputation and Deriving <code>ADT</code>, <code>ADTF</code>, <code>AVISIT</code> etc</h3>
+<p>If your data collection allows for partial dates, you could apply a company-specific imputation rule at this stage when deriving <code>ADT</code>. For this example, here we impute missing day to last possible date.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_dt</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dtc =</span> RSDTC,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_imputation =</span> <span class="st">&quot;last&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">AVISIT =</span> VISIT)</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="31%" />
+<col width="16%" />
+<col width="10%" />
+<col width="10%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">RSSTRESC</th>
+<th align="left">RSDTC</th>
+<th align="left">ADT</th>
+<th align="left">ADTF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2014-02-12</td>
+<td align="left">2014-02-12</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2013-08</td>
+<td align="left">2013-08-31</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iCPD</td>
+<td align="left">2013-10-09</td>
+<td align="left">2013-10-09</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iSD</td>
+<td align="left">2013-11-20</td>
+<td align="left">2013-11-20</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2014-08-11</td>
+<td align="left">2014-08-11</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iSD</td>
+<td align="left">2014-09-25</td>
+<td align="left">2014-09-25</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-iCR/NON-iUPD</td>
+<td align="left">2014-11-04</td>
+<td align="left">2014-11-04</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NE</td>
+<td align="left">2014-02-11</td>
+<td align="left">2014-02-11</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2013-01-10</td>
+<td align="left">2013-01-10</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2014-04-23</td>
+<td align="left">2014-04-23</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="derive-avalc-and-aval" class="section level3">
+<h3>Derive <code>AVALC</code> and <code>AVAL</code></h3>
+<p>Here we populate <code>AVALC</code> and create the numeric version as <code>AVAL</code> (ordered from worst to best response, followed by <code>NE</code> and MISSING). The <code>AVAL</code> values are not considered in the parameter derivations below, and so changing <code>AVAL</code> here would not change the result of those derivations. However, please note that the ordering of <code>AVAL</code> will be used to determine <code>ANL01FL</code> in the subsequent step, ensure that the appropriate <code>mode</code> is being set in the <code>admiral::derive_var_extreme_flag()</code>.</p>
+<p>iRECIST ordering will be used or if you’d like to provide your own company-specific ordering here you could do this as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>aval_resp_new <span class="ot">&lt;-</span> <span class="cf">function</span>(arg) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">case_when</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;NE&quot;</span> <span class="sc">~</span> <span class="dv">8</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;MISSING&quot;</span> <span class="sc">~</span> <span class="dv">7</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;iCR&quot;</span> <span class="sc">~</span> <span class="dv">6</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;iPR&quot;</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;iSD&quot;</span> <span class="sc">~</span> <span class="dv">4</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;NON-iCR/NON-iUPD&quot;</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;iUPD&quot;</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;iCPD&quot;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_real_</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVALC =</span> RSSTRESC,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> <span class="fu">aval_resp_new</span>(AVALC)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="32%" />
+<col width="17%" />
+<col width="17%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">RSSTRESC</th>
+<th align="left">AVALC</th>
+<th align="right">AVAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">iUPD</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">iUPD</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iCPD</td>
+<td align="left">iCPD</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iSD</td>
+<td align="left">iSD</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">iUPD</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iSD</td>
+<td align="left">iSD</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-iCR/NON-iUPD</td>
+<td align="left">NON-iCR/NON-iUPD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NE</td>
+<td align="left">NE</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">iUPD</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">iUPD</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="anl01fl" class="section level3">
+<h3>Flag Worst Assessment at Each Date (<code>ANL01FL</code>)</h3>
+<p>When deriving <code>ANL01FL</code> this is an opportunity to exclude any records that should not contribute to any downstream parameter derivations. In the below example this includes only selecting valid assessments and those occurring on or after randomization date. If there is more than one assessment at a date, the worst one is flagged.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, ADT),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(AVAL, RSSEQ),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL01FL,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;first&quot;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> <span class="sc">!</span><span class="fu">is.na</span>(AVAL) <span class="sc">&amp;</span> AVALC <span class="sc">!=</span> <span class="st">&quot;MISSING&quot;</span> <span class="sc">&amp;</span> ADT <span class="sc">&gt;=</span> RANDDT</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="30%" />
+<col width="15%" />
+<col width="10%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2014-02-12</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2013-08-31</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iCPD</td>
+<td align="left">2013-10-09</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iSD</td>
+<td align="left">2013-11-20</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2014-08-11</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iSD</td>
+<td align="left">2014-09-25</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NON-iCR/NON-iUPD</td>
+<td align="left">2014-11-04</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">NE</td>
+<td align="left">2014-02-11</td>
+<td align="left">2014-01-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2013-01-10</td>
+<td align="left">2012-11-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">Overall Response by Investigator</td>
+<td align="left">iUPD</td>
+<td align="left">2014-04-23</td>
+<td align="left">2014-03-12</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+<p>Here is an alternative example where those records occurring after new anti-cancer therapy are additionally excluded (where <code>NACTDT</code> would be pre-derived as first date of new anti-cancer therapy. See <code>{admiralonco}</code> <a href="nactdt.html">Creating and Using New Anti-Cancer Start Date</a> for deriving this variable).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL01FL =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(AVAL) <span class="sc">&amp;</span> ADT <span class="sc">&gt;=</span> RANDDT <span class="sc">&amp;</span> ADT <span class="sc">&lt;</span> NACTDT <span class="sc">~</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="anl02fl" class="section level3">
+<h3>Flag Assessments up to First iCPD (<code>ANL02FL</code>)</h3>
+<p>To restrict response data up to and including first reported progressive disease <code>ANL02FL</code> flag could be created by using <code>{admiral}</code> function <code>admiral::derive_var_relative_flag()</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_relative_flag</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> ANL02FL,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iCPD&quot;</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">selection =</span> <span class="st">&quot;before&quot;</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">inclusive =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+<th align="left">ANL02FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">iUPD</td>
+<td align="left">2014-02-12</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">iUPD</td>
+<td align="left">2013-08-31</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVR</td>
+<td align="left">iCPD</td>
+<td align="left">2013-10-09</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVR</td>
+<td align="left">iSD</td>
+<td align="left">2013-11-20</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">iUPD</td>
+<td align="left">2014-08-11</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 12</td>
+<td align="left">OVR</td>
+<td align="left">iSD</td>
+<td align="left">2014-09-25</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 18</td>
+<td align="left">OVR</td>
+<td align="left">NON-iCR/NON-iUPD</td>
+<td align="left">2014-11-04</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">NE</td>
+<td align="left">2014-02-11</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">iUPD</td>
+<td align="left">2013-01-10</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVR</td>
+<td align="left">iUPD</td>
+<td align="left">2014-04-23</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="select-source-assessments-for-parameter-derivations" class="section level3">
+<h3>Select Source Assessments for Parameter derivations</h3>
+<p>For most parameter derivations the post-baseline overall response assessments up to and including first iCPD are considered.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ovr <span class="ot">&lt;-</span> <span class="fu">filter</span>(adrs, PARAMCD <span class="sc">==</span> <span class="st">&quot;OVR&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL02FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">iUPD</td>
+<td align="left">2014-02-12</td>
+<td align="left">2014-01-02</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">iUPD</td>
+<td align="left">2013-08-31</td>
+<td align="left">2013-07-19</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 12</td>
+<td align="left">iCPD</td>
+<td align="left">2013-10-09</td>
+<td align="left">2013-07-19</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 6</td>
+<td align="left">iUPD</td>
+<td align="left">2014-08-11</td>
+<td align="left">2014-07-01</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 12</td>
+<td align="left">iSD</td>
+<td align="left">2014-09-25</td>
+<td align="left">2014-07-01</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 18</td>
+<td align="left">NON-iCR/NON-iUPD</td>
+<td align="left">2014-11-04</td>
+<td align="left">2014-07-01</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 6</td>
+<td align="left">NE</td>
+<td align="left">2014-02-11</td>
+<td align="left">2014-01-01</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">iUPD</td>
+<td align="left">2013-01-10</td>
+<td align="left">2012-11-30</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">iUPD</td>
+<td align="left">2014-04-23</td>
+<td align="left">2014-03-12</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 12</td>
+<td align="left">iSD</td>
+<td align="left">2014-06-05</td>
+<td align="left">2014-03-12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="define-events" class="section level2">
+<h2>Define Events</h2>
+<p>The building blocks for the events that contribute to deriving common endpoints like what constitutes a responder, or a Best Overall Response of complete response (CR), … are predefined in admiralonco for RECIST 1.1 (see <a href="../reference/event_objects.html">Pre-Defined Response Event Objects</a>). New Response Event Objects are needed for iRECIST and any study-specific needs.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>icpd_y <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define confirmed progressive disease (iCPD) as&quot;</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;iUPD followed by iCPD with only other iUPD and NE responses in between&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_cond_upper =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;iCPD&quot;</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iUPD&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all</span>(AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCPD&quot;</span>, <span class="st">&quot;iUPD&quot;</span>, <span class="st">&quot;NE&quot;</span>)),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>iupd_y <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define unconfirmed progressive disease (iUPD) as&quot;</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;iUPD followed only by other iUPD or NE responses&quot;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;all&quot;</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> ADT <span class="sc">&lt;=</span> ADT.join <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;iUPD&quot;</span> <span class="sc">&amp;</span> <span class="fu">all</span>(AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iUPD&quot;</span>, <span class="st">&quot;NE&quot;</span>)),</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>no_data_n <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Define no response for all patients in adsl (should be used as last event)&quot;</span>,</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;N&quot;</span>),</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">keep_source_vars =</span> adsl_vars</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>no_data_missing <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define missing response (MISSING) for all patients in adsl (should be used&quot;</span>,</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;as last event)&quot;</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;MISSING&quot;</span>),</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">keep_source_vars =</span> adsl_vars</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div id="different_resp_vals" class="section level3">
+<h3>Handling Different Input Response Values</h3>
+<p>If <code>RS</code> contains other response values than the iRECIST responses, the <code>event()</code> and <code>event_joined()</code> can be adjusted to cover this scenario. For example, if RECIST responses (<code>&quot;CR&quot;</code>, <code>&quot;PR&quot;</code>, <code>&quot;SD&quot;</code>, …) are collected up to first PD and iRECIST responses (<code>&quot;iCR&quot;</code>, <code>&quot;iPR&quot;</code>, <code>&quot;iSD&quot;</code>, …) thereafter, the <code>event()</code> object defining unconfirmed response can be adjusted in the following way.</p>
+<pre><code>irsp_y &lt;- event(
+  description = &quot;Define CR, iCR, PR, or iPR as (unconfirmed) response&quot;,
+  dataset_name = &quot;ovr&quot;,
+  condition = AVALC %in% c(&quot;CR&quot;, &quot;iCR&quot;, &quot;PR&quot;, &quot;iPR&quot;),
+  set_values_to = exprs(AVALC = &quot;Y&quot;)
+)
+</code></pre>
+</div>
+</div>
+<div id="pd" class="section level2">
+<h2>Derive Confirmed and Unconfirmed Progressive Disease Parameter</h2>
+<p>Now that we have the input records prepared above with any company-specific requirements, we can start to derive new parameter records. For the parameter derivations, all values except those overwritten by <code>set_values_to</code> argument are kept from the earliest occurring input record fulfilling the required criteria.</p>
+<p>When an <code>iCPD</code> occurs, the date of progression would be the first occurrence of <code>iUPD</code> in that block. For example, when we have values of <code>iUPD</code>, <code>iUPD</code>, and <code>iCPD</code>, the iRECIST <code>PD</code> date would be the first occurrence of <code>iUPD</code>. In cases where we have <code>SD</code>, <code>SD</code>, <code>iUPD</code>, <code>PR</code>, <code>PR</code>, <code>iUPD</code>, and <code>iCPD</code>, the iRECIST <code>PD</code> date would be the second occurrence of <code>iUPD</code>.</p>
+<p>The function <code>admiral::derive_extreme_records()</code>, in conjunction with the event <code>icpd_y</code>, could be used to find the date of the first <code>iUPD</code>.</p>
+<p>For the Unconfirmed Progressive Disease Parameter, it can be of interest to look at <code>iUPD</code> that has never been confirmed and no subsequent <code>iSD</code>, <code>iPR</code> or <code>iCR</code> has been observed.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ovr =</span> ovr,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(icpd_y, no_data_n),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;ICPD&quot;</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;iRECIST Confirmation of Disease Progression by Investigator&quot;</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>ovr_orig <span class="ot">&lt;-</span> ovr</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>ovr <span class="ot">&lt;-</span> ovr <span class="sc">%&gt;%</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(USUBJID) <span class="sc">%&gt;%</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ADT <span class="sc">&gt;=</span> <span class="fu">max_cond</span>(<span class="at">var =</span> ADT, <span class="at">cond =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iUPD&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>(USUBJID)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">ovr =</span> ovr,</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(iupd_y, no_data_n),</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;IUPD&quot;</span>,</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;iRECIST Unconfirmed Disease Progression by Investigator&quot;</span>,</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span>,</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>ovr <span class="ot">&lt;-</span> ovr_orig</span></code></pre></div>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="6%" />
+<col width="7%" />
+<col width="53%" />
+<col width="5%" />
+<col width="9%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">Y</td>
+<td align="left">2013-08-31</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1146</td>
+<td align="left">NA</td>
+<td align="left">ICPD</td>
+<td align="left">iRECIST Confirmation of Disease Progression by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+<p>For progressive disease and response shown in steps here and below, in our examples we show these as <code>ADRS</code> parameters, but they could equally be achieved via <code>ADSL</code> dates or <code>ADEVENT</code> parameters.If you prefer to store as an ADSL date, then the function <code>admiral::derive_var_extreme_dt()</code> could be used to find the date of first <code>iCPD</code> as a variable, rather than as a new parameter record.</p>
+</div>
+<div id="rsp" class="section level2">
+<h2>Derive Response Parameter</h2>
+<p>The function <code>admiral::derive_extreme_event()</code> can then be used to find the date of first response. In the below example, the response condition has been defined as <code>iCR</code> or <code>iPR</code> via the event <code>irsp_y</code> that was created for iRECIST.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>irsp_y <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Define iCR or iPR as (unconfirmed) response&quot;</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;iPR&quot;</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(irsp_y, no_data_n),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">ovr =</span> ovr,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;IRSP&quot;</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;iRECIST Response by Investigator (confirmation not required)&quot;</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="53%" />
+<col width="5%" />
+<col width="9%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">NA</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">NA</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">NA</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 12</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-05-16</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 12</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">Y</td>
+<td align="left">2013-01-22</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1146</td>
+<td align="left">NA</td>
+<td align="left">IRSP</td>
+<td align="left">iRECIST Response by Investigator (confirmation not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="cb" class="section level2">
+<h2>Derive Clinical Benefit Parameter</h2>
+<p>The function <code>admiral::derive_extreme_event()</code> can then be used to derive the clinical benefit parameter, which we define as a patient having had a response or a sustained period of time before first <code>iUPD</code>. This could also be known as disease control. In this example the “sustained period” has been defined as 42 days after randomization date via the created <code>icb_y</code> event.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>icb_y <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define iCR, iPR, iSD, or NON-iCR/NON-iUPD occuring at least 42 days after&quot;</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;randomization as clinical benefit&quot;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;iPR&quot;</span>, <span class="st">&quot;iSD&quot;</span>, <span class="st">&quot;NON-iCR/NON-iUPD&quot;</span>) <span class="sc">&amp;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    ADT <span class="sc">&gt;=</span> RANDDT <span class="sc">+</span> <span class="dv">42</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Please note that the result <code>AVALC = &quot;Y&quot;</code> is defined by the first <em>two</em> events specified for <code>events</code>. For subjects with observations fulfilling both events the one with the earlier date should be selected (and not the first one in the list). Thus <code>ignore_event_order</code> and <code>tmp_event_nr_var</code> are not specified.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(<span class="fu">desc</span>(AVALC), ADT),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(irsp_y, icb_y, no_data_n),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">ovr =</span> ovr,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;ICB&quot;</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;iRECIST Clinical Benefit by Investigator (confirmation for response not required)&quot;</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="5%" />
+<col width="5%" />
+<col width="56%" />
+<col width="4%" />
+<col width="7%" />
+<col width="7%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">NA</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2012-08-05</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 12</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-09-25</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-01-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">NA</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2012-11-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 12</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-06-05</td>
+<td align="left">2014-03-12</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 12</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2014-05-16</td>
+<td align="left">2014-02-15</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 6</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">Y</td>
+<td align="left">2012-12-11</td>
+<td align="left">2012-10-28</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1146</td>
+<td align="left">NA</td>
+<td align="left">ICB</td>
+<td align="left">iRECIST Clinical Benefit by Investigator (confirmation for response not required)</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2013-05-20</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="bor" class="section level2">
+<h2>Derive Best Overall Response Parameter</h2>
+<p>The function <code>admiral::derive_extreme_event()</code> can be used to derive the best overall response (without confirmation required) parameter. Similar to the above function you can optionally decide what period would you consider an <code>iSD</code> or <code>NON-iCR/NON-iUPD</code> as being eligible from. In this example, 42 days after randomization date has been used again.</p>
+<p>Please note that the order of the events specified for <code>events</code> is important. For example, a subject with <code>iPR</code>, <code>iPR</code>, <code>iCR</code> qualifies for both <code>ibor_icr</code> and <code>ibor_ipr</code>. As <code>ibor_icr</code> is listed before <code>ibor_ipr</code>, <code>iCR</code> is selected as best overall response for this subject.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ibor_icr <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Define complete response (iCR) for best overall response (iBOR)&quot;</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iCR&quot;</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;iCR&quot;</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>ibor_ipr <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Define partial response (iPR) for best overall response (iBOR)&quot;</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iPR&quot;</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;iPR&quot;</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>ibor_isd <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define stable disease (iSD) for best overall response (iBOR) as iCR, iPR, or iSD&quot;</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;occurring at least 42 days after randomization&quot;</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;iPR&quot;</span>, <span class="st">&quot;iSD&quot;</span>) <span class="sc">&amp;</span> ADT <span class="sc">&gt;=</span> RANDDT <span class="sc">+</span> <span class="dv">42</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;iSD&quot;</span>)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>ibor_non_icriupd <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define NON-iCR/NON-iUPD for best overall response (iBOR) as NON-iCR/NON-iUPD&quot;</span>,</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;occuring at least 42 days after randomization&quot;</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;NON-iCR/NON-iUPD&quot;</span> <span class="sc">&amp;</span> ADT <span class="sc">&gt;=</span> RANDDT <span class="sc">+</span> <span class="dv">42</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;NON-iCR/NON-iUPD&quot;</span>)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>ibor_icpd <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define confirmed progressive disease (iCPD) for best overall response (iBOR) as&quot;</span>,</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;iUPD followed by iCPD with only other iUPD and NE responses in between&quot;</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_cond_upper =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;iCPD&quot;</span>,</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iUPD&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all</span>(AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCPD&quot;</span>, <span class="st">&quot;iUPD&quot;</span>, <span class="st">&quot;NE&quot;</span>)),</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;iCPD&quot;</span>)</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>ibor_iupd <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Define unconfirmed progressive disease (iUPD) for best overall response (iBOR)&quot;</span>,</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iUPD&quot;</span>,</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;iUPD&quot;</span>)</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>ibor_ne <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define not evaluable (NE) for best overall response (iBOR) as iCR, iPR, iSD,&quot;</span>,</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;NON-iCR/NON-iUPD, or NE (should be specified after ibor_isd and ibor_non_icriupd)&quot;</span></span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;iPR&quot;</span>, <span class="st">&quot;iSD&quot;</span>, <span class="st">&quot;NON-iCR/NON-iUPD&quot;</span>, <span class="st">&quot;NE&quot;</span>),</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;NE&quot;</span>)</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">tmp_event_nr_var =</span> event_nr,</span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(event_nr, ADT),</span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">ovr =</span> ovr,</span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(ibor_icr, ibor_ipr, ibor_isd, ibor_non_icriupd, ibor_icpd, ibor_iupd, ibor_ne, no_data_missing),</span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;IBOR&quot;</span>,</span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;iRECIST Best Overall Response by Investigator (confirmation not required)&quot;</span>,</span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span>,</span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">aval_resp_new</span>(AVALC),</span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="5%" />
+<col width="5%" />
+<col width="52%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">iUPD</td>
+<td align="left">2014-02-12</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">MISSING</td>
+<td align="left">NA</td>
+<td align="left">2012-08-05</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 6</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">iCPD</td>
+<td align="left">2013-08-31</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 12</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">iSD</td>
+<td align="left">2014-09-25</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 6</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">NE</td>
+<td align="left">2014-02-11</td>
+<td align="left">2014-01-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 6</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">iUPD</td>
+<td align="left">2013-01-10</td>
+<td align="left">2012-11-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 12</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">iSD</td>
+<td align="left">2014-06-05</td>
+<td align="left">2014-03-12</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 12</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">iCR</td>
+<td align="left">2014-05-16</td>
+<td align="left">2014-02-15</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 12</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">iPR</td>
+<td align="left">2013-01-22</td>
+<td align="left">2012-10-28</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1146</td>
+<td align="left">WEEK 6</td>
+<td align="left">IBOR</td>
+<td align="left">iRECIST Best Overall Response by Investigator (confirmation not required)</td>
+<td align="left">iUPD</td>
+<td align="left">2013-06-30</td>
+<td align="left">2013-05-20</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="confirm" class="section level2">
+<h2>Derive Response Parameters requiring Confirmation</h2>
+<p>Any of the above response parameters can be repeated for “confirmed” responses only. For these the function <code>admiral::derive_extreme_event()</code> can be used with different events. Some of the other functions from above can then be re-used passing in these confirmed response records. See the examples below of derived parameters requiring confirmation. The assessment and the confirmatory assessment here need to occur at least 28 days apart <em>(without any +1 applied to this calculation of days between visits)</em>, using the <code>icrsp_y_cr</code>, <code>icrsp_y_ipr</code>, <code>icbor_icr</code>, and <code>icbor_ipr</code> event. Here the confirmation period and the <code>keep_source_vars</code> argument is updated, as well as the <code>first_cond_upper</code> and <code>condition</code> for the iRECIST values.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>confirmation_period <span class="ot">&lt;-</span> <span class="dv">28</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>icrsp_y_icr <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define confirmed response as iCR followed by iCR at least&quot;</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    confirmation_period,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;days later and at most one NE in between&quot;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_cond_upper =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;iCR&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    ADT.join <span class="sc">&gt;=</span> ADT <span class="sc">+</span> <span class="fu">days</span>(confirmation_period),</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iCR&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all</span>(AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;NE&quot;</span>)) <span class="sc">&amp;</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count_vals</span>(<span class="at">var =</span> AVALC.join, <span class="at">val =</span> <span class="st">&quot;NE&quot;</span>) <span class="sc">&lt;=</span> <span class="dv">1</span>,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>icrsp_y_ipr <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define confirmed response as iPR followed by iCR or iPR at least&quot;</span>,</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    confirmation_period,</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;days later at most one NE in between, and no iPR after iCR&quot;</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_cond_upper =</span> AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;iPR&quot;</span>) <span class="sc">&amp;</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    ADT.join <span class="sc">&gt;=</span> ADT <span class="sc">+</span> <span class="fu">days</span>(confirmation_period),</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iPR&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all</span>(AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;iPR&quot;</span>, <span class="st">&quot;NE&quot;</span>)) <span class="sc">&amp;</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count_vals</span>(<span class="at">var =</span> AVALC.join, <span class="at">val =</span> <span class="st">&quot;NE&quot;</span>) <span class="sc">&lt;=</span> <span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>      <span class="fu">min_cond</span>(</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">var =</span> ADT.join,</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">cond =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;iCR&quot;</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">&gt;</span> <span class="fu">max_cond</span>(<span class="at">var =</span> ADT.join, <span class="at">cond =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;iPR&quot;</span>) <span class="sc">|</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>        <span class="fu">count_vals</span>(<span class="at">var =</span> AVALC.join, <span class="at">val =</span> <span class="st">&quot;iCR&quot;</span>) <span class="sc">==</span> <span class="dv">0</span> <span class="sc">|</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">count_vals</span>(<span class="at">var =</span> AVALC.join, <span class="at">val =</span> <span class="st">&quot;iPR&quot;</span>) <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>icbor_icr <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define complete response (iCR) for confirmed best overall response (iCBOR) as&quot;</span>,</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;iCR followed by iCR at least&quot;</span>,</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>    confirmation_period,</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;days later and at most one NE in between&quot;</span></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_cond_upper =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;iCR&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>    ADT.join <span class="sc">&gt;=</span> ADT <span class="sc">+</span> confirmation_period,</span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iCR&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all</span>(AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;NE&quot;</span>)) <span class="sc">&amp;</span></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count_vals</span>(<span class="at">var =</span> AVALC.join, <span class="at">val =</span> <span class="st">&quot;NE&quot;</span>) <span class="sc">&lt;=</span> <span class="dv">1</span>,</span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;iCR&quot;</span>)</span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>icbor_ipr <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Define partial response (iPR) for confirmed best overall response (iCBOR) as&quot;</span>,</span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;iPR followed by iCR or iPR at least&quot;</span>,</span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>    confirmation_period,</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;days later, at most one NE in between and no iPR after iCR&quot;</span></span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_cond_upper =</span> AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;iPR&quot;</span>) <span class="sc">&amp;</span></span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a>    ADT.join <span class="sc">&gt;=</span> ADT <span class="sc">+</span> confirmation_period,</span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;iPR&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all</span>(AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;iCR&quot;</span>, <span class="st">&quot;iPR&quot;</span>, <span class="st">&quot;NE&quot;</span>)) <span class="sc">&amp;</span></span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count_vals</span>(<span class="at">var =</span> AVALC.join, <span class="at">val =</span> <span class="st">&quot;NE&quot;</span>) <span class="sc">&lt;=</span> <span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>      <span class="fu">min_cond</span>(</span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>        <span class="at">var =</span> ADT.join,</span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>        <span class="at">cond =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;iCR&quot;</span></span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">&gt;</span> <span class="fu">max_cond</span>(<span class="at">var =</span> ADT.join, <span class="at">cond =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;iPR&quot;</span>) <span class="sc">|</span></span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>        <span class="fu">count_vals</span>(<span class="at">var =</span> AVALC.join, <span class="at">val =</span> <span class="st">&quot;iCR&quot;</span>) <span class="sc">==</span> <span class="dv">0</span> <span class="sc">|</span></span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>        <span class="fu">count_vals</span>(<span class="at">var =</span> AVALC.join, <span class="at">val =</span> <span class="st">&quot;iPR&quot;</span>) <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;iPR&quot;</span>)</span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Please note that the result <code>AVALC = &quot;Y&quot;</code> for confirmed clinical benefit is defined by the first <em>two</em> events specified for <code>events</code>. For subjects with observations fulfilling both events the one with the earlier date should be selected (and not the first one in the list).</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(<span class="fu">desc</span>(AVALC), ADT),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ovr =</span> ovr,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(icrsp_y_icr, icrsp_y_ipr, no_data_n),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;ICRSP&quot;</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;iRECIST Confirmed Response by Investigator&quot;</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span>,</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(<span class="fu">desc</span>(AVALC), ADT),</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(icrsp_y_icr, icrsp_y_ipr, icb_y, no_data_n),</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">ovr =</span> ovr,</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;ICCB&quot;</span>,</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;iRECIST Confirmed Clinical Benefit by Investigator&quot;</span>,</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span>,</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">yn_to_numeric</span>(AVALC),</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">tmp_event_nr_var =</span> event_nr,</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(event_nr, ADT),</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(icbor_icr, icbor_ipr, ibor_isd, ibor_non_icriupd, ibor_icpd, ibor_iupd, ibor_ne, no_data_missing),</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">ovr =</span> ovr,</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;ICBOR&quot;</span>,</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;iRECIST Best Confirmed Overall Response by Investigator&quot;</span>,</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Tumor Response&quot;</span>,</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>      <span class="at">PARCAT3 =</span> <span class="st">&quot;iRECIST&quot;</span>,</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">aval_resp</span>(AVALC),</span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="40%" />
+<col width="5%" />
+<col width="10%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">RANDDT</th>
+<th align="left">ANL01FL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">NA</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-01-02</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2012-08-05</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2013-07-19</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">NA</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-07-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">NA</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-01-01</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">NA</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2012-11-30</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">NA</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2014-03-12</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 12</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">Y</td>
+<td align="left">2014-05-16</td>
+<td align="left">2014-02-15</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 12</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">Y</td>
+<td align="left">2013-01-22</td>
+<td align="left">2012-10-28</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1146</td>
+<td align="left">NA</td>
+<td align="left">ICRSP</td>
+<td align="left">iRECIST Confirmed Response by Investigator</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">2013-05-20</td>
+<td align="left">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="other" class="section level2">
+<h2>Other Endpoints</h2>
+<p>The following parameters may also be added:</p>
+<p>IBCP - iRECIST Best Overall Response of CR/PR by Investigator (confirmation not required)<br> ICBCP - iRECIST Best Confirmed Overall Response of CR/PR by Investigator<br> IOVRB - iRECIST Overall Response by BICR<br> ILSTA - iRECIST Last Disease Assessment by Investigator<br> IMDIS - iRECIST Measurable Disease at Baseline by Investigator</p>
+<p>For examples on the additional endpoints, please see <a href="adrs.html">Creating ADRS (Including Non-standard Endpoints)</a>.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

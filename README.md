@@ -1,7 +1,3 @@
-<!-- Please do not edit the README.md file as it is auto-generated after PR merges. Only edit the README.Rmd file -->
-<!-- The purpose of this is to enable dynamic links using dyn_link function above to access devel/main admiral homepage respectively -->
-<!-- To test this in your feature branch use code: rmarkdown::render("README.Rmd", output_format ="md_document") -->
-
 # admiralonco <img src="man/figures/logo.png" align="right" width="200" style="margin-left:50px;"/>
 
 <!-- badges: start -->
@@ -9,8 +5,6 @@
 [<img src="http://pharmaverse.org/shields/admiralonco.svg">](https://pharmaverse.org)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/admiralonco)](https://CRAN.R-project.org/package=admiralonco)
-[![Test
-Coverage](https://raw.githubusercontent.com/pharmaverse/admiralonco/badges/main/test-coverage.svg)](https://github.com/pharmaverse/admiralonco/actions/workflows/code-coverage.yml)
 <!-- badges: end -->
 
 Oncology extension package for ADaM in R Asset Library `{admiral}`
@@ -22,19 +16,24 @@ to develop oncology disease area specifics.
 
 ## Installation
 
-The package is available from CRAN and can be installed by running
-`install.packages("admiralonco")`.
+The package is available from CRAN and can be installed with:
+
+```r
+install.packages("admiralonco")
+```
 
 To install the latest development version of the package directly from
 GitHub use the following code:
 
-    if (!requireNamespace("remotes", quietly = TRUE)) {
-      install.packages("remotes")
-    }
+```r
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
 
-    remotes::install_github("pharmaverse/admiraldev", ref = "devel") # This is a required dependency of {admiralonco}
-    remotes::install_github("pharmaverse/admiral", ref = "devel") # This is a required dependency of {admiralonco}
-    remotes::install_github("pharmaverse/admiralonco", ref = "devel")
+remotes::install_github("pharmaverse/admiraldev") # This is a required dependency of {admiralonco}
+remotes::install_github("pharmaverse/admiral") # This is a required dependency of {admiralonco}
+remotes::install_github("pharmaverse/admiralonco")
+```
 
 ### Dependencies
 
@@ -67,8 +66,8 @@ for oncology ADaMs.
 
 ## References and Documentation
 
--   Please refer to the [{admiral} References and
-    Documentation](https://pharmaverse.github.io/admiral/main/index.html#references-and-documentation)
+-   Please refer to the [References and
+    Documentation](https://pharmaverse.github.io/admiral/index.html#references-and-documentation)
 
 ## R Versions
 
@@ -76,10 +75,9 @@ Here’s a summary of our strategy for this package related to R versions:
 
 -   R versions for developers and users will follow the same as
     `{admiral}` core package.
--   For development the `devel` branch of `{admiral}` core is used as a
+-   For development the `main` branch of `{admiral}` core is used as a
     dependency. For releasing a new `{admiralonco}` version it must run
-    using the latest released `{admiral}` core version, i.e., `main`
-    branch of `{admiral}` core.
+    using the latest released `{admiral}` core version.
 
 ## Contact
 

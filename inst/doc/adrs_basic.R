@@ -4,36 +4,6 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-library(admiral)
-
-link <- function(text, url) {
-  return(
-    paste0(
-      "[", text, "]",
-      "(", url, ")"
-    )
-  )
-}
-dyn_link <- function(text,
-                     base_url,
-                     relative_url = "",
-                     # Change to TRUE when admiral adopts multiversion docs
-                     is_multiversion = FALSE,
-                     multiversion_default_ref = "main") {
-  url <- paste(base_url, relative_url, sep = "/")
-  if (is_multiversion) {
-    url <- paste(
-      base_url,
-      Sys.getenv("BRANCH_NAME", multiversion_default_ref),
-      relative_url,
-      sep = "/"
-    )
-  }
-  return(link(text, url))
-}
-# Other variables
-admiral_homepage <- "https://pharmaverse.github.io/admiral/cran-release"
-
 library(admiraldev)
 
 ## ----message=FALSE------------------------------------------------------------
@@ -41,13 +11,13 @@ library(admiral)
 library(admiralonco)
 library(dplyr)
 library(pharmaversesdtm)
+library(pharmaverseadam)
 library(lubridate)
 library(stringr)
-data("admiral_adsl")
+data("adsl")
 data("rs_onco_recist")
 data("tu_onco_recist")
 
-adsl <- admiral_adsl
 rs <- rs_onco_recist
 tu <- tu_onco_recist
 
@@ -87,7 +57,7 @@ adrs <- adrs %>%
     PARAM = "Overall Response by Investigator",
     PARCAT1 = "Tumor Response",
     PARCAT2 = "Investigator",
-    PARCAT3 = "Recist 1.1"
+    PARCAT3 = "RECIST 1.1"
   )
 
 ## ---- echo=FALSE--------------------------------------------------------------
@@ -126,12 +96,24 @@ dataset_vignette(
 )
 
 ## -----------------------------------------------------------------------------
+worst_resp <- function(arg) {
+  case_when(
+    arg == "NE" ~ 1,
+    arg == "CR" ~ 2,
+    arg == "PR" ~ 3,
+    arg == "SD" ~ 4,
+    arg == "NON-CR/NON-PD" ~ 5,
+    arg == "PD" ~ 6,
+    TRUE ~ 0
+  )
+}
+
 adrs <- adrs %>%
   restrict_derivation(
     derivation = derive_var_extreme_flag,
     args = params(
       by_vars = exprs(STUDYID, USUBJID, ADT),
-      order = exprs(AVAL, RSSEQ),
+      order = exprs(worst_resp(AVALC), RSSEQ),
       new_var = ANL01FL,
       mode = "last"
     ),
@@ -175,12 +157,13 @@ adrs <- adrs %>%
     order = exprs(ADT, RSSEQ),
     mode = "first",
     exist_flag = AVALC,
+    false_value = "N",
     set_values_to = exprs(
       PARAMCD = "PD",
       PARAM = "Disease Progression by Investigator",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
@@ -218,7 +201,7 @@ adrs <- adrs %>%
       PARAM = "Response by Investigator (confirmation not required)",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
@@ -253,7 +236,7 @@ adrs <- adrs %>%
       PARAM = "Clinical Benefit by Investigator (confirmation for response not required)",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
@@ -280,7 +263,7 @@ adrs <- adrs %>%
       PARAM = "Best Overall Response by Investigator (confirmation not required)",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = aval_resp(AVALC),
       ANL01FL = "Y"
     )
@@ -317,12 +300,13 @@ adrs <- adrs %>%
     order = exprs(ADT, RSSEQ),
     mode = "first",
     exist_flag = AVALC,
+    false_value = "N",
     set_values_to = exprs(
       PARAMCD = "BCP",
       PARAM = "Best Overall Response of CR/PR by Investigator (confirmation not required)",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
@@ -348,7 +332,7 @@ adrs <- adrs %>%
       PARAM = "Confirmed Response by Investigator",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
@@ -374,7 +358,7 @@ adrs <- adrs %>%
       PARAM = "Confirmed Clinical Benefit by Investigator",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
@@ -392,7 +376,7 @@ adrs <- adrs %>%
       PARAM = "Best Confirmed Overall Response by Investigator",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = aval_resp(AVALC),
       ANL01FL = "Y"
     )
@@ -405,12 +389,13 @@ adrs <- adrs %>%
     order = exprs(ADT, RSSEQ),
     mode = "first",
     exist_flag = AVALC,
+    false_value = "N",
     set_values_to = exprs(
       PARAMCD = "CBCP",
       PARAM = "Best Confirmed Overall Response of CR/PR by Investigator",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )
@@ -433,7 +418,7 @@ adrs_bicr <- rs %>%
     PARAM = "Overall Response by BICR",
     PARCAT1 = "Tumor Response",
     PARCAT2 = "Blinded Independent Central Review",
-    PARCAT3 = "Recist 1.1"
+    PARCAT3 = "RECIST 1.1"
   )
 
 ## ---- echo=FALSE--------------------------------------------------------------
@@ -454,6 +439,7 @@ adrs <- adrs %>%
     by_vars = exprs(STUDYID, USUBJID),
     filter_add = !is.na(DTHDT),
     exist_flag = AVALC,
+    false_value = "N",
     set_values_to = exprs(
       PARAMCD = "DEATH",
       PARAM = "Death",
@@ -486,7 +472,7 @@ adrs <- adrs %>%
       PARAM = "Last Disease Assessment by Investigator",
       PARCAT1 = "Tumor Response",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       ANL01FL = "Y"
     )
   )
@@ -513,7 +499,7 @@ adrs <- adrs %>%
       PARAMCD = "MDIS",
       PARAM = "Measurable Disease at Baseline by Investigator",
       PARCAT2 = "Investigator",
-      PARCAT3 = "Recist 1.1",
+      PARCAT3 = "RECIST 1.1",
       AVAL = yn_to_numeric(AVALC),
       ANL01FL = "Y"
     )

@@ -163,9 +163,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pharmaversesdtm)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pharmaverseadam)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span></code></pre></div>
 </div>
 </div>
 <div id="programming-workflow" class="section level1">
@@ -187,26 +188,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="readdata" class="section level2">
 <h2>Read in Data</h2>
 <p>To start, all data frames needed for the creation of <code>ADTR</code> should be read into the environment. This will be a company specific process. Some of the data frames needed may be <code>ADSL</code>, <code>ADRS</code> ,<code>RS</code>, <code>TU</code>, <code>TR</code>, <code>SUPPTU</code> <code>SUPPTR</code>.</p>
-<p>For example purposes, the SDTM and ADaM datasets (based on CDISC Pilot test data)—which are included in <code>{pharmaversesdtm}</code>—are used. Also, see <a href="https://pharmaverse.github.io/admiral/cran-release/articles/admiral.html#handling-of-missing-values">Handling of Missing Values</a> explains why we need to use the <code>convert_blanks_to_na()</code> function.</p>
+<p>For example purposes, the SDTM and ADaM datasets (based on CDISC Pilot test data)—which are included in <code>{pharmaversesdtm}</code> and <code>{pharmaverseadam}</code>—are used. Also, see <a href="https://pharmaverse.github.io/admiral/articles/admiral.html#handling-of-missing-values">Handling of Missing Values</a> explains why we need to use the <code>convert_blanks_to_na()</code> function.</p>
 <p>On the <code>TR</code> domain we filter on where tumor assessment short name <code>TRTESTCD</code> is <code>&quot;LDIAM&quot;</code> or <code>&quot;LPERP&quot;</code>. Depending on your data collection standards you may need to update the code to filter on <code>TRTESTCD == &quot;DIAMETER&quot;</code>. If this is the case then the template code where we derive parameters for lesions diameters should be updated accordingly.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adsl&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adrs&quot;</span>)</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adsl&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adrs_onco&quot;</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;rs_onco_recist&quot;</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tu_onco_recist&quot;</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;tr_onco_recist&quot;</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> admiral_adsl</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> admiral_adrs</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> tu_onco_recist</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> tr_onco_recist</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> rs_onco_recist</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tu) <span class="sc">%&gt;%</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TUEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tr) <span class="sc">%&gt;%</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    TREVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span> <span class="sc">&amp;</span> TRGRPID <span class="sc">==</span> <span class="st">&quot;TARGET&quot;</span> <span class="sc">&amp;</span> TRTESTCD <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;LDIAM&quot;</span>, <span class="st">&quot;LPERP&quot;</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(rs)</span></code></pre></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs_onco</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> tu_onco_recist</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> tr_onco_recist</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> rs_onco_recist</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>tu <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tu) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TUEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(tr) <span class="sc">%&gt;%</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    TREVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span> <span class="sc">&amp;</span> TRGRPID <span class="sc">==</span> <span class="st">&quot;TARGET&quot;</span> <span class="sc">&amp;</span> TRTESTCD <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;LDIAM&quot;</span>, <span class="st">&quot;LPERP&quot;</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(rs)</span></code></pre></div>
 <p>At this step, it may be useful to join <code>ADSL</code> to your <code>TR</code> domain. For efficiency, only the <code>ADSL</code> variables (in this example, Randomization date (<code>RANDDT</code>) used for derivations are selected at this step. The rest of the relevant <code>ADSL</code> variables would be added later.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adsl_vars <span class="ot">&lt;-</span> <span class="fu">exprs</span>(RANDDT)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
@@ -570,7 +570,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;Target Lesion(s)&quot;</span>,</span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;RECIST 1.1&quot;</span>,</span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> TRSTRESN,</span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL01FL =</span> <span class="fu">if_else</span>(<span class="sc">!</span><span class="fu">is.na</span>(AVAL), <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
@@ -694,29 +694,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2>Derive Parameter for Sum of Diameter and Analysis Flag <code>ANL01FL</code></h2>
 <p>Sum of Target Lesions Diameters is the sum of the diameters of both lymph and non-lymph nodes (sum of analysis values <code>AVAL</code> from source observations <code>LDIAMn</code> &amp; <code>LNDIAMn</code>).</p>
 <p>In this vignette, the sum of the diameters is calculated across all the available lesion measurements, and we use the analysis flag <code>ANL01FL</code> to select the records that should be used as part of the analysis based on RECIST 1.1. Subsequently we then build on this analysis flag (see <a href="#analflag"><code>ANLzzFL</code></a>) to demonstrate additional analysis flags for example purposes only. The analysis flags therefore should be setup according to your company specifications.</p>
-<p>In the example below, the lesion sizes are counted and grouped according to the by variables specified, in this case we group by the visit (<code>AVISIT</code> and <code>AVISITN</code>) to ensure that the correct lesion measurements are summed together.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> <span class="fu">get_summary_records</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  adtr,</span>
+<p>In the example below, the lesion sizes are counted and grouped according to the by variables specified, in this case we group by the visit (<code>AVISIT</code> and <code>AVISITN</code>) to ensure that the correct lesion measurements are summed together. If there are different analysis day/dates (<code>ADY</code>/<code>ADT</code>) associated with a particular visit, we take the minimum day/date.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> <span class="fu">derive_summary_records</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_add =</span> adtr,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, <span class="sc">!!!</span>adsl_vars, AVISIT, AVISITN),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter_add =</span> (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">analysis_var =</span> AVAL,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">sum</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;SDIAM&quot;</span>,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;Target Lesions Sum of Diameters by Investigator&quot;</span>,</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;Target Lesion(s)&quot;</span>,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;Recist 1.1&quot;</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> <span class="fu">sum</span>(AVAL, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADY =</span> <span class="fu">min</span>(ADY, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ADT =</span> <span class="fu">min</span>(ADT, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;SDIAM&quot;</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;Target Lesions Sum of Diameters by Investigator&quot;</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;Target Lesion(s)&quot;</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARCAT3 =</span> <span class="st">&quot;RECIST 1.1&quot;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <table>
 <colgroup>
-<col width="14%" />
+<col width="12%" />
+<col width="8%" />
+<col width="49%" />
 <col width="9%" />
-<col width="58%" />
-<col width="10%" />
-<col width="6%" />
+<col width="5%" />
+<col width="11%" />
+<col width="4%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -725,6 +728,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <th align="left">PARAM</th>
 <th align="left">AVISIT</th>
 <th align="right">AVAL</th>
+<th align="left">ADT</th>
+<th align="right">ADY</th>
 </tr>
 </thead>
 <tbody>
@@ -734,6 +739,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">BASELINE</td>
 <td align="right">96</td>
+<td align="left">2014-01-02</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
@@ -741,6 +748,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 3</td>
 <td align="right">96</td>
+<td align="left">2014-01-23</td>
+<td align="right">22</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1015</td>
@@ -748,6 +757,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 6</td>
 <td align="right">38</td>
+<td align="left">2014-02-01</td>
+<td align="right">31</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1015</td>
@@ -755,6 +766,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 9</td>
 <td align="right">7</td>
+<td align="left">2014-03-06</td>
+<td align="right">64</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1028</td>
@@ -762,6 +775,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">BASELINE</td>
 <td align="right">94</td>
+<td align="left">2013-07-19</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1028</td>
@@ -769,6 +784,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 3</td>
 <td align="right">91</td>
+<td align="left">2013-08-09</td>
+<td align="right">22</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1028</td>
@@ -776,6 +793,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 6</td>
 <td align="right">110</td>
+<td align="left">2013-08-30</td>
+<td align="right">43</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1028</td>
@@ -783,6 +802,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 9</td>
 <td align="right">92</td>
+<td align="left">2013-09-20</td>
+<td align="right">64</td>
 </tr>
 <tr class="odd">
 <td align="left">01-701-1115</td>
@@ -790,6 +811,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">BASELINE</td>
 <td align="right">90</td>
+<td align="left">2012-11-30</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">01-701-1115</td>
@@ -797,6 +820,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Target Lesions Sum of Diameters by Investigator</td>
 <td align="left">WEEK 3</td>
 <td align="right">74</td>
+<td align="left">2012-12-21</td>
+<td align="right">22</td>
 </tr>
 </tbody>
 </table>
@@ -812,202 +837,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> AVISIT <span class="sc">==</span> <span class="st">&quot;BASELINE&quot;</span> <span class="sc">&amp;</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      ((<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>)),</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> LSEXP,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">analysis_var =</span> TRLNKID,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="fu">sort</span>(x), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_summary</span>(</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr,</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, AVISIT),</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> ((<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>)) <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> LSASS,</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">analysis_var =</span> TRLNKID,</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="fu">sort</span>(x), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL01FL =</span> <span class="fu">if_else</span>(LSEXP <span class="sc">==</span> LSASS, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p>In the next step we include the analysis day and date (<code>ADY</code>/<code>ADT</code>) variables to the sum of diameter parameter dataset. If there are different analysis day/dates associated with a particular visit, we take the minimum day/date.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_summary</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, AVISIT),</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>),</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> ADY,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">analysis_var =</span> ADY,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_summary</span>(</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, AVISIT),</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>),</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> ADT,</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">analysis_var =</span> ADT,</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_fun =</span> <span class="cf">function</span>(x) <span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<table>
-<colgroup>
-<col width="12%" />
-<col width="8%" />
-<col width="9%" />
-<col width="24%" />
-<col width="24%" />
-<col width="8%" />
-<col width="11%" />
-<col width="4%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">USUBJID</th>
-<th align="left">PARAMCD</th>
-<th align="left">AVISIT</th>
-<th align="left">LSEXP</th>
-<th align="left">LSASS</th>
-<th align="left">ANL01FL</th>
-<th align="left">ADT</th>
-<th align="right">ADY</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">SDIAM</td>
-<td align="left">BASELINE</td>
-<td align="left">T01, T02, T03, T04</td>
-<td align="left">T01, T02, T03, T04</td>
-<td align="left">Y</td>
-<td align="left">2014-01-02</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 3</td>
-<td align="left">T01, T02, T03, T04</td>
-<td align="left">T01, T02, T03, T04</td>
-<td align="left">Y</td>
-<td align="left">2014-01-23</td>
-<td align="right">22</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1015</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 6</td>
-<td align="left">T01, T02, T03, T04</td>
-<td align="left">T01, T04</td>
-<td align="left">NA</td>
-<td align="left">2014-02-01</td>
-<td align="right">31</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1015</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 9</td>
-<td align="left">T01, T02, T03, T04</td>
-<td align="left">T01, T02, T03, T04</td>
-<td align="left">Y</td>
-<td align="left">2014-03-06</td>
-<td align="right">64</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1028</td>
-<td align="left">SDIAM</td>
-<td align="left">BASELINE</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">Y</td>
-<td align="left">2013-07-19</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1028</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 3</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">Y</td>
-<td align="left">2013-08-09</td>
-<td align="right">22</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1028</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 6</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">T02, T03, T04, T05</td>
-<td align="left">NA</td>
-<td align="left">2013-08-30</td>
-<td align="right">43</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1028</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 9</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">T01, T02, T03, T04, T05</td>
-<td align="left">Y</td>
-<td align="left">2013-09-20</td>
-<td align="right">64</td>
-</tr>
-<tr class="odd">
-<td align="left">01-701-1115</td>
-<td align="left">SDIAM</td>
-<td align="left">BASELINE</td>
-<td align="left">T01, T02, T03</td>
-<td align="left">T01, T02, T03</td>
-<td align="left">Y</td>
-<td align="left">2012-11-30</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">01-701-1115</td>
-<td align="left">SDIAM</td>
-<td align="left">WEEK 3</td>
-<td align="left">T01, T02, T03</td>
-<td align="left">T01, T02, T03</td>
-<td align="left">Y</td>
-<td align="left">2012-12-21</td>
-<td align="right">22</td>
-</tr>
-</tbody>
-</table>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">LSEXP =</span> <span class="fu">paste</span>(<span class="fu">sort</span>(TRLNKID), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_summary</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, AVISIT),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> ((<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;LDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NON-NODAL&quot;</span>) <span class="sc">|</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>      (<span class="fu">str_starts</span>(PARAMCD, <span class="st">&quot;NLDIAM&quot;</span>) <span class="sc">&amp;</span> TULOCGR1 <span class="sc">==</span> <span class="st">&quot;NODAL&quot;</span>)) <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">LSASS =</span> <span class="fu">paste</span>(<span class="fu">sort</span>(TRLNKID), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL01FL =</span> <span class="fu">if_else</span>(LSEXP <span class="sc">==</span> LSASS, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 <div id="base" class="section level2">
 <h2>Derive Baseline (<code>ABLFL</code>, <code>BASE</code>)</h2>
 <p>These functions are available in <code>admiral</code>, below examples show its usage for <code>ADTR</code>. Here we create baseline record flag <code>ABLFL</code> by selecting the last record prior to analysis day 1, and then derive the baseline value <code>BASE</code>. If in a particular study/or subject, baseline is defined differently, you need to make sure to update appropriate arguments.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(ADY),</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ABLFL,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;last&quot;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ADY <span class="sc">&lt;=</span> <span class="dv">1</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_base</span>(</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(ADY),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ABLFL,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;last&quot;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ADY <span class="sc">&lt;=</span> <span class="dv">1</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_base</span>(</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 <div id="nadir" class="section level2">
 <h2>Derive <code>NADIR</code></h2>
 <p>Once we have Sum of Target Lesions Diameters parameter (<code>SDIAM</code>), the <code>NADIR</code> is set to the lowest sum of diameters in Analysis Value (<code>AVAL</code>) before the current observation, where all lesions were assessed (i.e. <code>ANL01F == &quot;Y&quot;</code>). The first observations after baseline (depending on how you have defined baseline earlier) is set to the baseline value.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_joined</span>(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr_sum,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(AVAL),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">NADIR =</span> AVAL),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">join_vars =</span> <span class="fu">exprs</span>(ADY),</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_join =</span> ADY.join <span class="sc">&lt;</span> ADY,</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;none&quot;</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_joined</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr_sum,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(AVAL),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">NADIR =</span> AVAL),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">join_vars =</span> <span class="fu">exprs</span>(ADY),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">join_type =</span> <span class="st">&quot;all&quot;</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_join =</span> ADY.join <span class="sc">&lt;</span> ADY,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1106,13 +982,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="chg" class="section level2">
 <h2>Derive Change from Baseline (<code>CHG</code>, <code>PCHG</code>)</h2>
 <p>These functions are available in admiral, below examples show its usage for <code>ADTR</code>. We calculate the change from baseline (<code>CHG</code>, <code>CHGNAD</code>) and percentage change from baseline (<code>PCHG</code> , <code>PCHGNAD</code>) for the parameter <code>SDIAM</code> (using <code>AVAL - BASE</code>) the variable <code>NADIR</code> (using <code>AVAL - NADIR</code>).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_chg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_pchg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">CHGNAD =</span> AVAL <span class="sc">-</span> NADIR,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">PCHGNAD =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">NA_real_</span>, <span class="dv">100</span> <span class="sc">*</span> CHGNAD <span class="sc">/</span> NADIR)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_chg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_pchg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">CHGNAD =</span> AVAL <span class="sc">-</span> NADIR,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">PCHGNAD =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">NA_real_</span>, <span class="dv">100</span> <span class="sc">*</span> CHGNAD <span class="sc">/</span> NADIR)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1249,14 +1125,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In this example, we want to flag when a patient has had <code>PD</code>. This could be done in a number of ways:</p>
 <div id="take-the-date-of-pd-from-adrs" class="section level4">
 <h4>1. Take the date of <code>PD</code> from <code>ADRS</code></h4>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_exist_flag</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;PD&quot;</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, ADT),</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> PDFL,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_exist_flag</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;PD&quot;</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, ADT),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> PDFL,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1365,20 +1241,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="take-the-first-date-when-the-overall-response-is-pd-from-rs" class="section level4">
 <h4>2. Take the first date when the overall response is <code>PD</code> from <code>RS</code></h4>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_exist_flag</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> <span class="fu">derive_vars_dt</span>(</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      rs,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">dtc =</span> RSDTC,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_imputation =</span> <span class="st">&quot;none&quot;</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> RSTESTCD <span class="sc">==</span> <span class="st">&quot;OVRLRESP&quot;</span> <span class="sc">&amp;</span> RSEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span>,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, ADT),</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> PDFL,</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> RSSTRESC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_merged_exist_flag</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> <span class="fu">derive_vars_dt</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      rs,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">dtc =</span> RSDTC,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_imputation =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter_add =</span> RSTESTCD <span class="sc">==</span> <span class="st">&quot;OVRLRESP&quot;</span> <span class="sc">&amp;</span> RSEVAL <span class="sc">==</span> <span class="st">&quot;INVESTIGATOR&quot;</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, ADT),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> PDFL,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> RSSTRESC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1487,11 +1363,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="target-lesion-response-of-no-cr-at-the-current-observation-visit-and-but-a-cr-response-at-the-nadir-observation" class="section level4">
 <h4>3. Target lesion response of no <code>CR</code> at the current observation visit and but a <code>CR</code> response at the <code>NADIR</code> observation</h4>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRFL =</span> <span class="fu">if_else</span>(AVAL <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRNFL =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">PDFL =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(CRFL) <span class="sc">&amp;</span> CRNFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRFL =</span> <span class="fu">if_else</span>(AVAL <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRNFL =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">PDFL =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(CRFL) <span class="sc">&amp;</span> CRNFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1602,18 +1478,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>4. Calculate from source data</h4>
 <p>The derivation for <code>PD</code> for target lesions is based on the calculated sum of diameters of the assessed lesions results in a calculated Percent Change from NADIR &gt;=20% (<code>PCHGNAD</code>) and a calculated Change from NADIR &gt;=5mm (<code>CHGNAD</code>).</p>
 <p>In this example, <code>CRFL</code> flags where the patient has had Complete Response, and <code>CRNFL</code>, flags where Complete response contributed to the <code>NADIR</code> calculation.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRFL =</span> <span class="fu">if_else</span>(AVAL <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRNFL =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">PDFL =</span> <span class="fu">if_else</span>(</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      PCHGNAD <span class="sc">&gt;=</span> <span class="dv">20</span> <span class="sc">&amp;</span> CHGNAD <span class="sc">&gt;=</span> <span class="dv">5</span> <span class="sc">|</span> <span class="fu">is.na</span>(CRFL) <span class="sc">&amp;</span> CRNFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA_character_</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRFL =</span> <span class="fu">if_else</span>(AVAL <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRNFL =</span> <span class="fu">if_else</span>(NADIR <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">PDFL =</span> <span class="fu">if_else</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      PCHGNAD <span class="sc">&gt;=</span> <span class="dv">20</span> <span class="sc">&amp;</span> CHGNAD <span class="sc">&gt;=</span> <span class="dv">5</span> <span class="sc">|</span> <span class="fu">is.na</span>(CRFL) <span class="sc">&amp;</span> CRNFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA_character_</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1726,29 +1602,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2>Derive Analysis Flags <code>ANLzzFL</code></h2>
 <p>Based on your specifications, additional analysis flags (<code>ANLzzFL</code>) could be set up in <code>ADTR</code>. Below are some examples which use the <code>ANL01FL</code> flag derived earlier for the sum of diameter parameter (<code>SDIAM</code>) as a basis.</p>
 <p>Analysis 02 Flag (<code>ANL02FL</code>) only includes visits (where analysis date is e.g after randomization date (<code>RANDDT</code>)) with the lowest <code>NADIR</code> (lowest sum of diameter) so maximum tumor shrinkage by using the first non-missing lowest percentage change from baseline (<code>PCHG</code>).</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_relative_flag</span>(</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> POSTRNDFL,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> ADT <span class="sc">&gt;</span> RANDDT,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">selection =</span> <span class="st">&quot;after&quot;</span>,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">inclusive =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_no_ref_groups =</span> <span class="cn">FALSE</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL02FL,</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(PCHG),</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">check_type =</span> <span class="st">&quot;none&quot;</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> POSTRNDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>POSTRNDFL)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_relative_flag</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_var =</span> POSTRNDFL,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> ADT <span class="sc">&gt;</span> RANDDT,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">selection =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">inclusive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_no_ref_groups =</span> <span class="cn">FALSE</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL02FL,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(PCHG),</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">check_type =</span> <span class="st">&quot;none&quot;</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> POSTRNDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>POSTRNDFL)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1855,20 +1731,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Analysis 03 flag (<code>ANL03FL</code>) includes all sum of diameters where all lesions were assessed (where <code>ANL01FL == &quot;Y&quot;</code>) until the patient has <code>PD</code>, indicated by using the <code>PDFL</code> variable.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_relative_flag,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL03FL,</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">condition =</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(ADY),</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">selection =</span> <span class="st">&quot;before&quot;</span>,</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">inclusive =</span> <span class="cn">FALSE</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">|</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_relative_flag,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">new_var =</span> ANL03FL,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">condition =</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(ADY),</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">selection =</span> <span class="st">&quot;before&quot;</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">inclusive =</span> <span class="cn">FALSE</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">filter =</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">|</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1975,10 +1851,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Analysis 04 flag (<code>ANL04FL</code>) includes all sum of diameters where all lesions were assessed (where <code>ANL01FL == &quot;Y&quot;</code>) and additionally those indicating <code>PD</code> using the <code>PDFL</code> variable.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL04FL =</span> <span class="fu">if_else</span>(ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">|</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ANL04FL =</span> <span class="fu">if_else</span>(ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">|</span> PDFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="cn">NA_character_</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -2084,17 +1960,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(adtr, adtr_sum)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(adtr, adtr_sum)</span></code></pre></div>
 </div>
 <div id="aseq" class="section level2">
 <h2>Derive Analysis Sequence Number (<code>ASEQ</code>)</h2>
 <p>The <code>{admiral}</code> function <code>admiral::derive_var_obs_number()</code> can be used to derive <code>ASEQ</code>:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> adtr <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_obs_number</span>(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(PARAMCD, AVISITN, TRSEQ),</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;error&quot;</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> adtr <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_var_obs_number</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(PARAMCD, AVISITN, TRSEQ),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">check_type =</span> <span class="st">&quot;error&quot;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -2182,11 +2058,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="adslvars" class="section level2">
 <h2>Add <code>ADSL</code> Variables</h2>
 <p>If needed, the other <code>ADSL</code> variables can now be added. List of <code>ADSL</code> variables already merged held in vector <code>adsl_vars</code>.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> adtr <span class="sc">%&gt;%</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> <span class="fu">select</span>(adsl, <span class="sc">!!!</span><span class="fu">negate_vars</span>(adsl_vars)),</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>adtr <span class="ot">&lt;-</span> adtr <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset_add =</span> <span class="fu">select</span>(adsl, <span class="sc">!!!</span><span class="fu">negate_vars</span>(adsl_vars)),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -2306,7 +2182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td><code>ADTR</code></td>
-<td><a href="https://github.com/pharmaverse/admiralonco/blob/main/inst/templates/ad_adtr.R">ad_adtr.R</a></td>
+<td><code>admiral::use_ad_template(&quot;ADTR&quot;, package = &quot;admiralonco&quot;)</code></td>
 </tr>
 </tbody>
 </table>

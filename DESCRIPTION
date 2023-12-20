@@ -1,7 +1,7 @@
 Package: admiralonco
 Type: Package
 Title: Oncology Extension Package for ADaM in 'R' Asset Library
-Version: 0.5.0
+Version: 1.0.0
 Authors@R: c(
     person("Stefan", "Bundfuss", email = "stefan.bundfuss@roche.com", role = c("aut", "cre")),
     person("Ross", "Farrugia", role = "aut"),
@@ -12,7 +12,10 @@ Authors@R: c(
     person("Stephen", "Gormley", role = "aut"),
     person("Hinal", "Patel", role = "aut"),
     person("Vinh", "Nguyen", role = "aut"),
+    person("Olga", "Starostecka", role = "ctb"),
+    person("Uwe", "Bader", role = "ctb"),
     person("Karl", "Kennedy", role = "ctb"),
+    person("Edoardo", "Mancini", role = "ctb"),
     person("Matt", "Marino", role = "ctb"),
     person("Gopi", "Vegesna", role = "ctb"),    
     person("Thomas", "Neitmann", role = "ctb"),
@@ -32,7 +35,7 @@ Description: Programming oncology specific Clinical Data Interchange Standards C
     mandatory part of any New Drug or Biologics License Application submitted to the
     United States Food and Drug Administration (FDA). Analysis derivations are
     implemented in accordance with the "Analysis Data Model Implementation Guide"
-    (CDISC Analysis Data Model Team (2021), <https://www.cdisc.org/standards/foundational/adam/adamig-v1-3-release-package>).
+    (CDISC Analysis Data Model Team (2021), <https://www.cdisc.org/standards/foundational/adam>).
     The package is an extension package of the 'admiral' package.
 Language: en-US
 License: Apache License (>= 2)
@@ -43,16 +46,18 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 Depends: R (>= 3.5)
-Imports: admiral (>= 0.12.0), admiraldev (>= 0.4.0), dplyr (>= 0.8.4),
+Imports: admiral (>= 1.0.0), admiraldev (>= 1.0.0), dplyr (>= 0.8.4),
         lifecycle (>= 0.1.0), lubridate (>= 1.7.4), magrittr (>= 1.5),
         rlang (>= 0.4.4), tidyselect (>= 1.0.0)
-Suggests: pharmaversesdtm, devtools, diffdf, lintr, pkgdown, testthat
-        (>= 3.0.0), knitr, methods, miniUI, rmarkdown, roxygen2,
-        spelling, stringr, tibble, usethis, covr, DT
+Suggests: pharmaversesdtm, pharmaverseadam, devtools, diffdf, lintr,
+        pkgdown, testthat (>= 3.0.0), knitr, methods, miniUI,
+        rmarkdown, roxygen2, spelling, stringr, tibble, usethis, covr,
+        DT
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+Config/Needs/website: gert
 NeedsCompilation: no
-Packaged: 2023-09-14 09:26:49 UTC; bundfuss
+Packaged: 2023-12-19 17:18:27 UTC; bundfuss
 Author: Stefan Bundfuss [aut, cre],
   Ross Farrugia [aut],
   Amit Jain [aut],
@@ -62,7 +67,10 @@ Author: Stefan Bundfuss [aut, cre],
   Stephen Gormley [aut],
   Hinal Patel [aut],
   Vinh Nguyen [aut],
+  Olga Starostecka [ctb],
+  Uwe Bader [ctb],
   Karl Kennedy [ctb],
+  Edoardo Mancini [ctb],
   Matt Marino [ctb],
   Gopi Vegesna [ctb],
   Thomas Neitmann [ctb],
@@ -78,4 +86,4 @@ Author: Stefan Bundfuss [aut, cre],
   Bristol Myers Squibb [cph, fnd]
 Maintainer: Stefan Bundfuss <stefan.bundfuss@roche.com>
 Repository: CRAN
-Date/Publication: 2023-09-14 10:30:06 UTC
+Date/Publication: 2023-12-20 10:00:06 UTC

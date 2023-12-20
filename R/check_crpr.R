@@ -61,21 +61,23 @@ signal_crpr <- function(dataset,
 
   crpr_data <- filter_joined(
     dataset,
+    dataset_add = dataset,
     by_vars = subject_keys,
     order = order,
     join_vars = exprs(AVALC),
     join_type = "after",
-    filter = AVALC == "CR" & AVALC.join == "PR"
+    filter_join = AVALC == "CR" & AVALC.join == "PR"
   )
 
   if (nrow(crpr_data) > 0) {
     pr_data <- filter_joined(
       dataset,
+      dataset_add = dataset,
       by_vars = subject_keys,
       order = order,
       join_vars = exprs(AVALC),
       join_type = "before",
-      filter = AVALC == "PR" & AVALC.join == "CR"
+      filter_join = AVALC == "PR" & AVALC.join == "CR"
     )
 
     crpr_data <- bind_rows(crpr_data, pr_data) %>%
@@ -98,7 +100,7 @@ signal_crpr <- function(dataset,
 #' @author Stefan Bundfuss
 #'
 #' @details
-#' Some {admiralonco} function check that the in the source records CR is not
+#' Some `{admiralonco}` functions check that in the source records CR is not
 #' followed by PR and throw an error otherwise. The `get_crpr_dataset()`
 #' function allows one to retrieve the duplicate records that lead to an error.
 #'

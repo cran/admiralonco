@@ -160,8 +160,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The examples of this vignette require the following packages.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pharmaverseadam)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
 </div>
 </div>
 <div id="programming-workflow" class="section level1">
@@ -176,11 +177,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="readdata" class="section level2">
 <h2>Read in Data</h2>
 <p>To start, all datasets needed for the creation of the time-to-event dataset should be read into the environment. This will be a company specific process.</p>
-<p>For example purpose, the ADaM datasets—which are included in <code>{admiral}</code> and <code>{admiralonco}</code>—are used. An alternative might be to use <code>ADEVENT</code> as input.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adsl&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;admiral_adrs&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> admiral_adsl</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> admiral_adrs</span></code></pre></div>
+<p>For example purpose, the ADaM datasets—which are included in <code>{pharmaverseadam}</code>—are used. An alternative might be to use <code>ADEVENT</code> as input.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adsl&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adrs_onco&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs_onco</span></code></pre></div>
 </div>
 <div id="parameters" class="section level2">
 <h2>Derive Parameters (<code>CNSR</code>, <code>ADT</code>, <code>STARTDT</code>)</h2>
@@ -409,7 +409,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="tteobj" class="section level3">
 <h3>Creating Your Own Time-to-Event Source Objects</h3>
-<p>We advise you consult the <code>{admiral}</code> <a href="https://pharmaverse.github.io/admiral/cran-release/articles/bds_tte.html">Creating a BDS Time-to-Event ADaM vignette</a> for further guidance on the different options available and more examples.</p>
+<p>We advise you consult the <code>{admiral}</code> <a href="https://pharmaverse.github.io/admiral/articles/bds_tte.html">Creating a BDS Time-to-Event ADaM vignette</a> for further guidance on the different options available and more examples.</p>
 <p>One extra common oncology case we include here is around PFS when censoring at new anti-cancer therapy. This could either be controlled using <code>ANLzzFL</code> as explained in the ADRS vignette, so that records after new anti-cancer therapy never contribute to the PD and DEATH parameters. Or alternatively you can control this on the ADTTE side by filtering which records are used in <code>admiral::event_source()</code> and <code>admiral::censor_source()</code>, e.g. for PD or death event date we can use <code>filter</code> argument to exclude events occurring after new anti-cancer therapy.</p>
 <p>The censor could be set as whichever date your analysis requires, e.g. date of last tumor assessment prior to new anti-cancer therapy or last radiological assessment. If you pass multiple censor dates then remember the function will choose the latest occurring of these, so be cautious here if feeding in say one censor date for last assessment prior to new anti-cancer therapy and one for last assessment - as the function would choose the maximum of these which in this case would be incorrect. The easiest solution here would be to pass in one censor date as the date of last assessment prior to new anti-cancer therapy or date of last assessment <strong>if no new anti-cancer therapy</strong>. If you wanted to use different censor dates which could have different <code>CNSDTDSC</code> values, then you’d need to ensure only one is set per patient.</p>
 <p>This case is demonstrated in the below example (where <code>NACTDT</code> would be pre-derived as first date of new anti-cancer therapy, and <code>LASTANDT</code> as the single tumor assessment censor date as described above. See <code>{admiralonco}</code> <a href="nactdt.html">Creating and Using New Anti-Cancer Start Date</a> for deriving <code>NACTDT</code>).</p>
@@ -997,7 +997,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td>ADTTE</td>
-<td><a href="https://github.com/pharmaverse/admiralonco/blob/main/inst/templates/ad_adtte.R">ad_adtte.R</a></td>
+<td><code>admiral::use_ad_template(&quot;ADTTE&quot;, package = &quot;admiralonco&quot;)</code></td>
 </tr>
 </tbody>
 </table>

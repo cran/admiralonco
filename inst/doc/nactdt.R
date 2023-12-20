@@ -3,42 +3,16 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(admiralonco)
-link <- function(text, url) {
-  return(
-    paste0(
-      "[", text, "]",
-      "(", url, ")"
-    )
-  )
-}
-dyn_link <- function(text,
-                     base_url,
-                     relative_url = "",
-                     # Change to TRUE when admiral adopts multiversion docs
-                     is_multiversion = FALSE,
-                     multiversion_default_ref = "main") {
-  url <- paste(base_url, relative_url, sep = "/")
-  if (is_multiversion) {
-    url <- paste(
-      base_url,
-      Sys.getenv("BRANCH_NAME", multiversion_default_ref),
-      relative_url,
-      sep = "/"
-    )
-  }
-  return(link(text, url))
-}
-# Other variables
-admiral_homepage <- "https://pharmaverse.github.io/admiral/cran-release"
-
 library(admiraldev)
 
 ## ---- warning=FALSE, message=FALSE--------------------------------------------
 library(admiral)
+library(pharmaverseadam)
 library(dplyr)
 
-adsl <- admiral_adsl
+data("adsl")
+adsl_onco <- adsl
+data("adrs_onco")
 
 cm <- tribble(
   ~STUDYID, ~USUBJID, ~CMCAT, ~CMSCAT, ~CMTRT, ~CMSTDTC,
@@ -62,7 +36,7 @@ pr <- tribble(
 
 ## ----message=FALSE------------------------------------------------------------
 adsl <- derive_vars_merged(
-  admiral_adsl,
+  adsl_onco,
   dataset_add = cm,
   by_vars = exprs(STUDYID, USUBJID),
   order = exprs(NACTDT),
@@ -79,23 +53,25 @@ dataset_vignette(
 )
 
 ## ----message=FALSE------------------------------------------------------------
-cm_date <- date_source(
+cm_date <- event(
   dataset_name = "cm",
-  filter = CMSCAT == "CHEMOTHERAPY" & CMCAT == "ON TREATMENT" & !is.na(CMSTDTC),
-  date = convert_dtc_to_dt(CMSTDTC)
+  condition = CMSCAT == "CHEMOTHERAPY" & CMCAT == "ON TREATMENT" & !is.na(CMSTDTC),
+  set_values_to = exprs(NACTDT = convert_dtc_to_dt(CMSTDTC))
 )
 
-pr_date <- date_source(
+pr_date <- event(
   dataset_name = "pr",
-  filter = PRCAT == "CANCER RELATED" & PRSCAT == "ON TREATMENT" & !is.na(PRSTDTC),
-  date = convert_dtc_to_dt(PRSTDTC)
+  condition = PRCAT == "CANCER RELATED" & PRSCAT == "ON TREATMENT" & !is.na(PRSTDTC),
+  set_values_to = exprs(NACTDT = convert_dtc_to_dt(PRSTDTC))
 )
 
 ## ----message=FALSE------------------------------------------------------------
-adsl <- admiral_adsl %>%
-  derive_var_extreme_dt(
-    new_var = NACTDT,
-    cm_date, pr_date,
+adsl <- adsl_onco %>%
+  derive_vars_extreme_event(
+    by_vars = exprs(STUDYID, USUBJID),
+    order = exprs(NACTDT),
+    new_vars = exprs(NACTDT),
+    events = list(cm_date, pr_date),
     source_datasets = list(
       cm = cm,
       pr = pr
@@ -111,23 +87,21 @@ dataset_vignette(
 )
 
 ## ---- eval=TRUE, echo=TRUE----------------------------------------------------
-library(admiralonco)
-
-adrs <- derive_param_extreme_record(
-  dataset = admiral_adrs,
-  sources = list(
-    records_source(
+adrs <- derive_extreme_event(
+  dataset = adrs_onco,
+  events = list(
+    event(
       dataset_name = "cm",
-      filter = CMSCAT == "CHEMOTHERAPY" & CMCAT == "ON TREATMENT" & !is.na(CMSTDTC),
-      new_vars = exprs(
+      condition = CMSCAT == "CHEMOTHERAPY" & CMCAT == "ON TREATMENT" & !is.na(CMSTDTC),
+      set_values_to = exprs(
         ADT = convert_dtc_to_dt(CMSTDTC),
         AVALC = CMTRT
       )
     ),
-    records_source(
+    event(
       dataset_name = "pr",
-      filter = PRCAT == "CANCER RELATED" & PRSCAT == "ON TREATMENT" & !is.na(PRSTDTC),
-      new_vars = exprs(
+      condition = PRCAT == "CANCER RELATED" & PRSCAT == "ON TREATMENT" & !is.na(PRSTDTC),
+      set_values_to = exprs(
         ADT = convert_dtc_to_dt(PRSTDTC),
         AVALC = PRTRT
       )
