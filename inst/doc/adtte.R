@@ -5,7 +5,7 @@ knitr::opts_chunk$set(
 )
 library(admiraldev)
 
-## ---- warning=FALSE, message=FALSE--------------------------------------------
+## ----warning=FALSE, message=FALSE---------------------------------------------
 library(admiral)
 library(admiralonco)
 library(pharmaverseadam)
@@ -20,7 +20,7 @@ adrs <- adrs_onco
 ## ----echo=FALSE---------------------------------------------------------------
 knitr::kable(list_tte_source_objects(package = "admiralonco"))
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  adsl_death_event <- event_source(
 #    dataset_name = "adsl",
 #    date = DTHDT,
@@ -36,7 +36,7 @@ adsl <- adsl %>%
   derive_vars_merged(
     dataset_add = adrs,
     filter_add = PARAMCD == "RSP" & AVALC == "Y" & ANL01FL == "Y",
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     new_vars = exprs(TEMP_RESPDT = ADT)
   )
 
@@ -66,13 +66,13 @@ adtte <- derive_param_tte(
     set_values_to = exprs(PARAMCD = "RSD", PARAM = "Duration of Response")
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adtte,
   display_vars = exprs(USUBJID, PARAMCD, PARAM, STARTDT, ADT, CNSR)
 )
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  pd_nact_event <- event_source(
 #    dataset_name = "adsl",
 #    filter = PDDT < NACTDT | is.na(NACTDT),
@@ -123,12 +123,12 @@ adtte <- adtte %>%
     end_date = ADT
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adtte
 )
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  adtte_months <- adtte %>%
 #    derive_vars_duration(
 #      new_var = AVAL,
@@ -140,12 +140,12 @@ dataset_vignette(
 ## ----eval=TRUE----------------------------------------------------------------
 adtte <- adtte %>%
   derive_var_obs_number(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(PARAMCD),
     check_type = "error"
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(adtte)
 
 ## ----eval=TRUE----------------------------------------------------------------
@@ -153,10 +153,10 @@ adtte <- adtte %>%
   derive_vars_merged(
     dataset_add = adsl,
     new_vars = exprs(ARMCD, ARM, ACTARMCD, ACTARM, AGE, SEX),
-    by_vars = exprs(STUDYID, USUBJID)
+    by_vars = get_admiral_option("subject_keys")
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adtte,
   display_vars = exprs(USUBJID, PARAMCD, CNSR, AVAL, ARMCD, AGE, SEX)

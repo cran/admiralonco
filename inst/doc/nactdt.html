@@ -14,26 +14,38 @@
 
 <title>Creating and Using New Anti-Cancer Start Date</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -51,55 +63,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -133,7 +144,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -145,14 +336,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<h1 class="title toc-ignore">Creating and Using New Anti-Cancer Start Date</h1>
+<h1 class="title toc-ignore">Creating and Using New Anti-Cancer Start
+Date</h1>
 
 
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>In Oncology trials, for censoring the patients for any time-to-event analysis (e.g., progression free survival analysis, duration of response, etc.), it is necessary to check if the patients have started any new anti-cancer therapy. Anti-cancer therapy generally includes radiation therapy, cancer related surgery and any systemic anti-cancer therapy such as chemotherapy, t-cell therapy, etc. These therapies can be collected on a prior or on-treatment CRF pages, with radiation and surgery being mapped to the SDTM PR domain and systemic anti-cancer therapy being mapped to the SDTM CM domain. Collection and mapping may vary with each company and it is important that only on-treatment therapies are considered for the censoring of time-to-event. Generally, if the patients start a new anti-cancer therapy that were on-treatment, they should be discontinued from the study treatment and no further efficacy assessments should be performed.</p>
-<p>This article describes a process for creating a new anti-cancer start date from a single and multiple source SDTMs.</p>
+<p>In Oncology trials, for censoring the patients for any time-to-event
+analysis (e.g., progression free survival analysis, duration of
+response, etc.), it is necessary to check if the patients have started
+any new anti-cancer therapy. Anti-cancer therapy generally includes
+radiation therapy, cancer related surgery and any systemic anti-cancer
+therapy such as chemotherapy, t-cell therapy, etc. These therapies can
+be collected on a prior or on-treatment CRF pages, with radiation and
+surgery being mapped to the SDTM PR domain and systemic anti-cancer
+therapy being mapped to the SDTM CM domain. Collection and mapping may
+vary with each company and it is important that only on-treatment
+therapies are considered for the censoring of time-to-event. Generally,
+if the patients start a new anti-cancer therapy that were on-treatment,
+they should be discontinued from the study treatment and no further
+efficacy assessments should be performed.</p>
+<p>This article describes a process for creating a new anti-cancer start
+date from a single and multiple source SDTMs.</p>
 </div>
 <div id="programming-workflow" class="section level1">
 <h1>Programming Workflow</h1>
@@ -160,54 +366,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#readdata">Read in Data and create test data</a></li>
 <li><a href="#input">Single Source</a></li>
 <li><a href="#multiinput">Multiple Sources - Prerequisite Step</a></li>
-<li><a href="#nactdt">Multiple Sources - Derive New Anti-Cancer Start Date and Merge with <code>ADSL</code></a></li>
+<li><a href="#nactdt">Multiple Sources - Derive New Anti-Cancer Start
+Date and Merge with <code>ADSL</code></a></li>
 <li><a href="#unactdt">Using the New Anti-Cancer Therapy Date</a></li>
 <li><a href="#par">Derive Date Parameter</a></li>
 </ul>
 <div id="readdata" class="section level2">
 <h2>Read in Data</h2>
-<p>To start, all data frames needed for the creation of the new anti-cancer therapy start date (<code>NACTDT</code>) should be read into the environment. This will be a company specific process. Some of the data frames needed may be <code>CM</code> and <code>PR</code>.</p>
-<p>For example purpose, <code>CM</code> and <code>PR</code> has been generated (based on CDISC Pilot test data), with oncology specific test data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pharmaverseadam)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adsl&quot;</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>adsl_onco <span class="ot">&lt;-</span> adsl</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adrs_onco&quot;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>STUDYID, <span class="sc">~</span>USUBJID, <span class="sc">~</span>CMCAT, <span class="sc">~</span>CMSCAT, <span class="sc">~</span>CMTRT, <span class="sc">~</span>CMSTDTC,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1015&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;DEXRAZOXANE&quot;</span>, <span class="cn">NA</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1015&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;DEXROZOXANE&quot;</span>, <span class="st">&quot;2014-07-02&quot;</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1015&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;DEXROZOXANE&quot;</span>, <span class="st">&quot;2014-06-19&quot;</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1028&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;METHOTREXATE&quot;</span>, <span class="cn">NA</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1028&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;METHOTREXATE&quot;</span>, <span class="st">&quot;2014-01-14&quot;</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1034&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;OLAPARIB&quot;</span>, <span class="cn">NA</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1034&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;OLAPARIB&quot;</span>, <span class="st">&quot;2014-12-30&quot;</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1097&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;TEMODAL&quot;</span>, <span class="cn">NA</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1097&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;TEMODAL&quot;</span>, <span class="st">&quot;2013-12-31&quot;</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>STUDYID, <span class="sc">~</span>USUBJID, <span class="sc">~</span>PRCAT, <span class="sc">~</span>PRSCAT, <span class="sc">~</span>PRTRT, <span class="sc">~</span>PRSTDTC,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1015&quot;</span>, <span class="st">&quot;CANCER RELATED&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;SURGERY&quot;</span>, <span class="st">&quot;2014-06-18&quot;</span>,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1034&quot;</span>, <span class="st">&quot;CANCER RELATED&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;SURGERY&quot;</span>, <span class="st">&quot;2014-12-16&quot;</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1028&quot;</span>, <span class="st">&quot;CANCER RELATED&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;SURGERY&quot;</span>, <span class="cn">NA</span>,</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>To start, all data frames needed for the creation of the new
+anti-cancer therapy start date (<code>NACTDT</code>) should be read into
+the environment. This will be a company specific process. Some of the
+data frames needed may be <code>CM</code> and <code>PR</code>.</p>
+<p>For example purpose, <code>CM</code> and <code>PR</code> has been
+generated (based on CDISC Pilot test data), with oncology specific test
+data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(pharmaverseadam)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adsl&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>adsl_onco <span class="ot">&lt;-</span> adsl</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;adrs_onco&quot;</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="sc">~</span>STUDYID, <span class="sc">~</span>USUBJID, <span class="sc">~</span>CMCAT, <span class="sc">~</span>CMSCAT, <span class="sc">~</span>CMTRT, <span class="sc">~</span>CMSTDTC,</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1015&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;DEXRAZOXANE&quot;</span>, <span class="cn">NA</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1015&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;DEXROZOXANE&quot;</span>, <span class="st">&quot;2014-07-02&quot;</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1015&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;DEXROZOXANE&quot;</span>, <span class="st">&quot;2014-06-19&quot;</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1028&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;METHOTREXATE&quot;</span>, <span class="cn">NA</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1028&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;METHOTREXATE&quot;</span>, <span class="st">&quot;2014-01-14&quot;</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1034&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;OLAPARIB&quot;</span>, <span class="cn">NA</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1034&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;OLAPARIB&quot;</span>, <span class="st">&quot;2014-12-30&quot;</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1097&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;TEMODAL&quot;</span>, <span class="cn">NA</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1097&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;CHEMOTHERAPY&quot;</span>, <span class="st">&quot;TEMODAL&quot;</span>, <span class="st">&quot;2013-12-31&quot;</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="sc">~</span>STUDYID, <span class="sc">~</span>USUBJID, <span class="sc">~</span>PRCAT, <span class="sc">~</span>PRSCAT, <span class="sc">~</span>PRTRT, <span class="sc">~</span>PRSTDTC,</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1015&quot;</span>, <span class="st">&quot;CANCER RELATED&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;SURGERY&quot;</span>, <span class="st">&quot;2014-06-18&quot;</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1034&quot;</span>, <span class="st">&quot;CANCER RELATED&quot;</span>, <span class="st">&quot;ON TREATMENT&quot;</span>, <span class="st">&quot;SURGERY&quot;</span>, <span class="st">&quot;2014-12-16&quot;</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  <span class="st">&quot;CDISCPILOT01&quot;</span>, <span class="st">&quot;01-701-1028&quot;</span>, <span class="st">&quot;CANCER RELATED&quot;</span>, <span class="st">&quot;PRIOR TREATMENT&quot;</span>, <span class="st">&quot;SURGERY&quot;</span>, <span class="cn">NA</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <div id="input" class="section level2">
 <h2>Single Source</h2>
-<p>To derive the New Anti-Cancer Therapy start date with data from a single source, the function <code>admiral::derive_vars_merged()</code> can be used. If numeric date is required, <code>admiral::convert_dtc_to_dt</code> , or if time part is needed, <code>admiral::convert_dtc_to_dtm()</code> can be used as part of an expression for the <code>new_vars</code> argument.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  adsl_onco,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_add =</span> cm,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">order =</span> <span class="fu">exprs</span>(NACTDT),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">NACTDT =</span> <span class="fu">convert_dtc_to_dt</span>(CMSTDTC)),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter_add =</span> CMSCAT <span class="sc">==</span> <span class="st">&quot;CHEMOTHERAPY&quot;</span> <span class="sc">&amp;</span> CMCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>To derive the New Anti-Cancer Therapy start date with data from a
+single source, the function <code>admiral::derive_vars_merged()</code>
+can be used. If numeric date is required,
+<code>admiral::convert_dtc_to_dt</code> , or if time part is needed,
+<code>admiral::convert_dtc_to_dtm()</code> can be used as part of an
+expression for the <code>new_vars</code> argument.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  adsl_onco,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">dataset_add =</span> cm,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">order =</span> <span class="fu">exprs</span>(NACTDT),</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">NACTDT =</span> <span class="fu">convert_dtc_to_dt</span>(CMSTDTC)),</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="at">filter_add =</span> CMSCAT <span class="sc">==</span> <span class="st">&quot;CHEMOTHERAPY&quot;</span> <span class="sc">&amp;</span> CMCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -237,38 +454,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="multiinput" class="section level2">
 <h2>Multiple Sources - Prerequisite Steps</h2>
-<p>To derive the New Anti-Cancer Therapy start date with data from multiple sources, the function <code>admiral::derive_vars_extreme_event()</code> can be used.</p>
+<p>To derive the New Anti-Cancer Therapy start date with data from
+multiple sources, the function
+<code>admiral::derive_vars_extreme_event()</code> can be used.</p>
 <div id="prerequisite" class="section level3">
 <h3>Prerequisite</h3>
-<p>Prior to calling the function, an input <code>event</code> object must be created for each source dataset using <code>admiral::event()</code>. Within this function, any company-specific subsetting can be passed to the <code>condition</code> argument. If numeric version of the dates will be needed, <code>admiral::convert_dtc_to_dt()</code>, or if time part is needed, <code>admiral::convert_dtc_to_dtm()</code> can be used as part of an expression for the <code>set_values_to</code> argument.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cm_date <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;cm&quot;</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> CMSCAT <span class="sc">==</span> <span class="st">&quot;CHEMOTHERAPY&quot;</span> <span class="sc">&amp;</span> CMCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(CMSTDTC),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">NACTDT =</span> <span class="fu">convert_dtc_to_dt</span>(CMSTDTC))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>pr_date <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;pr&quot;</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> PRCAT <span class="sc">==</span> <span class="st">&quot;CANCER RELATED&quot;</span> <span class="sc">&amp;</span> PRSCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(PRSTDTC),</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">NACTDT =</span> <span class="fu">convert_dtc_to_dt</span>(PRSTDTC))</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Prior to calling the function, an input <code>event</code> object
+must be created for each source dataset using
+<code>admiral::event()</code>. Within this function, any
+company-specific subsetting can be passed to the <code>condition</code>
+argument. If numeric version of the dates will be needed,
+<code>admiral::convert_dtc_to_dt()</code>, or if time part is needed,
+<code>admiral::convert_dtc_to_dtm()</code> can be used as part of an
+expression for the <code>set_values_to</code> argument.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>cm_date <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;cm&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">condition =</span> CMSCAT <span class="sc">==</span> <span class="st">&quot;CHEMOTHERAPY&quot;</span> <span class="sc">&amp;</span> CMCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(CMSTDTC),</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">NACTDT =</span> <span class="fu">convert_dtc_to_dt</span>(CMSTDTC))</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>pr_date <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;pr&quot;</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">condition =</span> PRCAT <span class="sc">==</span> <span class="st">&quot;CANCER RELATED&quot;</span> <span class="sc">&amp;</span> PRSCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(PRSTDTC),</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">NACTDT =</span> <span class="fu">convert_dtc_to_dt</span>(PRSTDTC))</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
 <div id="nactdt" class="section level2">
-<h2>Multiple Sources - Derive New Anti-Cancer Start Date and Merge with <code>ADSL</code></h2>
-<p>After completion of the prerequisite step, the new anti-cancer date can be derived while simultaneously adding it to <code>ADSL</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> adsl_onco <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">derive_vars_extreme_event</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(NACTDT),</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(NACTDT),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(cm_date, pr_date),</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">cm =</span> cm,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">pr =</span> pr</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<h2>Multiple Sources - Derive New Anti-Cancer Start Date and Merge with
+<code>ADSL</code></h2>
+<p>After completion of the prerequisite step, the new anti-cancer date
+can be derived while simultaneously adding it to <code>ADSL</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> adsl_onco <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">derive_vars_extreme_event</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(NACTDT),</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(NACTDT),</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(cm_date, pr_date),</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>      <span class="at">cm =</span> cm,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>      <span class="at">pr =</span> pr</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>    ),</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -298,41 +526,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="unactdt" class="section level2">
 <h2>Using the New Anti-Cancer Therapy Date</h2>
-<p>Please refer to <code>{admiralonco}</code> <a href="adrs.html#anl01fl">Derive <code>ANL01FL</code></a> for an example on the usage of <code>NACTDT</code>. Additionally, <code>{admiralonco}</code> <a href="adtte.html#tteobj">Creating Your Own Time-to-Event Source Objects</a> may be referenced for case usage.</p>
+<p>Please refer to <code>{admiralonco}</code> <a href="adrs.html#anl01fl">Derive <code>ANL01FL</code></a> for an example
+on the usage of <code>NACTDT</code>. Additionally,
+<code>{admiralonco}</code> <a href="adtte.html#tteobj">Creating Your Own
+Time-to-Event Source Objects</a> may be referenced for case usage.</p>
 </div>
 <div id="par" class="section level2">
 <h2>Derive Date Parameter</h2>
-<p>The <code>{admiral}</code> function <code>admiral::derive_extreme_event()</code> can be used for deriving parameter based on the first or last observation from single and multiple sources.</p>
-<p>Based on individual company standards, this parameter may be added to an event or date dataset such as <code>ADEVENT</code> or <code>ADDATES</code>, which are generally intermediate datasets to <code>ADTTE</code>. For demonstration purpose, a new anti-cancer date parameter will be merged into <code>ADRS</code>. A list of <code>event()</code> objects is expected and this will contain the sources of the dates and any company specific filtering.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_extreme_event</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset =</span> adrs_onco,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">events =</span> <span class="fu">list</span>(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">event</span>(</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">dataset_name =</span> <span class="st">&quot;cm&quot;</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">condition =</span> CMSCAT <span class="sc">==</span> <span class="st">&quot;CHEMOTHERAPY&quot;</span> <span class="sc">&amp;</span> CMCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(CMSTDTC),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">ADT =</span> <span class="fu">convert_dtc_to_dt</span>(CMSTDTC),</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">AVALC =</span> CMTRT</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">event</span>(</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">dataset_name =</span> <span class="st">&quot;pr&quot;</span>,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">condition =</span> PRCAT <span class="sc">==</span> <span class="st">&quot;CANCER RELATED&quot;</span> <span class="sc">&amp;</span> PRSCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(PRSTDTC),</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">ADT =</span> <span class="fu">convert_dtc_to_dt</span>(PRSTDTC),</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">AVALC =</span> PRTRT</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">cm =</span> cm, <span class="at">pr =</span> pr),</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;NACTDT&quot;</span>,</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;New Anti-Cancer Therapy Start Date&quot;</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>The <code>{admiral}</code> function
+<code>admiral::derive_extreme_event()</code> can be used for deriving
+parameter based on the first or last observation from single and
+multiple sources.</p>
+<p>Based on individual company standards, this parameter may be added to
+an event or date dataset such as <code>ADEVENT</code> or
+<code>ADDATES</code>, which are generally intermediate datasets to
+<code>ADTTE</code>. For demonstration purpose, a new anti-cancer date
+parameter will be merged into <code>ADRS</code>. A list of
+<code>event()</code> objects is expected and this will contain the
+sources of the dates and any company specific filtering.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">dataset =</span> adrs_onco,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">events =</span> <span class="fu">list</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="fu">event</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>      <span class="at">dataset_name =</span> <span class="st">&quot;cm&quot;</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>      <span class="at">condition =</span> CMSCAT <span class="sc">==</span> <span class="st">&quot;CHEMOTHERAPY&quot;</span> <span class="sc">&amp;</span> CMCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(CMSTDTC),</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>      <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>        <span class="at">ADT =</span> <span class="fu">convert_dtc_to_dt</span>(CMSTDTC),</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>        <span class="at">AVALC =</span> CMTRT</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>      )</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>    ),</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    <span class="fu">event</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>      <span class="at">dataset_name =</span> <span class="st">&quot;pr&quot;</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>      <span class="at">condition =</span> PRCAT <span class="sc">==</span> <span class="st">&quot;CANCER RELATED&quot;</span> <span class="sc">&amp;</span> PRSCAT <span class="sc">==</span> <span class="st">&quot;ON TREATMENT&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(PRSTDTC),</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>      <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>        <span class="at">ADT =</span> <span class="fu">convert_dtc_to_dt</span>(PRSTDTC),</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>        <span class="at">AVALC =</span> PRTRT</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>      )</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>    )</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  ),</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>  <span class="at">source_datasets =</span> <span class="fu">list</span>(<span class="at">cm =</span> cm, <span class="at">pr =</span> pr),</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;NACTDT&quot;</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;New Anti-Cancer Therapy Start Date&quot;</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>  )</span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>)</span></code></pre></div>
 <table style="width:100%;">
 <colgroup>
 <col width="15%" />

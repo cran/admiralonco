@@ -1,11 +1,11 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 library(admiraldev)
 
-## ---- warning=FALSE, message=FALSE--------------------------------------------
+## ----warning=FALSE, message=FALSE---------------------------------------------
 library(admiral)
 library(pharmaverseadam)
 library(dplyr)
@@ -38,14 +38,14 @@ pr <- tribble(
 adsl <- derive_vars_merged(
   adsl_onco,
   dataset_add = cm,
-  by_vars = exprs(STUDYID, USUBJID),
+  by_vars = get_admiral_option("subject_keys"),
   order = exprs(NACTDT),
   mode = "first",
   new_vars = exprs(NACTDT = convert_dtc_to_dt(CMSTDTC)),
   filter_add = CMSCAT == "CHEMOTHERAPY" & CMCAT == "ON TREATMENT"
 )
 
-## ---- eval=TRUE, echo=FALSE---------------------------------------------------
+## ----eval=TRUE, echo=FALSE----------------------------------------------------
 dataset_vignette(
   adsl,
   display_vars = exprs(USUBJID, NACTDT),
@@ -68,7 +68,7 @@ pr_date <- event(
 ## ----message=FALSE------------------------------------------------------------
 adsl <- adsl_onco %>%
   derive_vars_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(NACTDT),
     new_vars = exprs(NACTDT),
     events = list(cm_date, pr_date),
@@ -79,14 +79,14 @@ adsl <- adsl_onco %>%
     mode = "first"
   )
 
-## ---- eval=TRUE, echo=FALSE---------------------------------------------------
+## ----eval=TRUE, echo=FALSE----------------------------------------------------
 dataset_vignette(
   adsl,
   display_vars = exprs(USUBJID, NACTDT),
   filter = !is.na(NACTDT)
 )
 
-## ---- eval=TRUE, echo=TRUE----------------------------------------------------
+## ----eval=TRUE, echo=TRUE-----------------------------------------------------
 adrs <- derive_extreme_event(
   dataset = adrs_onco,
   events = list(
@@ -108,7 +108,7 @@ adrs <- derive_extreme_event(
     )
   ),
   source_datasets = list(cm = cm, pr = pr),
-  by_vars = exprs(STUDYID, USUBJID),
+  by_vars = get_admiral_option("subject_keys"),
   order = exprs(ADT),
   mode = "first",
   set_values_to = exprs(
@@ -117,7 +117,7 @@ adrs <- derive_extreme_event(
   )
 )
 
-## ---- eval=TRUE, echo=FALSE---------------------------------------------------
+## ----eval=TRUE, echo=FALSE----------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, PARAMCD, PARAM, ADT, AVALC),

@@ -5,7 +5,7 @@ knitr::opts_chunk$set(
 )
 library(admiraldev)
 
-## ---- warning=FALSE, message=FALSE--------------------------------------------
+## ----warning=FALSE, message=FALSE---------------------------------------------
 library(admiral)
 library(dplyr)
 library(pharmaversesdtm)
@@ -39,7 +39,7 @@ tr <- derive_vars_merged(
   tr,
   dataset_add = adsl,
   new_vars = adsl_vars,
-  by_vars = exprs(STUDYID, USUBJID)
+  by_vars = get_admiral_option("subject_keys")
 )
 
 ## -----------------------------------------------------------------------------
@@ -47,7 +47,7 @@ tr <- derive_vars_merged(
   tr,
   dataset_add = tu,
   new_vars = exprs(TULOC),
-  by_vars = exprs(STUDYID, USUBJID, TRLNKID = TULNKID)
+  by_vars = c(get_admiral_option("subject_keys"), exprs(TRLNKID = TULNKID))
 ) %>% mutate(
   TULOCGR1 = if_else(
     TULOC == "LYMPH NODE",
@@ -56,7 +56,7 @@ tr <- derive_vars_merged(
   )
 )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(tr, display_vars = exprs(USUBJID, VISIT, TRLNKID, TULOC, TULOCGR1))
 
 ## -----------------------------------------------------------------------------
@@ -66,7 +66,7 @@ tr <- mutate(
   LSASS = if_else(!is.na(TRSTRESN), TRLNKID, NA_character_)
 )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(tr, display_vars = exprs(USUBJID, TRLNKID, VISIT, LSEXP, LSASS))
 
 ## -----------------------------------------------------------------------------
@@ -82,7 +82,7 @@ tr <- derive_vars_dt(
     source_vars = exprs(ADT)
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(tr, display_vars = exprs(USUBJID, RANDDT, TRLNKID, TRDTC, ADT, ADTF, ADY))
 
 ## -----------------------------------------------------------------------------
@@ -125,7 +125,7 @@ adtr <- bind_rows(
   ) %>%
   select(-tmp_lesion_nr)
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   arrange(adtr, USUBJID, TRLNKID, AVISITN),
   display_vars = exprs(USUBJID, TRLNKID, AVISIT, PARAMCD, PARAM, AVAL, ANL01FL)
@@ -134,7 +134,7 @@ dataset_vignette(
 ## -----------------------------------------------------------------------------
 adtr_sum <- derive_summary_records(
   dataset_add = adtr,
-  by_vars = exprs(STUDYID, USUBJID, !!!adsl_vars, AVISIT, AVISITN),
+  by_vars = c(get_admiral_option("subject_keys"), adsl_vars, exprs(AVISIT, AVISITN)),
   filter_add = (str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
     (str_starts(PARAMCD, "NLDIAM") & TULOCGR1 == "NODAL"),
   set_values_to = exprs(
@@ -149,7 +149,7 @@ adtr_sum <- derive_summary_records(
   )
 )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adtr_sum %>%
     arrange(USUBJID, AVISITN) %>%
@@ -161,7 +161,7 @@ dataset_vignette(
 adtr_sum <- adtr_sum %>%
   derive_var_merged_summary(
     dataset_add = adtr,
-    by_vars = exprs(USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     filter_add = AVISIT == "BASELINE" &
       ((str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
         (str_starts(PARAMCD, "NLDIAM") & TULOCGR1 == "NODAL")),
@@ -169,7 +169,7 @@ adtr_sum <- adtr_sum %>%
   ) %>%
   derive_var_merged_summary(
     dataset_add = adtr,
-    by_vars = exprs(USUBJID, AVISIT),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     filter_add = ((str_starts(PARAMCD, "LDIAM") & TULOCGR1 == "NON-NODAL") |
       (str_starts(PARAMCD, "NLDIAM") & TULOCGR1 == "NODAL")) & ANL01FL == "Y",
     new_vars = exprs(LSASS = paste(sort(TRLNKID), collapse = ", "))
@@ -183,7 +183,7 @@ adtr_sum <- adtr_sum %>%
   restrict_derivation(
     derivation = derive_var_extreme_flag,
     args = params(
-      by_vars = exprs(USUBJID),
+      by_vars = get_admiral_option("subject_keys"),
       order = exprs(ADY),
       new_var = ABLFL,
       mode = "last"
@@ -191,14 +191,14 @@ adtr_sum <- adtr_sum %>%
     filter = ADY <= 1
   ) %>%
   derive_var_base(
-    by_vars = exprs(USUBJID)
+    by_vars = get_admiral_option("subject_keys")
   )
 
 ## -----------------------------------------------------------------------------
 adtr_sum <- adtr_sum %>%
   derive_vars_joined(
     dataset_add = adtr_sum,
-    by_vars = exprs(USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(AVAL),
     new_vars = exprs(NADIR = AVAL),
     join_vars = exprs(ADY),
@@ -209,7 +209,7 @@ adtr_sum <- adtr_sum %>%
     check_type = "none"
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adtr_sum %>%
     arrange(USUBJID, AVISITN) %>%
@@ -226,7 +226,7 @@ adtr_sum <- adtr_sum %>%
     PCHGNAD = if_else(NADIR == 0, NA_real_, 100 * CHGNAD / NADIR)
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   arrange(adtr_sum, USUBJID, AVISITN),
   display_vars = exprs(USUBJID, AVISIT, AVAL, NADIR, BASE, CHG, PCHG, CHGNAD, PCHGNAD)
@@ -237,12 +237,12 @@ adtr_sum <- adtr_sum %>%
   derive_var_merged_exist_flag(
     dataset_add = adrs,
     filter_add = PARAMCD == "PD",
-    by_vars = exprs(USUBJID, ADT),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(ADT)),
     new_var = PDFL,
     condition = AVALC == "Y"
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   arrange(adtr_sum, USUBJID, AVISITN),
   display_vars = exprs(USUBJID, AVISIT, AVAL, NADIR, CHGNAD, PCHGNAD, PDFL)
@@ -261,12 +261,12 @@ adtr_sum <- adtr_sum %>%
       flag_imputation = "none"
     ),
     filter_add = RSTESTCD == "OVRLRESP" & RSEVAL == "INVESTIGATOR",
-    by_vars = exprs(USUBJID, ADT),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(ADT)),
     new_var = PDFL,
     condition = RSSTRESC == "PD"
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   arrange(adtr_sum, USUBJID, AVISITN),
   display_vars = exprs(USUBJID, AVISIT, AVAL, NADIR, CHGNAD, PCHGNAD, PDFL)
@@ -281,7 +281,7 @@ adtr_sum <- adtr_sum %>% mutate(
   PDFL = if_else(is.na(CRFL) & CRNFL == "Y", "Y", NA_character_)
 )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   arrange(adtr_sum, USUBJID, AVISITN),
   display_vars = exprs(USUBJID, AVISIT, AVAL, NADIR, CHGNAD, PCHGNAD, PDFL)
@@ -305,7 +305,7 @@ adtr_sum <- adtr_sum %>%
     )
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   arrange(adtr_sum, USUBJID, AVISITN),
   display_vars = exprs(USUBJID, AVISIT, AVAL, NADIR, CHGNAD, PCHGNAD, PDFL)
@@ -314,7 +314,7 @@ dataset_vignette(
 ## -----------------------------------------------------------------------------
 adtr_sum <- adtr_sum %>%
   derive_var_relative_flag(
-    by_vars = exprs(USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(ADT),
     new_var = POSTRNDFL,
     condition = ADT > RANDDT,
@@ -326,7 +326,7 @@ adtr_sum <- adtr_sum %>%
   restrict_derivation(
     derivation = derive_var_extreme_flag,
     args = params(
-      by_vars = exprs(USUBJID),
+      by_vars = get_admiral_option("subject_keys"),
       new_var = ANL02FL,
       order = exprs(PCHG),
       mode = "first",
@@ -336,7 +336,7 @@ adtr_sum <- adtr_sum %>%
   ) %>%
   select(-POSTRNDFL)
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adtr_sum %>%
     arrange(USUBJID, AVISITN) %>%
@@ -349,7 +349,7 @@ adtr_sum <- adtr_sum %>%
   restrict_derivation(
     derivation = derive_var_relative_flag,
     args = params(
-      by_vars = exprs(USUBJID),
+      by_vars = get_admiral_option("subject_keys"),
       new_var = ANL03FL,
       condition = PDFL == "Y",
       order = exprs(ADY),
@@ -360,7 +360,7 @@ adtr_sum <- adtr_sum %>%
     filter = ANL01FL == "Y" | PDFL == "Y"
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adtr_sum %>%
     arrange(USUBJID, AVISITN) %>%
@@ -374,7 +374,7 @@ adtr_sum <- adtr_sum %>%
     ANL04FL = if_else(ANL01FL == "Y" | PDFL == "Y", "Y", NA_character_)
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adtr_sum %>%
     arrange(USUBJID, AVISITN) %>%
@@ -388,12 +388,12 @@ adtr <- bind_rows(adtr, adtr_sum)
 ## ----eval=TRUE----------------------------------------------------------------
 adtr <- adtr %>%
   derive_var_obs_number(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(PARAMCD, AVISITN, TRSEQ),
     check_type = "error"
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   arrange(adtr, USUBJID, ASEQ),
   display_vars = exprs(USUBJID, PARAMCD, AVISIT, ASEQ, AVAL)
@@ -403,10 +403,10 @@ dataset_vignette(
 adtr <- adtr %>%
   derive_vars_merged(
     dataset_add = select(adsl, !!!negate_vars(adsl_vars)),
-    by_vars = exprs(STUDYID, USUBJID)
+    by_vars = get_admiral_option("subject_keys")
   )
 
-## ---- eval=TRUE, echo=FALSE---------------------------------------------------
+## ----eval=TRUE, echo=FALSE----------------------------------------------------
 dataset_vignette(
   adtr,
   display_vars = exprs(USUBJID, RFSTDTC, RFENDTC, DTHDTC, DTHFL, AGE, AGEU)

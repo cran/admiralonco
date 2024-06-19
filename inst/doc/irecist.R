@@ -37,10 +37,10 @@ adrs <- derive_vars_merged(
   rs,
   dataset_add = adsl,
   new_vars = adsl_vars,
-  by_vars = exprs(STUDYID, USUBJID)
+  by_vars = get_admiral_option("subject_keys")
 )
 
-## ---- eval=TRUE, echo=FALSE---------------------------------------------------
+## ----eval=TRUE, echo=FALSE----------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, RSTESTCD, RSDTC, VISIT, RANDDT),
@@ -58,7 +58,7 @@ adrs <- adrs %>%
     PARCAT3 = "iRECIST"
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, VISIT, RSTESTCD, RSEVAL, PARAMCD, PARAM, PARCAT1, PARCAT2, PARCAT3)
@@ -74,7 +74,7 @@ adrs <- adrs %>%
   ) %>%
   mutate(AVISIT = VISIT)
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, RSSTRESC, RSDTC, ADT, ADTF)
@@ -101,7 +101,7 @@ adrs <- adrs %>%
     AVAL = aval_resp_new(AVALC)
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, RSSTRESC, AVALC, AVAL)
@@ -112,7 +112,7 @@ adrs <- adrs %>%
   restrict_derivation(
     derivation = derive_var_extreme_flag,
     args = params(
-      by_vars = exprs(STUDYID, USUBJID, ADT),
+      by_vars = c(get_admiral_option("subject_keys"), exprs(ADT)),
       order = exprs(AVAL, RSSEQ),
       new_var = ANL01FL,
       mode = "first"
@@ -120,13 +120,13 @@ adrs <- adrs %>%
     filter = !is.na(AVAL) & AVALC != "MISSING" & ADT >= RANDDT
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL)
 )
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  adrs <- adrs %>%
 #    mutate(
 #      ANL01FL = case_when(
@@ -138,7 +138,7 @@ dataset_vignette(
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
   derive_var_relative_flag(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(ADT, RSSEQ),
     new_var = ANL02FL,
     condition = AVALC == "iCPD",
@@ -147,7 +147,7 @@ adrs <- adrs %>%
     inclusive = TRUE
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, AVALC, ADT, ANL01FL, ANL02FL)
@@ -156,7 +156,7 @@ dataset_vignette(
 ## -----------------------------------------------------------------------------
 ovr <- filter(adrs, PARAMCD == "OVR" & ANL01FL == "Y" & ANL02FL == "Y")
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   ovr,
   display_vars = exprs(USUBJID, AVISIT, AVALC, ADT, RANDDT)
@@ -209,9 +209,17 @@ no_data_missing <- event(
 )
 
 ## -----------------------------------------------------------------------------
+irsp_y <- event(
+  description = "Define CR, iCR, PR, or iPR as (unconfirmed) response",
+  dataset_name = "ovr",
+  condition = AVALC %in% c("CR", "iCR", "PR", "iPR"),
+  set_values_to = exprs(AVALC = "Y")
+)
+
+## -----------------------------------------------------------------------------
 adrs <- adrs %>%
   derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(ADT),
     mode = "first",
     source_datasets = list(
@@ -232,13 +240,13 @@ adrs <- adrs %>%
 
 ovr_orig <- ovr
 ovr <- ovr %>%
-  group_by(USUBJID) %>%
+  group_by(!!!get_admiral_option("subject_keys")) %>%
   filter(ADT >= max_cond(var = ADT, cond = AVALC == "iUPD")) %>%
-  ungroup(USUBJID)
+  ungroup(!!!get_admiral_option("subject_keys"))
 
 adrs <- adrs %>%
   derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(ADT),
     mode = "first",
     source_datasets = list(
@@ -258,7 +266,7 @@ adrs <- adrs %>%
   )
 ovr <- ovr_orig
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
@@ -275,7 +283,7 @@ irsp_y <- event(
 
 adrs <- adrs %>%
   derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(ADT),
     mode = "first",
     events = list(irsp_y, no_data_n),
@@ -294,7 +302,7 @@ adrs <- adrs %>%
     )
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, ANL01FL),
@@ -316,7 +324,7 @@ icb_y <- event(
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
   derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(desc(AVALC), ADT),
     mode = "first",
     events = list(irsp_y, icb_y, no_data_n),
@@ -336,7 +344,7 @@ adrs <- adrs %>%
     check_type = "none"
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
@@ -413,7 +421,7 @@ ibor_ne <- event(
 
 adrs <- adrs %>%
   derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     tmp_event_nr_var = event_nr,
     order = exprs(event_nr, ADT),
     mode = "first",
@@ -433,7 +441,7 @@ adrs <- adrs %>%
     )
   )
 
-## ---- echo=FALSE--------------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
@@ -534,7 +542,7 @@ icbor_ipr <- event_joined(
 ## -----------------------------------------------------------------------------
 adrs <- adrs %>%
   derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(desc(AVALC), ADT),
     mode = "first",
     source_datasets = list(
@@ -555,7 +563,7 @@ adrs <- adrs %>%
 
 adrs <- adrs %>%
   derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(desc(AVALC), ADT),
     mode = "first",
     events = list(icrsp_y_icr, icrsp_y_ipr, icb_y, no_data_n),
@@ -577,7 +585,7 @@ adrs <- adrs %>%
 
 adrs <- adrs %>%
   derive_extreme_event(
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = get_admiral_option("subject_keys"),
     tmp_event_nr_var = event_nr,
     order = exprs(event_nr, ADT),
     mode = "first",
@@ -597,7 +605,7 @@ adrs <- adrs %>%
     )
   )
 
-## ---- eval=TRUE, echo=FALSE---------------------------------------------------
+## ----eval=TRUE, echo=FALSE----------------------------------------------------
 dataset_vignette(
   adrs,
   display_vars = exprs(USUBJID, AVISIT, PARAMCD, PARAM, AVALC, ADT, RANDDT, ANL01FL),
