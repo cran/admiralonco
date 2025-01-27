@@ -1,7 +1,7 @@
 Package: admiralonco
 Type: Package
 Title: Oncology Extension Package for ADaM in 'R' Asset Library
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(
     person("Stefan", "Bundfuss", email = "stefan.bundfuss@roche.com", role = c("aut", "cre")),
     person("Ross", "Farrugia", role = "aut"),
@@ -44,7 +44,7 @@ URL: https://pharmaverse.github.io/admiralonco/,
         https://github.com/pharmaverse/admiralonco
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Depends: R (>= 3.5)
 Imports: admiral (>= 1.0.0), admiraldev (>= 1.0.0), dplyr (>= 0.8.4),
         lifecycle (>= 0.1.0), lubridate (>= 1.7.4), magrittr (>= 1.5),
@@ -52,12 +52,12 @@ Imports: admiral (>= 1.0.0), admiraldev (>= 1.0.0), dplyr (>= 0.8.4),
 Suggests: pharmaversesdtm, pharmaverseadam, devtools, diffdf, lintr,
         pkgdown, testthat (>= 3.0.0), knitr, methods, miniUI,
         rmarkdown, roxygen2, spelling, stringr, tibble, usethis, covr,
-        DT, metatools, cli
+        DT, metatools, cli, gt
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/Needs/website: gert
 NeedsCompilation: no
-Packaged: 2024-06-19 13:43:51 UTC; bundfuss
+Packaged: 2025-01-27 12:24:41 UTC; bundfuss
 Author: Stefan Bundfuss [aut, cre],
   Ross Farrugia [aut],
   Amit Jain [aut],
@@ -86,4 +86,4 @@ Author: Stefan Bundfuss [aut, cre],
   Bristol Myers Squibb [cph, fnd]
 Maintainer: Stefan Bundfuss <stefan.bundfuss@roche.com>
 Repository: CRAN
-Date/Publication: 2024-06-19 14:10:30 UTC
+Date/Publication: 2025-01-27 12:40:01 UTC

@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Creating ADRS with GCIG Criteria</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Creating ADRS with GCIG Criteria</h1>
+
+
+
+<p>This article describes creating an <code>ADRS</code> ADaM dataset in
+ovarian cancer studies based on Gynecological Cancer Intergroup (GCIG)
+criteria. Note that only the GCIG specific steps are covered in this
+vignette. To get a detailed guidance on all the steps, refer the <a href="adrs.html">Creating ADRS (Including Non-standard
+Endpoints)</a>.</p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Carcinoma antigen-125 (CA-125) is the most commonly used biomarker in
+ovarian cancer. The Gynecological Cancer Intergroup (GCIG) proposed the
+criteria for CA-125 response and progression and specified the
+situations in which CA-125 criteria could be used. These guidelines are
+becoming more and more popular in clinical trials for ovarian cancer and
+are often used as one of the secondary endpoints.</p>
+<div id="jsrzrqbcic" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jsrzrqbcic table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#jsrzrqbcic thead, #jsrzrqbcic tbody, #jsrzrqbcic tfoot, #jsrzrqbcic tr, #jsrzrqbcic td, #jsrzrqbcic th {
+border-style: none;
+}
+#jsrzrqbcic p {
+margin: 0;
+padding: 0;
+}
+#jsrzrqbcic .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#jsrzrqbcic .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#jsrzrqbcic .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#jsrzrqbcic .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#jsrzrqbcic .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#jsrzrqbcic .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#jsrzrqbcic .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#jsrzrqbcic .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#jsrzrqbcic .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#jsrzrqbcic .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#jsrzrqbcic .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#jsrzrqbcic .gt_from_md > :first-child {
+margin-top: 0;
+}
+#jsrzrqbcic .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#jsrzrqbcic .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#jsrzrqbcic .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jsrzrqbcic .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#jsrzrqbcic .gt_row_group_first td {
+border-top-width: 2px;
+}
+#jsrzrqbcic .gt_row_group_first th {
+border-top-width: 2px;
+}
+#jsrzrqbcic .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jsrzrqbcic .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#jsrzrqbcic .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jsrzrqbcic .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#jsrzrqbcic .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jsrzrqbcic .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#jsrzrqbcic .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jsrzrqbcic .gt_left {
+text-align: left;
+}
+#jsrzrqbcic .gt_center {
+text-align: center;
+}
+#jsrzrqbcic .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#jsrzrqbcic .gt_font_normal {
+font-weight: normal;
+}
+#jsrzrqbcic .gt_font_bold {
+font-weight: bold;
+}
+#jsrzrqbcic .gt_font_italic {
+font-style: italic;
+}
+#jsrzrqbcic .gt_super {
+font-size: 65%;
+}
+#jsrzrqbcic .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#jsrzrqbcic .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#jsrzrqbcic .gt_indent_1 {
+text-indent: 5px;
+}
+#jsrzrqbcic .gt_indent_2 {
+text-indent: 10px;
+}
+#jsrzrqbcic .gt_indent_3 {
+text-indent: 15px;
+}
+#jsrzrqbcic .gt_indent_4 {
+text-indent: 20px;
+}
+#jsrzrqbcic .gt_indent_5 {
+text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>GCIG recommendations for CA-125 criteria for response and progression in various clinical situations</td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Use case&lt;/strong&gt;"><strong>Use case</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Use Recommended by GCIG&lt;/strong&gt;"><strong>Use Recommended by GCIG</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Not Standard and Needs Further Validation&lt;/strong&gt;"><strong>Not Standard and Needs Further Validation</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Not Recommended by GCIG&lt;/strong&gt;"><strong>Not Recommended by GCIG</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Use case" class="gt_row gt_left">First-line trials</td>
+<td headers="Use Recommended by GCIG" class="gt_row gt_left">CA-125 progression</td>
+<td headers="Not Standard and Needs Further Validation" class="gt_row gt_left"></td>
+<td headers="Not Recommended by GCIG" class="gt_row gt_left">CA-125 response</td></tr>
+    <tr><td headers="Use case" class="gt_row gt_left">Maintenance or consolidation trials</td>
+<td headers="Use Recommended by GCIG" class="gt_row gt_left"></td>
+<td headers="Not Standard and Needs Further Validation" class="gt_row gt_left">CA-125 response and progression </td>
+<td headers="Not Recommended by GCIG" class="gt_row gt_left"></td></tr>
+    <tr><td headers="Use case" class="gt_row gt_left">Relapse trials</td>
+<td headers="Use Recommended by GCIG" class="gt_row gt_left">CA-125 response and progression</td>
+<td headers="Not Standard and Needs Further Validation" class="gt_row gt_left"></td>
+<td headers="Not Recommended by GCIG" class="gt_row gt_left"></td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<p>However, the CA-125 criteria can be a bit tricky to use in
+programming, especially when used alongside the RECIST 1.1.</p>
+<p>We aim to share our current knowledge and experience in implementing
+GCIG criteria for ovarian clinical trials. Additionally, we have made
+certain assumptions regarding how data is collected on CRFs to perform
+response analysis according to the GCIG criteria. We hope this vignette
+provides valuable guidance on ADRS programming and highlights key
+considerations for data collection in relation to these criteria.</p>
+<p>For more information about GCIG criteria user may visit <a href="https://pubmed.ncbi.nlm.nih.gov/21270624/">GCIG guidelines on
+response criteria in ovarian cancer</a></p>
+<div id="ca-125-response-categories" class="section level2">
+<h2>CA-125 response categories</h2>
+<p>In further considerations, ULRR stands for Upper Limit of Reference
+Range. The CA-125 response categories for ovarian cancer are:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>CA-125 Complete Response</strong>: baseline CA-125 &gt;=
+2 * ULRR, later reduced by at least 50% to normal confirmed at least 4
+weeks later.</p></li>
+<li><p><strong>CA-125 Partial Response</strong>: baseline CA-125 &gt;= 2
+* ULRR, later reduced by at least 50% but not to normal confirmed at
+least 4 weeks later.</p></li>
+<li><p><strong>Stable Disease</strong>: CA-125 level does not meet the
+criteria for either partial response or progression disease.</p></li>
+<li><p><strong>Progression</strong>: This is defined as CA-125 &gt;= 2 *
+ULRR or CA-125 &gt;= 2 * nadir on 2 occasions at least 1 week apart.</p>
+<ul>
+<li>category A: <strong>CA-125 elevated at baseline returning to normal
+after treatment</strong>: CA-125 &gt;= 2 * ULRR on 2 occasions at least
+1 week apart.</li>
+<li>category B: <strong>CA-125 elevated at baseline not returning to
+normal after treatment</strong>: CA-125 &gt;= 2 * nadir value (lowest
+level reached by CA-125) on 2 occasions at least 1 week apart.</li>
+<li>category C: <strong>CA-125 within reference range at
+baseline</strong>: CA-125 &gt;= 2 * ULRR on 2 occasions at least 1 week
+apart.</li>
+</ul></li>
+<li><p><strong>Not Evaluable</strong>: This is when the patient’s
+response cannot be evaluated due to various reasons such as receiving
+mouse antibodies or having medical/surgical interference with their
+peritoneum or pleura during the previous 28 days.</p></li>
+</ol>
+</div>
+<div id="ways-the-data-is-collected-in-the-ovarian-cancer-study-crf" class="section level2">
+<h2>Ways the data is collected in the Ovarian Cancer study CRF</h2>
+<div id="required" class="section level3">
+<h3>Required:</h3>
+<ul>
+<li>Serum CA-125 results as per protocol and mapped in <code>LB</code>
+SDTM domain.</li>
+<li>RECIST 1.1 tumor size and response as per protocol and mapped in
+<code>RS</code>/<code>TR</code>/<code>TU</code> SDTM domain.</li>
+</ul>
+<p><strong>Note</strong>: collection of CA-125 and RECIST 1.1 tumor
+assessment may not be always same visit. CA-125 can be collected more
+frequently than tumor assessment.</p>
+</div>
+<div id="may-be-collected" class="section level3">
+<h3>May be Collected:</h3>
+<ul>
+<li>CA-125 progression</li>
+<li>CA-125 response</li>
+<li>Combined response of CA-125 and RECIST 1.1 based on GCIG
+criteria</li>
+</ul>
+</div>
+<div id="assumptions" class="section level3">
+<h3>Assumptions:</h3>
+<p>For this vignette we made assumptions that following information is
+collected on the CRF:</p>
+<ol style="list-style-type: decimal">
+<li><p>CA-125 confirmed responses are collected on the CRF and mapped to
+<code>SDTM RS</code> domain. Please note that we are not
+programmatically confirming the CA-125 response.</p></li>
+<li><p>The date of CA-125 response is assigned to the date of the first
+measurement when the CA-125 level is reduced by 50%. The date of CA-125
+progression is assigned to the date of the first measurement that meets
+progression criteria. This is assumed to be collected on the CRF CA-125
+response page.</p></li>
+<li><p>CA-125 responses are mapped to <code>CR</code>, <code>PR</code>,
+<code>SD</code>, <code>PD</code>, <code>NE</code> as shown below.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">CA-125 response per GCIG</th>
+<th align="left">CA-125 response mapped</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Response within Normal Range</td>
+<td align="left">CR</td>
+</tr>
+<tr class="even">
+<td align="left">Response but not within Normal Range</td>
+<td align="left">PR</td>
+</tr>
+<tr class="odd">
+<td align="left">Non-Response/Non-PD</td>
+<td align="left">SD</td>
+</tr>
+<tr class="even">
+<td align="left">PD</td>
+<td align="left">PD</td>
+</tr>
+<tr class="odd">
+<td align="left">NE</td>
+<td align="left">NE</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>Combined CA-125 and RECIST 1.1 response per visit where both
+RECIST 1.1 and CA-125 is evaluated is also collected on the CRF. The
+investigator should already consider CA-125 confirmed response and each
+visit RECIST 1.1 response based on GCIG document.</p></li>
+<li><p>In <code>SUPPRS</code> there are records with below
+<code>QNAM</code> and <code>QLABEL</code> values:</p>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="18%" />
+<col width="2%" />
+<col width="47%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">QNAM</th>
+<th align="left">QLABEL</th>
+<th align="left">QVAL</th>
+<th align="left">Purpose</th>
+<th align="left">Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>CA125EFL</code></td>
+<td align="left">CA-125 response evaluable</td>
+<td align="left">Y/N</td>
+<td align="left">Indicates population evaluable for CA-125 response
+(baseline CA-125 &gt;= 2 * ULRR and no mouse antibodies)</td>
+<td align="left"><code>CA125EFL</code> variable</td>
+</tr>
+<tr class="even">
+<td align="left"><code>CAELEPRE</code></td>
+<td align="left">Elevated pre-treatment CA-125</td>
+<td align="left">Y/N</td>
+<td align="left">Indicates CA-125 level at baseline (Y - elevated, N -
+not elevated)</td>
+<td align="left">Derivation of PD category
+(<code>MCRIT1</code>/<code>MCRIT1ML</code>/<code>MCRIT1MN</code>)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>MOUSEANT</code></td>
+<td align="left">Received mouse antibodies</td>
+<td align="left">Y</td>
+<td align="left">Indicates if a prohibited therapy was received</td>
+<td align="left">Derivation of <code>ANL02FL</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>CA50RED</code></td>
+<td align="left">&gt;=50% reduction from baseline</td>
+<td align="left">Y</td>
+<td align="left">Indicates response, but does not distinguish between CR
+and PR</td>
+<td align="left">Not used in further derivations</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>CANORM2X</code></td>
+<td align="left">CA125 normal, lab increased &gt;=2x ULRR</td>
+<td align="left">Y</td>
+<td align="left">Indicates PD category A or C</td>
+<td align="left">Derivation of PD category
+(<code>MCRIT1</code>/<code>MCRIT1ML</code>/<code>MCRIT1MN</code>)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>CNOTNORM</code></td>
+<td align="left">CA125 not norm, lab increased &gt;=2x nadir</td>
+<td align="left">Y</td>
+<td align="left">Indicates PD category B</td>
+<td align="left">Derivation of PD category
+(<code>MCRIT1</code>/<code>MCRIT1ML</code>/<code>MCRIT1MN</code>)</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+<p>The above <code>SUPPRS</code> records refer only to records with
+<code>RS.RSCAT = &quot;CA125&quot;</code>. The exception is
+<code>QNAM = &quot;MOUSEANT&quot;</code>, which appears for both
+<code>RS.RSCAT = &quot;CA125&quot;</code> and
+<code>RS.RSCAT = &quot;RECIST 1.1 - CA125&quot;</code> (for the same visits).</p>
+<p>If the data are collected by other ways and similar information from
+<code>SUPPRS</code> dataset are not available, they should be derived in
+advance from <code>LB</code> CA-125 measurements records. Information on
+whether the patient has received mouse antibodies should also be taken
+into account.</p>
+</div>
+</div>
+</div>
+<div id="required-packages" class="section level1">
+<h1>Required Packages</h1>
+<p>The examples of this vignette require the following packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(pharmaversesdtm)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(pharmaverseadam)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(metatools)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code></pre></div>
+</div>
+<div id="programming-workflow" class="section level1">
+<h1>Programming Workflow</h1>
+<ul>
+<li><a href="#readdata">Read in Data</a></li>
+<li><a href="#input">Pre-processing of Input Records</a></li>
+<li><a href="#anlfl">Analysis Flag Derivation</a></li>
+<li><a href="#pdca">CA-125 Progression</a></li>
+<li><a href="#pdcacat">CA-125 Progression Category</a></li>
+<li><a href="#cborca">CA-125 Best Confirmed Overall Response</a></li>
+<li><a href="#combubor">Combined Best Unconfirmed Overall
+Response</a></li>
+<li><a href="#combcbor">Combined Best Confirmed Overall
+Response</a></li>
+</ul>
+<div id="readdata" class="section level2">
+<h2>Read in Data</h2>
+<p>To start, all data frames needed for the creation of
+<code>ADRS</code> should be read into the environment. This will be a
+company specific process. Some of the data frames needed are
+<code>ADSL</code> and <code>RS</code>.</p>
+<p>For example purpose, the SDTM and ADaM datasets (based on CDISC Pilot
+test data)—which are included in <code>{pharmaversesdtm}</code> and
+<code>{pharmaverseadam}</code>—are used.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> pharmaverseadam<span class="sc">::</span>adsl</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># GCIG sdtm data</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>rs <span class="ot">&lt;-</span> pharmaversesdtm<span class="sc">::</span>rs_onco_ca125</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>supprs <span class="ot">&lt;-</span> pharmaversesdtm<span class="sc">::</span>supprs_onco_ca125</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">combine_supp</span>(rs, supprs)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(rs)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="9%" />
+<col width="6%" />
+<col width="9%" />
+<col width="7%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">RSTESTCD</th>
+<th align="left">RSCAT</th>
+<th align="left">RSSTRESC</th>
+<th align="left">VISIT</th>
+<th align="left">CA125EFL</th>
+<th align="left">CAELEPRE</th>
+<th align="left">CA50RED</th>
+<th align="left">CANORM2X</th>
+<th align="left">CNOTNORM</th>
+<th align="left">MOUSEANT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">SD</td>
+<td align="left">WEEK 3</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">NE</td>
+<td align="left">WEEK 6</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">PR</td>
+<td align="left">WEEK 9</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">PD</td>
+<td align="left">WEEK 3</td>
+<td align="left">N</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">PD</td>
+<td align="left">WEEK 6</td>
+<td align="left">N</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">PD</td>
+<td align="left">WEEK 9</td>
+<td align="left">N</td>
+<td align="left">N</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">CR</td>
+<td align="left">WEEK 3</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">CR</td>
+<td align="left">WEEK 6</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">SD</td>
+<td align="left">WEEK 3</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">OVRLRESP</td>
+<td align="left">CA125</td>
+<td align="left">PR</td>
+<td align="left">WEEK 3</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+<p>At this step, it may be useful to join <code>ADSL</code> to your
+<code>RS</code> domain. Only the <code>ADSL</code> variables used for
+derivations are selected at this step.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>adsl_vars <span class="ot">&lt;-</span> <span class="fu">exprs</span>(RANDDT, TRTSDT)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  rs,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">dataset_add =</span> adsl,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">new_vars =</span> adsl_vars,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="input" class="section level2">
+<h2>Pre-processing of Input Records</h2>
+<div id="select-overall-response-records-per-response-criteria-category" class="section level3">
+<h3>Select Overall Response Records per Response Criteria Category</h3>
+<p>The next step is to assign parameter level values such as
+<code>PARAMCD</code>, <code>PARAM</code>,<code>PARAMN</code>,
+<code>PARCAT1</code>, etc. For this, a lookup can be created based on
+the SDTM <code>RSCAT</code>, <code>RSTESTCD</code> and
+<code>RSEVAL</code> values to join to the source data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>param_lookup <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="sc">~</span>RSCAT, <span class="sc">~</span>RSTESTCD, <span class="sc">~</span>RSEVAL,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="sc">~</span>PARAMCD, <span class="sc">~</span>PARAM, <span class="sc">~</span>PARAMN,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="sc">~</span>PARCAT1, <span class="sc">~</span>PARCAT1N, <span class="sc">~</span>PARCAT2, <span class="sc">~</span>PARCAT2N,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="co"># CA-125</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="st">&quot;CA125&quot;</span>, <span class="st">&quot;OVRLRESP&quot;</span>, <span class="st">&quot;INVESTIGATOR&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="st">&quot;OVRCA125&quot;</span>, <span class="st">&quot;CA-125 Overall Response by Investigator&quot;</span>, <span class="dv">1</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="st">&quot;CA-125&quot;</span>, <span class="dv">1</span>, <span class="st">&quot;Investigator&quot;</span>, <span class="dv">1</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="co"># RECIST 1.1</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="st">&quot;RECIST 1.1&quot;</span>, <span class="st">&quot;OVRLRESP&quot;</span>, <span class="st">&quot;INVESTIGATOR&quot;</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="st">&quot;OVRR11&quot;</span>, <span class="st">&quot;RECIST 1.1 Overall Response by Investigator&quot;</span>, <span class="dv">2</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  <span class="st">&quot;RECIST 1.1&quot;</span>, <span class="dv">2</span>, <span class="st">&quot;Investigator&quot;</span>, <span class="dv">1</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="co"># Combined</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>  <span class="st">&quot;RECIST 1.1 - CA125&quot;</span>, <span class="st">&quot;OVRLRESP&quot;</span>, <span class="st">&quot;INVESTIGATOR&quot;</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="st">&quot;OVRR11CA&quot;</span>, <span class="st">&quot;Combined Overall Response by Investigator&quot;</span>, <span class="dv">3</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>  <span class="st">&quot;Combined&quot;</span>, <span class="dv">3</span>, <span class="st">&quot;Investigator&quot;</span>, <span class="dv">1</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>)</span></code></pre></div>
+<p>This lookup may now be joined to the source data and this is how the
+parameters will look like:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged_lookup</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  adrs,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">dataset_add =</span> param_lookup,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(RSCAT, RSTESTCD, RSEVAL)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="5%" />
+<col width="13%" />
+<col width="6%" />
+<col width="9%" />
+<col width="6%" />
+<col width="32%" />
+<col width="8%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">VISIT</th>
+<th align="left">RSCAT</th>
+<th align="left">RSTESTCD</th>
+<th align="left">RSEVAL</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">PARCAT1</th>
+<th align="left">PARCAT2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">CA125</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRCA125</td>
+<td align="left">CA-125 Overall Response by Investigator</td>
+<td align="left">CA-125</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">CA125</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRCA125</td>
+<td align="left">CA-125 Overall Response by Investigator</td>
+<td align="left">CA-125</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">CA125</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRCA125</td>
+<td align="left">CA-125 Overall Response by Investigator</td>
+<td align="left">CA-125</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRR11</td>
+<td align="left">RECIST 1.1 Overall Response by Investigator</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRR11</td>
+<td align="left">RECIST 1.1 Overall Response by Investigator</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRR11</td>
+<td align="left">RECIST 1.1 Overall Response by Investigator</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">RECIST 1.1 - CA125</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRR11CA</td>
+<td align="left">Combined Overall Response by Investigator</td>
+<td align="left">Combined</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">RECIST 1.1 - CA125</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRR11CA</td>
+<td align="left">Combined Overall Response by Investigator</td>
+<td align="left">Combined</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">RECIST 1.1 - CA125</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRR11CA</td>
+<td align="left">Combined Overall Response by Investigator</td>
+<td align="left">Combined</td>
+<td align="left">Investigator</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="left">CA125</td>
+<td align="left">OVRLRESP</td>
+<td align="left">INVESTIGATOR</td>
+<td align="left">OVRCA125</td>
+<td align="left">CA-125 Overall Response by Investigator</td>
+<td align="left">CA-125</td>
+<td align="left">Investigator</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="partial-date-imputation-and-deriving-adt-adtf-avisit-etc." class="section level3">
+<h3>Partial Date Imputation and Deriving <code>ADT</code>,
+<code>ADTF</code>, <code>AVISIT</code> etc.</h3>
+<p>If your data collection allows for partial dates, you could apply a
+company-specific imputation rule at this stage when deriving
+<code>ADT</code>. For this example, here we impute missing day to last
+possible date.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">derive_vars_dt</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="at">dtc =</span> RSDTC,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">date_imputation =</span> <span class="st">&quot;last&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">derive_vars_dy</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    <span class="at">reference_date =</span> TRTSDT,</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    <span class="at">source_vars =</span> <span class="fu">exprs</span>(ADT)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  <span class="fu">derive_vars_dtm</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    <span class="at">dtc =</span> RSDTC,</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>    <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>    <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>    <span class="at">date_imputation =</span> <span class="st">&quot;last&quot;</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>    <span class="at">flag_imputation =</span> <span class="st">&quot;time&quot;</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">AVISIT =</span> VISIT)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="13%" />
+<col width="10%" />
+<col width="10%" />
+<col width="16%" />
+<col width="16%" />
+<col width="7%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">VISIT</th>
+<th align="left">AVISIT</th>
+<th align="left">RSDTC</th>
+<th align="left">ADT</th>
+<th align="left">ADTF</th>
+<th align="right">ADY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-01-23</td>
+<td align="left">2014-01-23</td>
+<td align="left">NA</td>
+<td align="right">22</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-02</td>
+<td align="left">2014-02-28</td>
+<td align="left">D</td>
+<td align="right">58</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 9</td>
+<td align="left">WEEK 9</td>
+<td align="left">2014-03-06</td>
+<td align="left">2014-03-06</td>
+<td align="left">NA</td>
+<td align="right">64</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">WEEK 3</td>
+<td align="left">2013-08-09</td>
+<td align="left">2013-08-09</td>
+<td align="left">NA</td>
+<td align="right">22</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">WEEK 6</td>
+<td align="left">2013-08-30</td>
+<td align="left">2013-08-30</td>
+<td align="left">NA</td>
+<td align="right">43</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 9</td>
+<td align="left">WEEK 9</td>
+<td align="left">2013-09-30</td>
+<td align="left">2013-09-30</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-07-22</td>
+<td align="left">2014-07-22</td>
+<td align="left">NA</td>
+<td align="right">22</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-08-20</td>
+<td align="left">2014-08-20</td>
+<td align="left">NA</td>
+<td align="right">51</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-01-22</td>
+<td align="left">2014-01-22</td>
+<td align="left">NA</td>
+<td align="right">22</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">WEEK 3</td>
+<td align="left">2012-12-21</td>
+<td align="left">2012-12-21</td>
+<td align="left">NA</td>
+<td align="right">22</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="derive-avalc-and-aval" class="section level3">
+<h3>Derive <code>AVALC</code> and <code>AVAL</code></h3>
+<p>Since the set of CA-125 response categories is a subset of the RECIST
+1.1 response categories and the set of combined response categories
+overlaps with the set of RECIST 1.1 response categories, we can use the
+<code>admiralonco::aval_resp()</code> function to assign
+<code>AVAL</code> (ordered from best to worst response).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="at">AVALC =</span> RSSTRESC,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="at">AVAL =</span> <span class="fu">aval_resp</span>(AVALC)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVISIT</th>
+<th align="left">ADT</th>
+<th align="right">AVAL</th>
+<th align="left">AVALC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-01-23</td>
+<td align="right">3</td>
+<td align="left">SD</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-02-28</td>
+<td align="right">6</td>
+<td align="left">NE</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 9</td>
+<td align="left">2014-03-06</td>
+<td align="right">2</td>
+<td align="left">PR</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">2013-08-09</td>
+<td align="right">5</td>
+<td align="left">PD</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">2013-08-30</td>
+<td align="right">5</td>
+<td align="left">PD</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 9</td>
+<td align="left">2013-09-30</td>
+<td align="right">5</td>
+<td align="left">PD</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1034</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-07-22</td>
+<td align="right">1</td>
+<td align="left">CR</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-08-20</td>
+<td align="right">1</td>
+<td align="left">CR</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">2014-01-22</td>
+<td align="right">3</td>
+<td align="left">SD</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">OVRCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">2012-12-21</td>
+<td align="right">2</td>
+<td align="left">PR</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="anlfl" class="section level2">
+<h2>Analysis Flag Derivation</h2>
+<p>When deriving <code>ANzzFL</code> this is an opportunity to exclude
+any records that should not contribute to any downstream parameter
+derivations.</p>
+<div id="anl01fl" class="section level3">
+<h3>Flag One Assessment at Each Analysis Date
+(<code>ANL01FL</code>)</h3>
+<p>In the below example:</p>
+<ul>
+<li>we consider only valid assessments and those occurring on or after
+randomization date,</li>
+<li>subject identifier variables (usually <code>STUDYID</code> and
+<code>USUBJID</code>), <code>PARAMCD</code> and <code>ADT</code> are a
+unique key,</li>
+<li>if there is more than one assessment at a date, the worst one is
+flagged (ensure that the appropriate <code>mode</code> is being set in
+the <code>admiral::derive_var_extreme_flag()</code>),</li>
+<li>to get the correct ordering, we will define the
+<code>worst_resp()</code> function.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>worst_resp <span class="ot">&lt;-</span> <span class="cf">function</span>(arg) {</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">case_when</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;NE&quot;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;CR&quot;</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;PR&quot;</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;SD&quot;</span> <span class="sc">~</span> <span class="dv">4</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;NON-CR/NON-PD&quot;</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    arg <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">~</span> <span class="dv">6</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  )</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>}</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="fu">restrict_derivation</span>(</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    <span class="at">derivation =</span> derive_var_extreme_flag,</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>      <span class="at">by_vars =</span> <span class="fu">c</span>(<span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>), <span class="fu">exprs</span>(PARAMCD, ADT)),</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">exprs</span>(<span class="fu">worst_resp</span>(AVALC), RSSEQ),</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>      <span class="at">new_var =</span> ANL01FL,</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">&quot;last&quot;</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>    ),</span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>    <span class="at">filter =</span> <span class="sc">!</span><span class="fu">is.na</span>(AVAL) <span class="sc">&amp;</span> ADT <span class="sc">&gt;=</span> RANDDT</span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="anl02fl" class="section level3">
+<h3>Flag Assessments up to First PD or After Receiving Mouse Antibodies
+(<code>ANL02FL</code>)</h3>
+<p>To restrict response data up to and including first reported
+progressive disease <code>ANL02FL</code> flag could be created by using
+<code>{admiral}</code> function
+<code>admiral::derive_var_relative_flag()</code>.</p>
+<p>According to GCIG guidelines, assessments after patients received
+mouse antibodies or if there has been medical and/or surgical
+interference with their peritoneum or pleura during the previous 28 days
+<strong>should not be considered</strong>.</p>
+<p><strong>Note</strong>: In our vignette, we will use the variable
+<code>MOUSEANT</code>, which indicates whether mouse antibodies have
+been received. The user can similarly include a variable that indicates
+whether there has been medical and/or surgical interference with the
+patient’s peritoneum or pleura in the past 28 days.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">derive_var_relative_flag</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">c</span>(<span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>), <span class="fu">exprs</span>(PARAMCD)),</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, RSSEQ),</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>    <span class="at">new_var =</span> ANL02FL,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>    <span class="at">condition =</span> (AVALC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">|</span> MOUSEANT <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>),</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    <span class="at">selection =</span> <span class="st">&quot;before&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>    <span class="at">inclusive =</span> <span class="cn">TRUE</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="eflca" class="section level3">
+<h3>CA-125 Response Evaluable Flag</h3>
+<p>Patients can only be evaluable for a CA-125 response if they have
+pre-treatment sample that is at least twice the upper limit of the
+reference range and within 2 weeks before starting the treatment. In our
+case, this information is collected only for CA-125 records while a flag
+is needed at the patient level.</p>
+<p>CA-125 Response Evaluable Flag can easily be derived using
+<code>derive_var_merged_exist_flag()</code> function.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>CA125EFL) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">derive_var_merged_exist_flag</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="at">dataset_add =</span> adrs,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    <span class="at">new_var =</span> CA125EFL,</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="at">condition =</span> (CA125EFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="10%" />
+<col width="12%" />
+<col width="8%" />
+<col width="15%" />
+<col width="11%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+<th align="left">ANL01FL</th>
+<th align="left">ANL02FL</th>
+<th align="left">CA125EFL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRCA125</td>
+<td align="left">SD</td>
+<td align="left">2014-01-23</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRCA125</td>
+<td align="left">NE</td>
+<td align="left">2014-02-28</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVRCA125</td>
+<td align="left">PR</td>
+<td align="left">2014-03-06</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRR11</td>
+<td align="left">SD</td>
+<td align="left">2014-01-23</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRR11</td>
+<td align="left">NE</td>
+<td align="left">2014-02-28</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVRR11</td>
+<td align="left">PR</td>
+<td align="left">2014-03-06</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRR11CA</td>
+<td align="left">SD</td>
+<td align="left">2014-01-23</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 6</td>
+<td align="left">OVRR11CA</td>
+<td align="left">NE</td>
+<td align="left">2014-02-28</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 9</td>
+<td align="left">OVRR11CA</td>
+<td align="left">PR</td>
+<td align="left">2014-03-06</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+<td align="left">Y</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">WEEK 3</td>
+<td align="left">OVRCA125</td>
+<td align="left">PD</td>
+<td align="left">2013-08-09</td>
+<td align="left">Y</td>
+<td align="left">Y</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="select-source-assessments-for-parameter-derivations" class="section level3">
+<h3>Select Source Assessments for Parameter Derivations</h3>
+<p>For next parameter derivations we consider:</p>
+<ul>
+<li>one assessment at each analysis date
+(<code>ANL01FL = &quot;Y&quot;</code>),</li>
+<li>assessments up to and including first PD or mouse antibodies
+whatever comes first (<code>ANL02FL = &quot;Y&quot;</code>),</li>
+<li>CA-125 Response Evaluable population (not for derivation of CA-125
+progression),</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># used for derivation of CA-125 PD</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>ovr_pd <span class="ot">&lt;-</span> <span class="fu">filter</span>(adrs, PARAMCD <span class="sc">==</span> <span class="st">&quot;OVRCA125&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL02FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># used for derivation of CA-125 response parameters</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>ovr_ca125 <span class="ot">&lt;-</span> <span class="fu">filter</span>(adrs, PARAMCD <span class="sc">==</span> <span class="st">&quot;OVRCA125&quot;</span> <span class="sc">&amp;</span> CA125EFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL02FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># used for derivation of unconfirmed best overall response from RECIST 1.1 and confirmed CA-125 together</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>ovr_ubor <span class="ot">&lt;-</span> <span class="fu">filter</span>(adrs, PARAMCD <span class="sc">==</span> <span class="st">&quot;OVRR11CA&quot;</span> <span class="sc">&amp;</span> CA125EFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL02FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># used for derivation of confirmed best overall response from RECIST 1.1 and confirmed CA-125 together</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>ovr_r11 <span class="ot">&lt;-</span> <span class="fu">filter</span>(adrs, PARAMCD <span class="sc">==</span> <span class="st">&quot;OVRR11&quot;</span> <span class="sc">&amp;</span> CA125EFL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL01FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> ANL02FL <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)</span></code></pre></div>
+<p>Now that we have the input records prepared above with any
+company-specific requirements, we can start to derive new parameter
+records.</p>
+</div>
+</div>
+<div id="pdca" class="section level2">
+<h2>CA-125 Progression</h2>
+<p>The function <code>admiral::derive_extreme_records()</code> can be
+used to find the date of first CA-125 PD.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">derive_extreme_records</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="at">dataset_ref =</span> adsl,</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>    <span class="at">dataset_add =</span> ovr_pd,</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>    <span class="at">filter_add =</span> AVALC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT),</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>    <span class="at">keep_source_vars =</span> <span class="fu">exprs</span>(<span class="fu">everything</span>()),</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;PDCA125&quot;</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;CA-125 Disease Progression by Investigator&quot;</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>      <span class="at">PARAMN =</span> <span class="dv">4</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;CA-125&quot;</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>      <span class="at">PARCAT1N =</span> <span class="dv">1</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>      <span class="at">PARCAT2N =</span> <span class="dv">1</span>,</span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>      <span class="at">ANL02FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>    )</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVISIT</th>
+<th align="left">ADT</th>
+<th align="left">AVALC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">PDCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">2013-08-09</td>
+<td align="left">PD</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">PDCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-03-29</td>
+<td align="left">PD</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">PDCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">2012-12-09</td>
+<td align="left">PD</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="pdcacat" class="section level2">
+<h2>CA-125 Progression Category</h2>
+<p>To obtain additional variables that store the progression category
+for participants who have progressed, we will create
+<code>MCRITy/MCRITyML/MCRITyMN</code> variables according to the ADaMIG
+guidelines.</p>
+<p>In our consideration we assume that the <code>SUPPRS</code> dataset
+contains <code>QNAM</code> values to uniquely classify a progression
+into one of the <code>A</code>, <code>B</code> or <code>C</code>
+categories as per <code>GCIG</code> criteria.</p>
+<p>Having previously transposed and merged <code>SUPPRS</code> dataset,
+we have a suitable structure for deriving <code>MCRIT</code> variables,
+since all the necessary variables we will use to check conditions are in
+one row.</p>
+<p>For this purpose <code>{admiral}</code> provides <a href="https://pharmaverse.github.io/admiral/dev/reference/derive_vars_cat.html"><code>derive_vars_cat()</code></a>
+function (see documentation for details).</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>definition_mcrit <span class="ot">&lt;-</span> <span class="fu">exprs</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="sc">~</span>PARAMCD, <span class="sc">~</span>condition,</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="sc">~</span>MCRIT1ML, <span class="sc">~</span>MCRIT1MN,</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="st">&quot;PDCA125&quot;</span>, CAELEPRE <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> CANORM2X <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="st">&quot;Patients with elevated CA-125 before treatment and normalization of CA-125 (A)&quot;</span>, <span class="dv">1</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="st">&quot;PDCA125&quot;</span>, CAELEPRE <span class="sc">==</span> <span class="st">&quot;Y&quot;</span> <span class="sc">&amp;</span> CNOTNORM <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="st">&quot;Patients with elevated CA-125 before treatment, which never normalizes (B)&quot;</span>, <span class="dv">2</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="st">&quot;PDCA125&quot;</span>, CAELEPRE <span class="sc">==</span> <span class="st">&quot;N&quot;</span> <span class="sc">&amp;</span> CANORM2X <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="st">&quot;Patients with CA-125 in the reference range before treatment (C)&quot;</span>, <span class="dv">3</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>)</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MCRIT1 =</span> <span class="fu">if_else</span>(PARAMCD <span class="sc">==</span> <span class="st">&quot;PDCA125&quot;</span>, <span class="st">&quot;PD Category Group&quot;</span>, <span class="cn">NA_character_</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>  <span class="fu">derive_vars_cat</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>    <span class="at">definition =</span> definition_mcrit,</span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(PARAMCD)</span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="5%" />
+<col width="4%" />
+<col width="7%" />
+<col width="4%" />
+<col width="12%" />
+<col width="52%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVISIT</th>
+<th align="left">ADT</th>
+<th align="left">AVALC</th>
+<th align="left">MCRIT1</th>
+<th align="left">MCRIT1ML</th>
+<th align="right">MCRIT1MN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">PDCA125</td>
+<td align="left">WEEK 3</td>
+<td align="left">2013-08-09</td>
+<td align="left">PD</td>
+<td align="left">PD Category Group</td>
+<td align="left">Patients with CA-125 in the reference range before
+treatment (C)</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">PDCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">2014-03-29</td>
+<td align="left">PD</td>
+<td align="left">PD Category Group</td>
+<td align="left">Patients with elevated CA-125 before treatment, which
+never normalizes (B)</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">PDCA125</td>
+<td align="left">WEEK 6</td>
+<td align="left">2012-12-09</td>
+<td align="left">PD</td>
+<td align="left">PD Category Group</td>
+<td align="left">Patients with elevated CA-125 before treatment and
+normalization of CA-125 (A)</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">PD Category Group</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1023</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">PD Category Group</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">PD Category Group</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">PD Category Group</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">PD Category Group</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">PDCA125</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">PD Category Group</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<p>Derivation of the progression category may be more complex if the
+data is collected in a different way and the user needs to check
+whether:</p>
+<ul>
+<li>baseline CA-125 level was elevated,</li>
+<li>CA-125 level normalizes over the course of the study,</li>
+<li>CA-125 level &gt; 2 * ULRR (if CA-125 level normalizes) or CA-125
+level &gt; 2 * nadir (if CA-125 level never normalizes).</li>
+</ul>
+<p>If criterion to find PD category draws from multiple rows (different
+parameters or multiple rows for a single parameter) this will require
+the creation of a new parameter.</p>
+</div>
+<div id="cborca" class="section level2">
+<h2>CA-125 Best Confirmed Overall Response</h2>
+<p>The function <code>admiral::derive_extreme_event()</code> can be used
+to derive the CA-125 Best Confirmed Overall Response Parameter.</p>
+<p>Some events such as <code>bor_cr</code>, <code>bor_pr</code> have
+been defined in {admiralonco}. Missing events specific to GCIG criteria
+are defined below.<br />
+<strong>Note</strong>: <em>For <code>SD</code>, it is not required as
+for RECIST 1.1 that the response occurs after a protocol-defined number
+of days.</em></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>bor_sd_gcig <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Define stable disease (SD) for best overall response (BOR)&quot;</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;SD&quot;</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;SD&quot;</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>)</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>bor_ne_gcig <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Define not evaluable (NE) for best overall response (BOR)&quot;</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;ovr&quot;</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;NE&quot;</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;NE&quot;</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>)</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a>    <span class="at">tmp_event_nr_var =</span> event_nr,</span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(event_nr, ADT),</span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a>      <span class="at">ovr =</span> ovr_ca125,</span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a>    ),</span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(</span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a>      bor_cr, bor_pr, bor_sd_gcig, bor_pd, bor_ne_gcig, no_data_missing</span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a>    ),</span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CBORCA&quot;</span>,</span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;CA-125 Best Confirmed Overall Response by Investigator&quot;</span>,</span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a>      <span class="at">PARAMN =</span> <span class="dv">5</span>,</span>
+<span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;CA-125&quot;</span>,</span>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a>      <span class="at">PARCAT1N =</span> <span class="dv">1</span>,</span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a>      <span class="at">PARCAT2N =</span> <span class="dv">1</span>,</span>
+<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">aval_resp</span>(AVALC),</span>
+<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a>      <span class="at">ANL02FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb14-39"><a href="#cb14-39" tabindex="-1"></a>    )</span>
+<span id="cb14-40"><a href="#cb14-40" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">CBORCA</td>
+<td align="left">SD</td>
+<td align="left">2014-01-23</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">CBORCA</td>
+<td align="left">MISSING</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">CBORCA</td>
+<td align="left">MISSING</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 3</td>
+<td align="left">CBORCA</td>
+<td align="left">CR</td>
+<td align="left">2014-07-22</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 3</td>
+<td align="left">CBORCA</td>
+<td align="left">SD</td>
+<td align="left">2014-01-22</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 9</td>
+<td align="left">CBORCA</td>
+<td align="left">CR</td>
+<td align="left">2013-02-01</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">CBORCA</td>
+<td align="left">CR</td>
+<td align="left">2014-04-23</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 3</td>
+<td align="left">CBORCA</td>
+<td align="left">SD</td>
+<td align="left">2014-03-08</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 3</td>
+<td align="left">CBORCA</td>
+<td align="left">PR</td>
+<td align="left">2012-11-18</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="combubor" class="section level2">
+<h2>Combined Best Unconfirmed Overall Response</h2>
+<p>For patients who are measurable by both RECIST 1.1 and CA-125 the
+concept of Combined Best Overall Response is used. In our assumptions,
+RECIST 1.1 response is unconfirmed, and the combined response from
+<code>RS</code> domain is based on that unconfirmed RECIST 1.1.</p>
+<p>In this part of the vignette, we will derive Combined Best
+Unconfirmed Overall Response based on combined response
+(<code>PARAMCD = &quot;OVRR11CA&quot;</code>) as collected on the CRF.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>    <span class="at">tmp_event_nr_var =</span> event_nr,</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(event_nr, ADT),</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>      <span class="at">ovr =</span> ovr_ubor,</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>      <span class="at">adsl =</span> adsl</span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>    ),</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>      bor_cr, bor_pr, bor_sd_gcig, bor_pd, bor_ne_gcig, no_data_missing</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>    ),</span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;BORCA11&quot;</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Combined Best Unconfirmed Overall Response by Investigator&quot;</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>      <span class="at">PARAMN =</span> <span class="dv">6</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;Combined&quot;</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>      <span class="at">PARCAT1N =</span> <span class="dv">3</span>,</span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>      <span class="at">PARCAT2 =</span> <span class="st">&quot;Investigator&quot;</span>,</span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>      <span class="at">PARCAT2N =</span> <span class="dv">1</span>,</span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>      <span class="at">AVAL =</span> <span class="fu">aval_resp</span>(AVALC),</span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>      <span class="at">ANL01FL =</span> <span class="st">&quot;Y&quot;</span>,</span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a>      <span class="at">ANL02FL =</span> <span class="st">&quot;Y&quot;</span></span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a>    )</span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">AVISIT</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVALC</th>
+<th align="left">ADT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">WEEK 3</td>
+<td align="left">BORCA11</td>
+<td align="left">SD</td>
+<td align="left">2014-01-23</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">NA</td>
+<td align="left">BORCA11</td>
+<td align="left">MISSING</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">NA</td>
+<td align="left">BORCA11</td>
+<td align="left">MISSING</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">WEEK 3</td>
+<td align="left">BORCA11</td>
+<td align="left">CR</td>
+<td align="left">2014-07-22</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">WEEK 3</td>
+<td align="left">BORCA11</td>
+<td align="left">SD</td>
+<td align="left">2014-01-22</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">WEEK 9</td>
+<td align="left">BORCA11</td>
+<td align="left">CR</td>
+<td align="left">2013-02-01</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">WEEK 6</td>
+<td align="left">BORCA11</td>
+<td align="left">CR</td>
+<td align="left">2014-04-23</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">WEEK 3</td>
+<td align="left">BORCA11</td>
+<td align="left">SD</td>
+<td align="left">2014-03-08</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">WEEK 3</td>
+<td align="left">BORCA11</td>
+<td align="left">PR</td>
+<td align="left">2012-11-18</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="combcbor" class="section level2">
+<h2>Combined Best Confirmed Overall Response</h2>
+<p>For studies where ORR is one of the primary endpoints, best RECIST
+1.1 response for CR and PR needs to be confirmed and maintained for at
+least 28 days. Due to the complexity of the problem, we will not address
+it in this vignette.</p>
+</div>
+<div id="other" class="section level2">
+<h2>Other Endpoints</h2>
+<p>For examples on the additional endpoints, please see <a href="adrs.html">Creating ADRS (Including Non-standard
+Endpoints)</a>.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

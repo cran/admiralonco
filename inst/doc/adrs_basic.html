@@ -347,6 +347,18 @@ oncology endpoint parameters based on RECIST v1.1. Therefore response
 values are expected as either <code>CR</code>, <code>PR</code>,
 <code>SD</code>, <code>NON-CR/NON-PD</code>, <code>PD</code> or
 <code>NE</code>.</p>
+<p>For confirmation of response particularly, <code>CR</code>, the case
+that <code>CR</code> is followed by <code>PR</code> (or <code>SD</code>)
+is considered as a data issue and the derivations of the parameters
+don’t handle this case specially. The <code>{admiralonco}</code>
+functions don’t provide functionality to handle this case. It is
+recommended to fix the issue in the source data, e.g., by changing the
+<code>PR</code> to <code>PD</code> rather than handling it in the
+parameter derivations. This ensures consistency across parameters. The
+functions <code>derive_param_confirmed_bor()</code> and
+<code>derive_param_confirmed_resp()</code> issue a warning if
+<code>CR</code> is followed by <code>PR</code> (the warning does not
+display if <code>CR</code> is followed by <code>SD</code>).</p>
 <p>Please note that this vignette describes the endpoints which were
 considered by the admiralonco team as the most common ones. The
 admiralonco functions used to derive these endpoints provide a certain
@@ -1308,7 +1320,12 @@ newly derived <code>PD</code> date.</p>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">date =</span> ADT,</span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="at">filter =</span> PARAMCD <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">&amp;</span> AVALC <span class="sc">==</span> <span class="st">&quot;Y&quot;</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; `date_source()` was deprecated in admiral 1.2.0.</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; ℹ Please use `event()` instead.</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; ✖ This message will turn into a warning at the beginning of 2026.</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; ℹ See admiral&#39;s deprecation guidance:</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt;   https://pharmaverse.github.io/admiraldev/dev/articles/programming_strategy.html#deprecation</span></span></code></pre></div>
 <p>An equivalent example if using <code>ADSL</code> instead could be as
 follows (where <code>PDDT</code> would be pre-derived as first date of
 progressive disease).</p>
