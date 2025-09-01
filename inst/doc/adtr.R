@@ -213,8 +213,8 @@ adtr_sum <- adtr_sum %>%
 dataset_vignette(
   adtr_sum %>%
     arrange(USUBJID, AVISITN) %>%
-    select(USUBJID, PARAMCD, AVISIT, ADY, AVAL, NADIR, everything()),
-  display_vars = exprs(USUBJID, PARAMCD, AVISIT, ADY, AVAL, NADIR)
+    select(USUBJID, PARAMCD, AVISIT, ADY, AVAL, ANL01FL, NADIR, everything()),
+  display_vars = exprs(USUBJID, PARAMCD, AVISIT, ADY, AVAL, ANL01FL, NADIR)
 )
 
 ## -----------------------------------------------------------------------------

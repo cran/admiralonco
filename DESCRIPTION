@@ -1,30 +1,17 @@
 Package: admiralonco
 Type: Package
 Title: Oncology Extension Package for ADaM in 'R' Asset Library
-Version: 1.2.0
+Version: 1.3.0
 Authors@R: c(
     person("Stefan", "Bundfuss", email = "stefan.bundfuss@roche.com", role = c("aut", "cre")),
-    person("Ross", "Farrugia", role = "aut"),
     person("Amit", "Jain", role = "aut"),
-    person("Andrew", "Smith", role = "aut"),    
-    person("Teckla", "Akinyi", role = "aut"),
-    person("Samia", "Kabi", role = "aut"),
-    person("Stephen", "Gormley", role = "aut"),
-    person("Hinal", "Patel", role = "aut"),
     person("Vinh", "Nguyen", role = "aut"),
     person("Olga", "Starostecka", role = "aut"),
-    person("Uwe", "Bader", role = "ctb"),
-    person("Karl", "Kennedy", role = "ctb"),
-    person("Edoardo", "Mancini", role = "ctb"),
-    person("Matt", "Marino", role = "ctb"),
-    person("Gopi", "Vegesna", role = "ctb"),    
-    person("Thomas", "Neitmann", role = "ctb"),
-    person("Annie", "Yang", role = "ctb"),
-    person("Konstantina", "Koukourikou", role = "ctb"),
-    person("Pavan", "Kumar", role = "ctb"),
-    person("Liming", "Jin", role = "ctb"),
+    person("Kiran", "Peddamudium", role = "aut"),
+    person("Tomoyuki", "Namai", role = "aut"),
+    person("Ross", "Farrugia", role = "aut"),
     person("Yirong", "Cao", role = "ctb"),
-    person("Zhang", "Kangjie", role = "ctb"),
+    person("Ashwini", "Weber", role = "ctb"),
     person("F. Hoffmann-La Roche AG", role = c("cph", "fnd")),
     person("GlaxoSmithKline LLC", role = c("cph", "fnd")),
     person("Amgen Inc.", role = c("cph", "fnd")),
@@ -55,35 +42,21 @@ Suggests: pharmaversesdtm, pharmaverseadam, devtools, diffdf, lintr,
         DT, metatools, cli, gt
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-Config/Needs/website: gert
 NeedsCompilation: no
-Packaged: 2025-01-27 12:24:41 UTC; bundfuss
+Packaged: 2025-09-01 09:42:36 UTC; bundfuss
 Author: Stefan Bundfuss [aut, cre],
-  Ross Farrugia [aut],
   Amit Jain [aut],
-  Andrew Smith [aut],
-  Teckla Akinyi [aut],
-  Samia Kabi [aut],
-  Stephen Gormley [aut],
-  Hinal Patel [aut],
   Vinh Nguyen [aut],
   Olga Starostecka [aut],
-  Uwe Bader [ctb],
-  Karl Kennedy [ctb],
-  Edoardo Mancini [ctb],
-  Matt Marino [ctb],
-  Gopi Vegesna [ctb],
-  Thomas Neitmann [ctb],
-  Annie Yang [ctb],
-  Konstantina Koukourikou [ctb],
-  Pavan Kumar [ctb],
-  Liming Jin [ctb],
+  Kiran Peddamudium [aut],
+  Tomoyuki Namai [aut],
+  Ross Farrugia [aut],
   Yirong Cao [ctb],
-  Zhang Kangjie [ctb],
+  Ashwini Weber [ctb],
   F. Hoffmann-La Roche AG [cph, fnd],
   GlaxoSmithKline LLC [cph, fnd],
   Amgen Inc. [cph, fnd],
   Bristol Myers Squibb [cph, fnd]
 Maintainer: Stefan Bundfuss <stefan.bundfuss@roche.com>
 Repository: CRAN
-Date/Publication: 2025-01-27 12:40:01 UTC
+Date/Publication: 2025-09-01 10:20:12 UTC

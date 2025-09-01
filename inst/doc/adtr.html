@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -60,7 +60,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -1185,9 +1185,9 @@ to make sure to update appropriate arguments.</p>
 (<code>SDIAM</code>), the <code>NADIR</code> is set to the lowest sum of
 diameters in Analysis Value (<code>AVAL</code>) before the current
 observation, where all lesions were assessed
-(i.e. <code>ANL01F == &quot;Y&quot;</code>). The first observations after baseline
-(depending on how you have defined baseline earlier) is set to the
-baseline value.</p>
+(i.e. <code>ANL01FL == &quot;Y&quot;</code>). The first observations after
+baseline (depending on how you have defined baseline earlier) is set to
+the baseline value.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>adtr_sum <span class="ot">&lt;-</span> adtr_sum <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">derive_vars_joined</span>(</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="at">dataset_add =</span> adtr_sum,</span>
@@ -1209,6 +1209,7 @@ baseline value.</p>
 <th align="left">AVISIT</th>
 <th align="right">ADY</th>
 <th align="right">AVAL</th>
+<th align="left">ANL01FL</th>
 <th align="right">NADIR</th>
 </tr>
 </thead>
@@ -1219,6 +1220,7 @@ baseline value.</p>
 <td align="left">BASELINE</td>
 <td align="right">1</td>
 <td align="right">96</td>
+<td align="left">Y</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
@@ -1227,6 +1229,7 @@ baseline value.</p>
 <td align="left">WEEK 3</td>
 <td align="right">22</td>
 <td align="right">96</td>
+<td align="left">Y</td>
 <td align="right">96</td>
 </tr>
 <tr class="odd">
@@ -1235,6 +1238,7 @@ baseline value.</p>
 <td align="left">WEEK 6</td>
 <td align="right">31</td>
 <td align="right">38</td>
+<td align="left">NA</td>
 <td align="right">96</td>
 </tr>
 <tr class="even">
@@ -1243,6 +1247,7 @@ baseline value.</p>
 <td align="left">WEEK 9</td>
 <td align="right">64</td>
 <td align="right">7</td>
+<td align="left">Y</td>
 <td align="right">96</td>
 </tr>
 <tr class="odd">
@@ -1251,6 +1256,7 @@ baseline value.</p>
 <td align="left">BASELINE</td>
 <td align="right">1</td>
 <td align="right">94</td>
+<td align="left">Y</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
@@ -1259,6 +1265,7 @@ baseline value.</p>
 <td align="left">WEEK 3</td>
 <td align="right">22</td>
 <td align="right">91</td>
+<td align="left">Y</td>
 <td align="right">94</td>
 </tr>
 <tr class="odd">
@@ -1267,6 +1274,7 @@ baseline value.</p>
 <td align="left">WEEK 6</td>
 <td align="right">43</td>
 <td align="right">110</td>
+<td align="left">NA</td>
 <td align="right">91</td>
 </tr>
 <tr class="even">
@@ -1275,6 +1283,7 @@ baseline value.</p>
 <td align="left">WEEK 9</td>
 <td align="right">64</td>
 <td align="right">92</td>
+<td align="left">Y</td>
 <td align="right">91</td>
 </tr>
 <tr class="odd">
@@ -1283,6 +1292,7 @@ baseline value.</p>
 <td align="left">BASELINE</td>
 <td align="right">1</td>
 <td align="right">90</td>
+<td align="left">Y</td>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
@@ -1291,6 +1301,7 @@ baseline value.</p>
 <td align="left">WEEK 3</td>
 <td align="right">22</td>
 <td align="right">74</td>
+<td align="left">Y</td>
 <td align="right">90</td>
 </tr>
 </tbody>

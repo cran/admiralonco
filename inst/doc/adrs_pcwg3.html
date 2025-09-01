@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Creating ADRS with Prostate Cancer Working Group 3 (PCWG3) Criteria</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Creating ADRS with Prostate Cancer Working
+Group 3 (PCWG3) Criteria</h1>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This article describes creating an <code>ADRS</code> ADaM dataset for
+prostate cancer studies based on <a href="https://doi.org/10.1200/JCO.2015.64.2702"><strong>Prostate Cancer
+Working Group 3 (PCWG3)</strong> criteria</a>. Most of the endpoints are
+derived by calling <code>admiral::derive_extreme_event()</code>.</p>
+<p>Metastatic prostate cancer response cannot be fully captured by
+RECIST 1.1 criteria alone. Therefore, the PCWG3 guidelines extend these
+criteria to include composite response combining RECIST 1.1 criteria on
+soft tissue lesions and PCWG3 rules on bone bone lesions.</p>
+<p>Note that only the PCWG3-specific steps are covered in this vignette.
+For extended guidance on all steps in ADRS creation, refer to the
+examples in <a href="adrs.html">Creating ADRS (Including Non-standard
+Endpoints)</a>.</p>
+</div>
+<div id="pcwg3-guidelines-for-prostate-cancer-response" class="section level1">
+<h1>PCWG3 Guidelines for Prostate Cancer Response</h1>
+<p>In metastatic prostate cancer clinical trials, efficacy is assessed
+using PCWG3-modified RECIST 1.1 response and PSA tumor marker results.
+In this vignette, we have not discussed RECIST 1.1 responses (soft
+tissue responses), as they are well-documented and widely known, and
+have focused solely on PCWG3 guidelines for evaluating bone scan
+responses in prostate cancer.</p>
+<div id="psa-exclusion" class="section level2">
+<h2>PSA Exclusion</h2>
+<p>Prostate-specific antigen (PSA) tumor marker assessments are a key
+component of the PCWG3 criteria for evaluating prostate cancer
+progression and response. However, they are excluded in this vignette to
+focus solely on deriving PCWG3-modified RECIST 1.1 endpoints related to
+soft tissue and bone lesions.</p>
+</div>
+<div id="bone-response-categories-based-on-pcwg3-guidelines" class="section level2">
+<h2>Bone Response Categories Based on PCWG3 Guidelines:</h2>
+<p>PCWG3 provides specific criteria for assessing bone lesions,
+including categories like PDu, NED, and PD, along with the 2+2 rule for
+confirming progression.</p>
+<div id="progressive-disease-unconfirmed-pdu" class="section level3">
+<h3>Progressive Disease Unconfirmed (PDu)</h3>
+<ul>
+<li>At least 2 new bone lesions have appeared <em>within the flare
+window</em> compared to baseline <em>or</em></li>
+<li>At least 2 new bone lesions have appeared <em>outside the flare
+window</em> compared to the first post-treatment scan.</li>
+</ul>
+<p>Note: if there is no following visit (final visit), the time point
+remains at PDu.</p>
+</div>
+<div id="progressive-disease-pd" class="section level3">
+<h3>Progressive Disease (PD)</h3>
+<ul>
+<li>At least 2 new bone lesions had appeared <em>within the flare
+window</em> compared to baseline (PDu), and at least 2 additional new
+bone lesions have been found on the next scan confirming progression
+(PD). The date of progression is the date of the scan showing the first
+2 lesions. <em>or</em></li>
+<li>At least 2 new bone lesions had appeared <em>outside the flare
+window</em> compared to the first post-treatment scan (PDu), and the 2
+lesions are persistent on the next scan confirming progression (PD). The
+date of progression is the data of the scan that first documents the
+second lesion.</li>
+</ul>
+<p>See <a href="#id_22rule"><strong>Bone Lesion Confirmation Guidance
+(The 2+2 Rule)</strong></a> for further details.</p>
+</div>
+<div id="not-evaluable-ne" class="section level3">
+<h3>Not Evaluable (NE)</h3>
+<p>When imaging is entirely missing or was not done.</p>
+</div>
+<div id="no-evidence-of-disease-ned" class="section level3">
+<h3>No Evidence of Disease (NED)</h3>
+<p>No bone lesions are present on the scan (whether some were present at
+baseline and have completely disappeared or whether there were no bone
+lesions from the start).</p>
+</div>
+<div id="non-progressive-disease-non-pd" class="section level3">
+<h3>Non-Progressive Disease (Non-PD)</h3>
+<p>Neither PD, PDu, NED or NE.</p>
+</div>
+<div id="id_22rule" class="section level3">
+<h3>Bone Lesion Confirmation Guidance (The 2+2 Flare Rule)</h3>
+<p>Progression on a bone scan is defined based on whether the assessment
+occurs during the flare period or afterwards. The flare period is
+generally considered to be the first 8–12 weeks post-baseline, primarily
+involving the initial post-baseline assessment. Please refer to your
+study documentation to confirm how the flare period is defined.</p>
+<p><em>Flare Period:</em> If two or more new bone lesions are identified
+at the first post-baseline assessment compared to the baseline scan, and
+then at the second assessment (conducted at least 6 weeks later), two or
+more additional new lesions are observed (resulting in a cumulative
+total of four or more new lesions since the baseline scan), the
+progression is confirmed and the progression date is set as the date of
+the initial scan. This process is referred to as the “2+2 rule.”</p>
+<p><em>After Flare Period:</em> If no progression is detected at the
+first assessment, the initial post-baseline scan (within flare period)
+becomes the new reference point for subsequent scans. If two or more new
+lesions appear relative to this new baseline and their persistence or
+increase in number is confirmed by a follow-up scan at least 6 weeks
+later, the progression date is recorded as the date of the first scan
+that noted the appearance of the two new lesions.</p>
+<div id="examples-of-the-22-rule" class="section level4">
+<h4>Examples of the 2+2 Rule</h4>
+<p><em>Flare Period Progression:</em> A patient with metastatic prostate
+cancer has a baseline bone scan showing 10 lesions. At the first
+post-baseline scan (within the flare period), 2 new lesions are
+identified, increasing the total count to 12. This finding is labeled as
+Progressive Disease Unconfirmed (PDu). A follow-up scan conducted at
+least 6 weeks later reveals 2 additional new lesions (totaling 4 new
+lesions compared to baseline). Progression is confirmed based on the 2+2
+rule, and the progression date is set as the date of the first
+post-baseline scan. At the first post-baseline scan response is
+re-assigned from PDu to PD.</p>
+<p><em>Flare Phenomenon:</em> In another scenario, the same patient has
+a baseline bone scan showing 10 lesions. The first post-baseline scan
+during the flare period identifies 2 new lesions, increasing the count
+to 12. However, a follow-up scan conducted 6 weeks later reveals no
+additional new lesions. According to the 2+2 rule, this is classified as
+a flare phenomenon, not true progression. At the first post-baseline
+scan response is re-assigned from PDu to Non-PD.</p>
+<p><em>After Flare Period Progression:</em> A patient has a baseline
+scan showing 8 lesions. The initial post-baseline scan, conducted 12
+weeks after baseline (within the flare period), shows no new lesions,
+meaning progression is not detected. This scan becomes the new reference
+point for subsequent assessments.</p>
+<p>At a later scan conducted 18 weeks post-baseline (6 weeks after the
+new reference point, outside the flare period), 2 new lesions are
+observed relative to the new reference point. A follow-up scan performed
+24 weeks post-baseline (6 weeks later) confirms the persistence of these
+2 new lesions. The progression date is recorded as 18 weeks
+post-baseline, which is the date of the first scan noting the appearance
+of the 2 new lesions.</p>
+<p>Please check <a href="https://4870646.fs1.hubspotusercontent-na1.net/hubfs/4870646/KEO149_Info_PCWG3_03.2.pdf">Responses
+&amp; Bone Lesion Confirmation Guidance (The 2+2 Flare Rule)</a> for
+more details.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="programming-workflow" class="section level1">
+<h1>Programming Workflow</h1>
+<ul>
+<li><a href="#readdata">Read in Data</a></li>
+<li><a href="#input">Pre-processing of Input Records</a></li>
+<li><a href="#bor">Derive Best Overall Response (BOR)</a></li>
+<li><a href="#cbor">Derive Confirmed Best Overall Response
+(CBOR)</a></li>
+<li><a href="#other">Other Endpoints</a></li>
+</ul>
+<div id="required-packages" class="section level2">
+<h2>Required Packages</h2>
+<p>The examples of this vignette require the following packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(admiralonco)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(pharmaversesdtm)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(pharmaverseadam)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code></pre></div>
+</div>
+<div id="readdata" class="section level2">
+<h2>Read in Data</h2>
+<p>To begin, all data frames needed for the creation of
+<code>ADRS</code> should be read into the environment. This will be a
+company specific process. Some of the data frames needed are
+<code>ADSL</code> and <code>RS</code>.</p>
+<p>For demonstration purpose, the SDTM and ADaM datasets (based on CDISC
+Pilot test data) from <code>{pharmaversesdtm}</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> and
+<code>{pharmaverseadam}</code> are used.</p>
+<p>In this vignette, the <code>RS</code> SDTM dataset is expected to
+contain:</p>
+<ul>
+<li>Soft tissue lesion responses evaluated using RECIST 1.1 criteria at
+each timepoint.</li>
+<li>Bone lesion responses assessed across visits using PCWG3 rules.</li>
+<li>Combined responses derived from both RECIST 1.1 (soft tissue) and
+PCWG3 (bone lesion) guidelines as collected at source.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># PCWG3 SDTM data</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>rs <span class="ot">&lt;-</span> pharmaversesdtm<span class="sc">::</span>rs_onco_pcwg3</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">convert_blanks_to_na</span>(rs)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Exclude PSA records</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>rs <span class="ot">&lt;-</span> rs <span class="sc">%&gt;%</span> <span class="fu">filter</span>(RSTEST <span class="sc">!=</span> <span class="st">&quot;Tumor Marker Response&quot;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># ADaM data</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> pharmaverseadam<span class="sc">::</span>adsl</span></code></pre></div>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="35%" />
+<col width="10%" />
+<col width="10%" />
+<col width="8%" />
+<col width="10%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">RSCAT</th>
+<th align="left">RSTESTCD</th>
+<th align="left">RSSTRESC</th>
+<th align="left">VISIT</th>
+<th align="right">VISITNUM</th>
+<th align="left">RSDTC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">SFTSRESP</td>
+<td align="left">SD</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-03-05</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">BONERESP</td>
+<td align="left">NON-PD</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-03-05</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">OVRLRESP</td>
+<td align="left">SD</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-03-05</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">SFTSRESP</td>
+<td align="left">PR</td>
+<td align="left">WEEK 16</td>
+<td align="right">10</td>
+<td align="left">2014-05-07</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">BONERESP</td>
+<td align="left">NON-PD</td>
+<td align="left">WEEK 16</td>
+<td align="right">10</td>
+<td align="left">2014-05-07</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">OVRLRESP</td>
+<td align="left">PR</td>
+<td align="left">WEEK 16</td>
+<td align="right">10</td>
+<td align="left">2014-05-07</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">SFTSRESP</td>
+<td align="left">PR</td>
+<td align="left">WEEK 24</td>
+<td align="right">12</td>
+<td align="left">2014-06-18</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">BONERESP</td>
+<td align="left">NON-PD</td>
+<td align="left">WEEK 24</td>
+<td align="right">12</td>
+<td align="left">2014-06-18</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">OVRLRESP</td>
+<td align="left">PR</td>
+<td align="left">WEEK 24</td>
+<td align="right">12</td>
+<td align="left">2014-06-18</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1028</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">SFTSRESP</td>
+<td align="left">PR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2013-09-10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="input" class="section level2">
+<h2>Pre-processing of Input Records</h2>
+<p>At this step, it may be useful to join <code>ADSL</code> to your
+<code>RS</code> domain. Only the <code>ADSL</code> variables used for
+derivations are selected at this step.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>adsl_vars <span class="ot">&lt;-</span> <span class="fu">exprs</span>(TRTSDT)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  rs,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">dataset_add =</span> adsl,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">new_vars =</span> adsl_vars,</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>)</span></code></pre></div>
+<div id="partial-date-imputation-and-deriving-adt-adtf-avisit-avisitn-etc." class="section level3">
+<h3>Partial Date Imputation and Deriving <code>ADT</code>,
+<code>ADTF</code>, <code>AVISIT</code>, <code>AVISITN</code> etc.</h3>
+<p>If your data collection allows for partial dates, you could apply a
+company-specific imputation rule at this stage when deriving
+<code>ADT</code>. For this example, here we impute missing day to last
+possible date.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">derive_vars_dtm</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="at">dtc =</span> RSDTC,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="at">new_vars_prefix =</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    <span class="at">highest_imputation =</span> <span class="st">&quot;D&quot;</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="at">date_imputation =</span> <span class="st">&quot;last&quot;</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">derive_vars_dtm_to_dt</span>(<span class="fu">exprs</span>(ADTM)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="fu">derive_vars_dy</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    <span class="at">reference_date =</span> TRTSDT,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>    <span class="at">source_vars =</span> <span class="fu">exprs</span>(ADT)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>    <span class="at">AVISIT =</span> VISIT,</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>    <span class="at">AVISITN =</span> VISITNUM</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="derive-paramcd-param-paramn" class="section level3">
+<h3>Derive <code>PARAMCD</code>, <code>PARAM</code>,
+<code>PARAMN</code></h3>
+<p>The next step is to assign parameter level values such as
+<code>PARAMCD</code>, <code>PARAM</code>, <code>PARAMN</code> to values
+collected from source, etc. For this, a lookup can be created based on
+the SDTM <code>RSTESTCD</code> values.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Prepare param_lookup for SDTM RSTESTCD to add metadata</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>param_lookup <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="sc">~</span>RSTESTCD,  <span class="sc">~</span>PARAMCD,   <span class="sc">~</span>PARAM,                                   <span class="sc">~</span>PARAMN,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="st">&quot;SFTSRESP&quot;</span>, <span class="st">&quot;SFTSRESP&quot;</span>, <span class="st">&quot;Soft Tissue Response by Investigator&quot;</span>,         <span class="dv">1</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="st">&quot;BONERESP&quot;</span>, <span class="st">&quot;BONERESP&quot;</span>, <span class="st">&quot;Bone Response by Investigator&quot;</span>,                <span class="dv">2</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="st">&quot;OVRLRESP&quot;</span>, <span class="st">&quot;OVRLRESP&quot;</span>, <span class="st">&quot;Overall Tumor Response by Investigator&quot;</span>,       <span class="dv">3</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="fu">derive_vars_merged_lookup</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    <span class="at">dataset_add =</span> param_lookup,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(RSTESTCD)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> RSCAT,</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>    <span class="at">AVALC =</span> RSSTRESC</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+</div>
+<div id="derive-combined-overall-time-point-response-by-investigator-ovrlresc-parameter" class="section level2">
+<h2>Derive Combined Overall Time Point Response by Investigator
+(<code>OVRLRESC</code>) Parameter</h2>
+<p>Although <code>OVRLRESP</code>, representing the Overall Tumor
+Response by Investigator is available in the source data, we have
+re-derived the combined overall response by Investigator
+(<code>OVRLRESC</code>). This derivation follows the rules from the
+<em>PCWG3 and RECIST 1.1 combined response interpretation</em>, as
+described in the PharmaSUG 2024 publication on metastatic prostate
+cancer response criteria (<a href="https://www.lexjansen.com/pharmasug/2024/DS/PharmaSUG-2024-DS-287.pdf">PharmaSUG
+2024, DS-287</a>).</p>
+<div id="table-combined-overall-time-point-response-as-per-summarized-pcwg3-guidelines" class="section level3">
+<h3>Table : Combined Overall Time Point Response as per summarized PCWG3
+guidelines</h3>
+<div id="jgswkbqzll" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jgswkbqzll table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#jgswkbqzll thead, #jgswkbqzll tbody, #jgswkbqzll tfoot, #jgswkbqzll tr, #jgswkbqzll td, #jgswkbqzll th {
+border-style: none;
+}
+#jgswkbqzll p {
+margin: 0;
+padding: 0;
+}
+#jgswkbqzll .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#jgswkbqzll .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#jgswkbqzll .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#jgswkbqzll .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#jgswkbqzll .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#jgswkbqzll .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jgswkbqzll .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#jgswkbqzll .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#jgswkbqzll .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#jgswkbqzll .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#jgswkbqzll .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#jgswkbqzll .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#jgswkbqzll .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#jgswkbqzll .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#jgswkbqzll .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#jgswkbqzll .gt_from_md > :first-child {
+margin-top: 0;
+}
+#jgswkbqzll .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#jgswkbqzll .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#jgswkbqzll .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jgswkbqzll .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#jgswkbqzll .gt_row_group_first td {
+border-top-width: 2px;
+}
+#jgswkbqzll .gt_row_group_first th {
+border-top-width: 2px;
+}
+#jgswkbqzll .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jgswkbqzll .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#jgswkbqzll .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#jgswkbqzll .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jgswkbqzll .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jgswkbqzll .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#jgswkbqzll .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#jgswkbqzll .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#jgswkbqzll .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jgswkbqzll .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#jgswkbqzll .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jgswkbqzll .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#jgswkbqzll .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jgswkbqzll .gt_left {
+text-align: left;
+}
+#jgswkbqzll .gt_center {
+text-align: center;
+}
+#jgswkbqzll .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#jgswkbqzll .gt_font_normal {
+font-weight: normal;
+}
+#jgswkbqzll .gt_font_bold {
+font-weight: bold;
+}
+#jgswkbqzll .gt_font_italic {
+font-style: italic;
+}
+#jgswkbqzll .gt_super {
+font-size: 65%;
+}
+#jgswkbqzll .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#jgswkbqzll .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#jgswkbqzll .gt_indent_1 {
+text-indent: 5px;
+}
+#jgswkbqzll .gt_indent_2 {
+text-indent: 10px;
+}
+#jgswkbqzll .gt_indent_3 {
+text-indent: 15px;
+}
+#jgswkbqzll .gt_indent_4 {
+text-indent: 20px;
+}
+#jgswkbqzll .gt_indent_5 {
+text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="3" class="gt_heading gt_title gt_font_normal" style>Table 1: Overall Time Point Response</td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="3" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Soft Tissue (RECIST 1.1) TPR, Bone Lesion (PCWG3) TPR, and PCWG Combined TPR</td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Soft Tissue (RECIST 1.1)">Soft Tissue (RECIST 1.1)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Bone Lesion (PCWG3)">Bone Lesion (PCWG3)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Overall PCWG">Overall PCWG</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">PD</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">Any</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">PD</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">Any</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">PD</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">PD</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">NE</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">Non-PD, PDu, NED or NE</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">NE</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">NED</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">Non-PD</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">Non-CR/Non-PD</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">NED</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">PDu</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">PDu</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">NED</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">NED</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">NE</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">NED</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">NE</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">NE</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">SD</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">Non-PD, PDu, NED or NE</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">SD</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">Non-CR/Non-PD</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">Non-PD, PDu, NED or NE</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">Non-CR/Non-PD</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">PR</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">Non-PD, PDu, NED or NE</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">PR</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">CR</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">Non-PD, PDu, or NE</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">PR (1)</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">CR</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">Non-PD, PDu, or NE</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">Non-CR/Non-PD (2)</td></tr>
+    <tr><td headers="Soft Tissue (RECIST 1.1) TPR" class="gt_row gt_left">CR</td>
+<td headers="Bone Lesion (PCWG3) TPR" class="gt_row gt_left">NED</td>
+<td headers="Overall PCWG TPR" class="gt_row gt_left">CR</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="3"> * When no target and non-target lesions are identified at baseline, and no new lesions are identified on-study, the response will be No Evidence of Disease (NED).</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="3"> ** Progressive Disease Unconfirmed (PDu): Temporary marker of possible PD where at least 2 new bone lesions are present, but an additional scan is required for confirmation. To be updated to PD or Non-PD once a subsequent scan is available. If this is the final visit, the response remains as PDu.</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="3"> (1) The overall TPR will be PR if target lesions were present at screening.</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="3"> (2) The overall TPR will be Non-CR/Non-PD if no target lesions were present at screening.</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<div id="derive-combined-overall-time-point-response-by-investigator-ovrlresc-records-referenced-from-above-table." class="section level4">
+<h4>Derive Combined Overall Time Point Response by Investigator
+(<code>OVRLRESC</code>) Records referenced from above table.</h4>
+<p>Note:<code>Non-PD</code> is changed to <code>NON-PD</code> at
+programming level to match with existing data.</p>
+<p>For Scenario 11, in this vignette, it is assumed that all subjects
+have target lesions identified at screening. If there are subjects
+without target lesions identified at screening, the overall response
+must be evaluated differently, as described in Scenario 11 and
+referenced in the commented code. Please review your study data to
+verify whether screening lesions are categorized as target or non-target
+as this classification impacts the derivation of the overall
+response.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> <span class="fu">derive_param_computed</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">dataset =</span> adrs,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="sc">!!!</span><span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>), <span class="sc">!!!</span>adsl_vars, DOMAIN, RSEVAL, ADT,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    ADY, ADTM, ADTF, VISIT, VISITNUM, AVISIT, AVISITN</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  ),</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">&quot;SFTSRESP&quot;</span>, <span class="st">&quot;BONERESP&quot;</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>    <span class="at">AVALC =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>      <span class="co"># Scenario 1 &amp; 2: Soft Tissue PD or Bone Lesion PD -&gt; Overall response = PD</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">|</span> AVALC.BONERESP <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">~</span> <span class="st">&quot;PD&quot;</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>      <span class="co"># Scenario 3: Soft Tissue = NE + Bone Lesion = NON-PD, PDu, NED, or NE -&gt; Overall response = NE</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;NE&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;NON-PD&quot;</span>, <span class="st">&quot;PDu&quot;</span>, <span class="st">&quot;NED&quot;</span>, <span class="st">&quot;NE&quot;</span>) <span class="sc">~</span> <span class="st">&quot;NE&quot;</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>      <span class="co"># Scenario 4: Soft Tissue = NED + Bone Lesion = NON-PD -&gt; Overall response = Non-CR/NON-PD</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;NED&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">==</span> <span class="st">&quot;NON-PD&quot;</span> <span class="sc">~</span> <span class="st">&quot;Non-CR/NON-PD&quot;</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>      <span class="co"># Scenario 5: Soft Tissue = NED + Bone Lesion = PDu -&gt; Overall response = PDu</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;NED&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">==</span> <span class="st">&quot;PDu&quot;</span> <span class="sc">~</span> <span class="st">&quot;PDu&quot;</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>      <span class="co"># Scenario 6: Soft Tissue = NED + Bone Lesion = NED -&gt; Overall response = NE</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;NED&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">==</span> <span class="st">&quot;NED&quot;</span> <span class="sc">~</span> <span class="st">&quot;NE&quot;</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>      <span class="co"># Scenario 7: Soft Tissue = NED + Bone Lesion = NE -&gt; Overall response = NE</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;NED&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">==</span> <span class="st">&quot;NE&quot;</span> <span class="sc">~</span> <span class="st">&quot;NE&quot;</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>      <span class="co"># Scenario 8: Soft Tissue = SD + Bone Lesion = NON-PD, PDu, NED, or NE -&gt; Overall response = SD</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;SD&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;NON-PD&quot;</span>, <span class="st">&quot;PDu&quot;</span>, <span class="st">&quot;NED&quot;</span>, <span class="st">&quot;NE&quot;</span>) <span class="sc">~</span> <span class="st">&quot;SD&quot;</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>      <span class="co"># Scenario 9: Soft Tissue = Non-CR/NON-PD + Bone Lesion = NON-PD, PDu, NED, or NE -&gt; Overall response = Non-CR/NON-PD</span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;Non-CR/NON-PD&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;NON-PD&quot;</span>, <span class="st">&quot;PDu&quot;</span>, <span class="st">&quot;NED&quot;</span>, <span class="st">&quot;NE&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Non-CR/NON-PD&quot;</span>,</span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a>      <span class="co"># Scenario 10: Soft Tissue = PR + Bone Lesion = NON-PD, PDu, NED, or NE -&gt; Overall response = PR</span></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;PR&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;NON-PD&quot;</span>, <span class="st">&quot;PDu&quot;</span>, <span class="st">&quot;NED&quot;</span>, <span class="st">&quot;NE&quot;</span>) <span class="sc">~</span> <span class="st">&quot;PR&quot;</span>,</span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a>      <span class="co"># Scenario 11: Soft Tissue = CR + Bone Lesion = NON-PD, PDu, NE -&gt; Overall response = PR</span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>      <span class="co"># ((1) The overall TPR will be PR if target lesions were present at screening.)</span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;CR&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;NON-PD&quot;</span>, <span class="st">&quot;PDu&quot;</span>, <span class="st">&quot;NE&quot;</span>) <span class="sc">~</span> <span class="st">&quot;PR&quot;</span>,</span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a>      <span class="co"># Soft Tissue = CR + Bone Lesion = NON-PD, PDu, NE -&gt; Overall response =Non-CR/NON-PD</span></span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a>      <span class="co"># (2) The overall TPR will be Non-CR/NON-PD if no target lesions were present at screening.)</span></span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a>      <span class="co"># AVALC.SFTSRESP == &quot;CR&quot; &amp; AVALC.BONERESP %in% c(&quot;NON-PD&quot;, &quot;PDu&quot;, &quot;NE&quot;) ~ &quot;Non-CR/NON-PD&quot;,</span></span>
+<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a>      <span class="co"># Scenario 12: Soft Tissue = CR + Bone Lesion = NED -&gt; Overall response = CR</span></span>
+<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a>      AVALC.SFTSRESP <span class="sc">==</span> <span class="st">&quot;CR&quot;</span> <span class="sc">&amp;</span> AVALC.BONERESP <span class="sc">==</span> <span class="st">&quot;NED&quot;</span> <span class="sc">~</span> <span class="st">&quot;CR&quot;</span>,</span>
+<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a></span>
+<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a>      <span class="co"># Default: If conditions are not met, assign NA</span></span>
+<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a>    ),</span>
+<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">&quot;OVRLRESC&quot;</span>,</span>
+<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">&quot;Overall Tumor Response by Investigator - Derived&quot;</span>,</span>
+<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a>    <span class="at">PARAMN =</span> <span class="dv">4</span>,</span>
+<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a>    <span class="at">PARCAT1 =</span> <span class="st">&quot;PCWG3 and RECIST 1.1&quot;</span></span>
+<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a>  )</span>
+<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="38%" />
+<col width="7%" />
+<col width="25%" />
+<col width="5%" />
+<col width="6%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAM</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARCAT1</th>
+<th align="left">AVALC</th>
+<th align="left">AVISIT</th>
+<th align="left">ADT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">Soft Tissue Response by Investigator</td>
+<td align="left">SFTSRESP</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">SD</td>
+<td align="left">WEEK 8</td>
+<td align="left">2014-03-05</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">Bone Response by Investigator</td>
+<td align="left">BONERESP</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">NON-PD</td>
+<td align="left">WEEK 8</td>
+<td align="left">2014-03-05</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">Overall Tumor Response by Investigator</td>
+<td align="left">OVRLRESP</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">SD</td>
+<td align="left">WEEK 8</td>
+<td align="left">2014-03-05</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">Overall Tumor Response by Investigator - Derived</td>
+<td align="left">OVRLRESC</td>
+<td align="left">PCWG3 and RECIST 1.1</td>
+<td align="left">SD</td>
+<td align="left">WEEK 8</td>
+<td align="left">2014-03-05</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">Soft Tissue Response by Investigator</td>
+<td align="left">SFTSRESP</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">PR</td>
+<td align="left">WEEK 16</td>
+<td align="left">2014-05-07</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">Bone Response by Investigator</td>
+<td align="left">BONERESP</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">NON-PD</td>
+<td align="left">WEEK 16</td>
+<td align="left">2014-05-07</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">Overall Tumor Response by Investigator</td>
+<td align="left">OVRLRESP</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">PR</td>
+<td align="left">WEEK 16</td>
+<td align="left">2014-05-07</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">Overall Tumor Response by Investigator - Derived</td>
+<td align="left">OVRLRESC</td>
+<td align="left">PCWG3 and RECIST 1.1</td>
+<td align="left">PR</td>
+<td align="left">WEEK 16</td>
+<td align="left">2014-05-07</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">Soft Tissue Response by Investigator</td>
+<td align="left">SFTSRESP</td>
+<td align="left">RECIST 1.1</td>
+<td align="left">PR</td>
+<td align="left">WEEK 24</td>
+<td align="left">2014-06-18</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">Bone Response by Investigator</td>
+<td align="left">BONERESP</td>
+<td align="left">PCWG SCHER PROSTATE CANCER 2016</td>
+<td align="left">NON-PD</td>
+<td align="left">WEEK 24</td>
+<td align="left">2014-06-18</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="derive-aval-numeric-tumor-response-from-avalc-values" class="section level2">
+<h2>Derive <code>AVAL</code> (Numeric tumor response from
+<code>AVALC</code> values)</h2>
+<p>The <code>AVAL</code> values are not considered in the further
+parameter derivations below, and so changing <code>AVAL</code> here
+would not change the result of those derivations.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="at">AVAL =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;CR&quot;</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="co"># Complete Response</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;PR&quot;</span> <span class="sc">~</span> <span class="dv">2</span>, <span class="co"># Partial Response</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;SD&quot;</span> <span class="sc">~</span> <span class="dv">3</span>, <span class="co"># Stable Disease</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span> <span class="sc">~</span> <span class="dv">4</span>, <span class="co"># Progressive Disease</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;Non-CR/NON-PD&quot;</span> <span class="sc">~</span> <span class="dv">5</span>, <span class="co"># Neither Complete Response nor Progressive Disease</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;NON-PD&quot;</span> <span class="sc">~</span> <span class="dv">6</span>, <span class="co"># Non-Progressive Disease</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;PDu&quot;</span> <span class="sc">~</span> <span class="dv">7</span>, <span class="co"># Progressive Disease Unconfirmed</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;NE&quot;</span> <span class="sc">~</span> <span class="dv">8</span>, <span class="co"># Not Evaluable</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>      AVALC <span class="sc">==</span> <span class="st">&quot;NED&quot;</span> <span class="sc">~</span> <span class="dv">9</span>, <span class="co"># No Evidence of Disease</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_real_</span> <span class="co"># Default for unexpected/missing AVALC values</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>    )</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="8%" />
+<col width="48%" />
+<col width="7%" />
+<col width="10%" />
+<col width="6%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAMCD</th>
+<th align="left">PARAM</th>
+<th align="left">AVISIT</th>
+<th align="left">ADT</th>
+<th align="left">AVALC</th>
+<th align="right">AVAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SFTSRESP</td>
+<td align="left">Soft Tissue Response by Investigator</td>
+<td align="left">WEEK 8</td>
+<td align="left">2014-03-05</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BONERESP</td>
+<td align="left">Bone Response by Investigator</td>
+<td align="left">WEEK 8</td>
+<td align="left">2014-03-05</td>
+<td align="left">NON-PD</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">Overall Tumor Response by Investigator</td>
+<td align="left">WEEK 8</td>
+<td align="left">2014-03-05</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESC</td>
+<td align="left">Overall Tumor Response by Investigator - Derived</td>
+<td align="left">WEEK 8</td>
+<td align="left">2014-03-05</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SFTSRESP</td>
+<td align="left">Soft Tissue Response by Investigator</td>
+<td align="left">WEEK 16</td>
+<td align="left">2014-05-07</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BONERESP</td>
+<td align="left">Bone Response by Investigator</td>
+<td align="left">WEEK 16</td>
+<td align="left">2014-05-07</td>
+<td align="left">NON-PD</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESP</td>
+<td align="left">Overall Tumor Response by Investigator</td>
+<td align="left">WEEK 16</td>
+<td align="left">2014-05-07</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">OVRLRESC</td>
+<td align="left">Overall Tumor Response by Investigator - Derived</td>
+<td align="left">WEEK 16</td>
+<td align="left">2014-05-07</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">SFTSRESP</td>
+<td align="left">Soft Tissue Response by Investigator</td>
+<td align="left">WEEK 24</td>
+<td align="left">2014-06-18</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1015</td>
+<td align="left">BONERESP</td>
+<td align="left">Bone Response by Investigator</td>
+<td align="left">WEEK 24</td>
+<td align="left">2014-06-18</td>
+<td align="left">NON-PD</td>
+<td align="right">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="best-overall-response-bor-and-confirmed-best-overall-response-cbor" class="section level2">
+<h2>Best Overall Response (BOR) and Confirmed Best Overall Response
+(CBOR)</h2>
+<p>BOR represents the Best Overall Responses observed during the study,
+reflecting valid tumor responses such as Complete Response (CR), Partial
+Response (PR), Stable Disease (SD), and Progressive Disease (PD).</p>
+<p>CBOR, on the other hand, refers to the Confirmed Best Overall
+Response, requiring sustained responses like CR and PR to meet
+confirmation criteria, such as persistence over a predefined
+confirmation period (e.g., 28 days), based on PCWG3 guidelines.</p>
+<p>For both BOR and CBOR, if <em>PDu remains the last recorded
+assessment</em> without follow-up confirmation, it is classified as
+<em>SD</em> in this vignette. However, as a more conservative approach,
+you may choose to classify it as <em>PD</em>. Please refer to your study
+documentation and protocol requirements to confirm the preferred
+approach to handling <em>unresolved PDu</em>.</p>
+<p>Additionally, for CBOR, if <em>CR</em> or <em>PR</em> cannot be
+confirmed, it is classified as <em>SD</em> as usually done for RECIST.
+Please check the event <code>bor_sd</code> defined in the next
+section.</p>
+<div id="define-events-for-best-overall-response-bor" class="section level3">
+<h3>Define Events for Best Overall Response (BOR)</h3>
+<p>Please note:</p>
+<ul>
+<li>Some of these events are already defined in
+<code>{admiralonco}</code> (see <a href="../reference/event_objects.html">Pre-Defined Response Event
+Objects</a>). The definitions are repeated here to show the complete
+picture.</li>
+<li>Some of these events are also used for deriving confirmed best
+overall response.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>bor_cr <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Complete Response (CR)&quot;</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;CR&quot;</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;CR&quot;</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>bor_pr <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Partial Response (PR)&quot;</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;PR&quot;</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;PR&quot;</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>)</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>bor_non_crpd <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Non-CR/Non-PD&quot;</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;Non-CR/NON-PD&quot;</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;Non-CR/Non-PD&quot;</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>)</span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>bor_sd <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Stable Disease (SD)&quot;</span>,</span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a>  <span class="co"># CR and PR are included for CBOR when CR or PR couldn&#39;t be confirmed</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>  <span class="co"># PDu can occur only as last assessment and is considered as SD</span></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;PDu&quot;</span>),</span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;SD&quot;</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a>)</span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a>bor_pd <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Progressive Disease (PD)&quot;</span>,</span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;PD&quot;</span>,</span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;PD&quot;</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a>)</span>
+<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a>bor_ne <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Not Evaluable (NE)&quot;</span>,</span>
+<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;NE&quot;</span>,</span>
+<span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;NE&quot;</span>)</span>
+<span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a>)</span>
+<span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a>bor_ned <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;No Evidence of Disease (NED)&quot;</span>,</span>
+<span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;NED&quot;</span>,</span>
+<span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;NED&quot;</span>)</span>
+<span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a>)</span>
+<span id="cb9-51"><a href="#cb9-51" tabindex="-1"></a></span>
+<span id="cb9-52"><a href="#cb9-52" tabindex="-1"></a>no_data_missing <span class="ot">&lt;-</span> <span class="fu">event</span>(</span>
+<span id="cb9-53"><a href="#cb9-53" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb9-54"><a href="#cb9-54" tabindex="-1"></a>    <span class="st">&quot;Define missing response (MISSING) for all patients in adsl (should be used&quot;</span>,</span>
+<span id="cb9-55"><a href="#cb9-55" tabindex="-1"></a>    <span class="st">&quot;as last event)&quot;</span></span>
+<span id="cb9-56"><a href="#cb9-56" tabindex="-1"></a>  ),</span>
+<span id="cb9-57"><a href="#cb9-57" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adsl&quot;</span>,</span>
+<span id="cb9-58"><a href="#cb9-58" tabindex="-1"></a>  <span class="at">condition =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-59"><a href="#cb9-59" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;MISSING&quot;</span>),</span>
+<span id="cb9-60"><a href="#cb9-60" tabindex="-1"></a>  <span class="at">keep_source_vars =</span> adsl_vars</span>
+<span id="cb9-61"><a href="#cb9-61" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+<div id="bor" class="section level2">
+<h2>Derive Best Overall Response (BOR)</h2>
+<p>Use the defined events to derive BOR based on the first occurrence in
+the <code>adrs</code> dataset, prioritizing responses hierarchically (CR
+&gt; PR &gt; SD &gt; Non-CR/NON-PD &gt; PD &gt; NE &gt; NED &gt;
+MISSING).</p>
+<p>In this part of the vignette, we will derive Best Overall Response
+based on combined response (<code>PARAMCD = &quot;OVRLRESC&quot;</code>) as
+derived above.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>      bor_cr, bor_pr, bor_sd, bor_non_crpd, bor_pd, bor_ne, bor_ned, no_data_missing</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    ),</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>      <span class="at">adsl =</span> adsl,</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>      <span class="at">adrs =</span> adrs <span class="sc">%&gt;%</span> <span class="fu">filter</span>(PARAMCD <span class="sc">==</span> <span class="st">&quot;OVRLRESC&quot;</span>) <span class="co"># Use derived responses (OVRLRESC)</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>    ),</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(event_nr, ADT), <span class="co"># Prioritize earliest valid event</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>    <span class="at">tmp_event_nr_var =</span> event_nr,</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>, <span class="co"># Retain the best response observed at the first occurrence</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;BOR&quot;</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Best Overall Response&quot;</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>      <span class="at">PARAMN =</span> <span class="dv">5</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;PCWG3 and RECIST 1.1&quot;</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>    )</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="26%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="13%" />
+<col width="9%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAM</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVISIT</th>
+<th align="right">AVISITN</th>
+<th align="left">ADT</th>
+<th align="left">AVALC</th>
+<th align="right">AVAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 16</td>
+<td align="right">10</td>
+<td align="left">2014-05-07</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">MISSING</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2013-09-10</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-08-26</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-02-26</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2013-01-23</td>
+<td align="left">SD</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-05-08</td>
+<td align="left">CR</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-04-12</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 16</td>
+<td align="right">10</td>
+<td align="left">2013-02-18</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1148</td>
+<td align="left">Best Overall Response</td>
+<td align="left">BOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2013-10-18</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="cbor" class="section level2">
+<h2>Derive Confirmed BOR (CBOR)</h2>
+<p>As per RECIST 1.1 and PCWG3 guidelines, Complete Response (CR) and
+Partial Response (PR) require confirmation within a <em>28-day
+period</em> to ensure their validity.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Confirmed CR Event with 28-day persistence</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>cbor_cr <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Confirmed Complete Response (CR)&quot;</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="at">first_cond_upper =</span> AVALC.join <span class="sc">==</span> <span class="st">&quot;CR&quot;</span> <span class="sc">&amp;</span> ADT.join <span class="sc">&gt;=</span> ADT <span class="sc">+</span> <span class="dv">28</span>, <span class="co"># Follow-up within 28-day window</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;CR&quot;</span> <span class="sc">&amp;</span> <span class="fu">all</span>(AVALC.join <span class="sc">==</span> <span class="st">&quot;CR&quot;</span>), <span class="co"># All linked records must also be CR</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;CR&quot;</span>) <span class="co"># Set response as Confirmed CR</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># Confirmed PR Event with 28-day persistence</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>cbor_pr <span class="ot">&lt;-</span> <span class="fu">event_joined</span>(</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">&quot;Confirmed Partial Response (PR)&quot;</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>  <span class="at">dataset_name =</span> <span class="st">&quot;adrs&quot;</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>  <span class="at">join_vars =</span> <span class="fu">exprs</span>(AVALC, ADT),</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>  <span class="at">join_type =</span> <span class="st">&quot;after&quot;</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>  <span class="at">first_cond_upper =</span> AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>) <span class="sc">&amp;</span> ADT.join <span class="sc">&gt;=</span> ADT <span class="sc">+</span> <span class="dv">28</span>, <span class="co"># Include CR as confirmation</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>  <span class="at">condition =</span> AVALC <span class="sc">==</span> <span class="st">&quot;PR&quot;</span> <span class="sc">&amp;</span> <span class="fu">all</span>(AVALC.join <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;PR&quot;</span>)), <span class="co"># Ensure no events other than CR or PR in between</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(<span class="at">AVALC =</span> <span class="st">&quot;PR&quot;</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>)</span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>adrs <span class="ot">&lt;-</span> adrs <span class="sc">%&gt;%</span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a>  <span class="fu">derive_extreme_event</span>(</span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a>    <span class="at">by_vars =</span> <span class="fu">get_admiral_option</span>(<span class="st">&quot;subject_keys&quot;</span>),</span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">list</span>(</span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a>      cbor_cr, cbor_pr, bor_sd, bor_non_crpd, bor_pd, bor_ne, bor_ned, no_data_missing</span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>    ),</span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a>    <span class="at">source_datasets =</span> <span class="fu">list</span>(</span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a>      <span class="at">adsl =</span> adsl,</span>
+<span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a>      <span class="at">adrs =</span> adrs <span class="sc">%&gt;%</span> <span class="fu">filter</span>(PARAMCD <span class="sc">==</span> <span class="st">&quot;OVRLRESC&quot;</span>)</span>
+<span id="cb11-32"><a href="#cb11-32" tabindex="-1"></a>    ),</span>
+<span id="cb11-33"><a href="#cb11-33" tabindex="-1"></a>    <span class="at">tmp_event_nr_var =</span> event_nr,</span>
+<span id="cb11-34"><a href="#cb11-34" tabindex="-1"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(event_nr, ADT),</span>
+<span id="cb11-35"><a href="#cb11-35" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">&quot;first&quot;</span>,</span>
+<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb11-37"><a href="#cb11-37" tabindex="-1"></a>      <span class="at">PARAMCD =</span> <span class="st">&quot;CBOR&quot;</span>,</span>
+<span id="cb11-38"><a href="#cb11-38" tabindex="-1"></a>      <span class="at">PARAM =</span> <span class="st">&quot;Confirmed Best Overall Response&quot;</span>,</span>
+<span id="cb11-39"><a href="#cb11-39" tabindex="-1"></a>      <span class="at">PARAMN =</span> <span class="dv">6</span>,</span>
+<span id="cb11-40"><a href="#cb11-40" tabindex="-1"></a>      <span class="at">PARCAT1 =</span> <span class="st">&quot;PCWG3 and RECIST 1.1&quot;</span></span>
+<span id="cb11-41"><a href="#cb11-41" tabindex="-1"></a>    )</span>
+<span id="cb11-42"><a href="#cb11-42" tabindex="-1"></a>  )</span></code></pre></div>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="34%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">USUBJID</th>
+<th align="left">PARAM</th>
+<th align="left">PARAMCD</th>
+<th align="left">AVISIT</th>
+<th align="right">AVISITN</th>
+<th align="left">ADT</th>
+<th align="left">AVALC</th>
+<th align="right">AVAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">01-701-1015</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 16</td>
+<td align="right">10</td>
+<td align="left">2014-05-07</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1023</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">MISSING</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1028</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2013-09-10</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1034</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-08-26</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1097</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-02-26</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1115</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2013-01-23</td>
+<td align="left">SD</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1118</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-05-08</td>
+<td align="left">CR</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1130</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2014-04-12</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">01-701-1133</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 16</td>
+<td align="right">10</td>
+<td align="left">2013-02-18</td>
+<td align="left">SD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">01-701-1148</td>
+<td align="left">Confirmed Best Overall Response</td>
+<td align="left">CBOR</td>
+<td align="left">WEEK 8</td>
+<td align="right">8</td>
+<td align="left">2013-10-18</td>
+<td align="left">PR</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="other" class="section level2">
+<h2>Other Endpoints</h2>
+<p>For examples on the additional endpoints, please see <a href="adrs.html">Creating ADRS (Including Non-standard
+Endpoints)</a>.</p>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Currently the <code>RS</code> domain contains some data
+issues, which will be resolved in the next
+<code>{pharmaversesdtm}</code> release. For the purposes of this
+vignette, these issues have been manually corrected using the following
+code:</p>
+<pre><code>rs &lt;- rs%&gt;% mutate(
+  RSSTRESC = case_when(
+USUBJID == &quot;01-701-1275&quot; &amp; VISIT == &quot;WEEK 8&quot; &amp; RSTESTCD %in% c(&quot;BONERESP&quot;, &quot;OVRLRESP&quot;) ~ &quot;PD&quot;,
+USUBJID == &quot;01-701-1097&quot; &amp; VISIT == &quot;WEEK 16&quot; &amp; RSTESTCD %in% c(&quot;BONERESP&quot;, &quot;OVRLRESP&quot;) ~ &quot;PD&quot;,
+TRUE ~ RSSTRESC
+  )
+)</code></pre>
+<a href="#fnref1" class="footnote-back">↩︎</a></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
